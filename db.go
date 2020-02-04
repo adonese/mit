@@ -25,15 +25,17 @@ type User struct {
 	FldUpdateDate     string `gorm:"column:FldUpdateDate"`
 }
 
-func (u User) checkPassword(password string) bool {
-	if password == u.FldPassword {
-		return true
-	}
-	return false
+func checkPassword(password string, u User) bool {
+	return password == u.FldPassword
 }
 
-func getUser(db *gorm.DB, username string) (bool, error) {
-	db.Table("tblusers").Find(&user, "where ...interface{}")
+func getUser(db *gorm.DB, username string) (bool, User) {
+	var user User
+	if err := db.Table("tblusers").Find(&user, "fldusername = ?", username).Error; err != nil {
+		return false, user
+	} else {
+		return true, user
+	}
 }
 
 //Bakery model

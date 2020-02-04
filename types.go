@@ -5,3 +5,8 @@ type Login struct {
 	Username string
 	Password string
 }
+
+type validationError struct {
+	Message string
+	Code    string
+}
