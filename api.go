@@ -8,6 +8,7 @@ import (
 
 func login(w http.ResponseWriter, r *http.Request) {
 	var login Login
+	w.Header().Add("content-type", "application/json")
 	defer r.Body.Close()
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
@@ -17,7 +18,8 @@ func login(w http.ResponseWriter, r *http.Request) {
 	json.Unmarshal(b, &login) // check errors here
 
 	db := getEngine()
-	if ok, u := getUser(db, login.Username); !ok {
+	ok, u := getUser(db, login.Username)
+	if !ok {
 		ve := validationError{Message: "User not found", Code: "user_not_found"}
 		data, _ := json.Marshal(&ve)
 		w.WriteHeader(http.StatusBadRequest)
@@ -34,5 +36,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 	}
 
 	w.WriteHeader(http.StatusOK)
-
+	w.Write(u.marshal())
 }
+
+func logout(w http.ResponseWriter, r *http.Request) {}
+
+func refreshToken(w http.ResponseWriter, r *http.Request) {}

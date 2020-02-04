@@ -1,6 +1,11 @@
 package main
 
-import "github.com/jinzhu/gorm"
+import (
+	"encoding/json"
+	"time"
+
+	"github.com/jinzhu/gorm"
+)
 
 // MIT users table
 /*
@@ -11,20 +16,25 @@ FldSecurityLevel	FldUpdateDate
 // TODO encrypt the password
 */
 type User struct {
-	FldUserNo         int    `gorm:"column:FldUserNo"`
-	FldFullName       string `gorm:"column:FldFullName"`
-	FldPassword       string `gorm:"column:FldPassword"`
-	FldUserType       int    `gorm:"column:FldUserType"`
-	FldImage          string `gorm:"column:FldImage"`
-	FldDisabled       bool   `gorm:"column:FldDisabled"`
-	FldStateNo        int    `gorm:"column:FldStateNo"`
-	FldLocaliyNo      int    `gorm:"column:FldLocaliyNo"`
-	FldCityNo         int    `gorm:"column:FldCityNo"`
-	FldNeighborhoodNo int    `gorm:"column:FldNeighborhoodNo"`
-	FldSecurityLevel  int    `gorm:"column:FldSecurityLevel"`
-	FldUpdateDate     string `gorm:"column:FldUpdateDate"`
+	FldUserNo         int       `gorm:"column:FldUserNo"`
+	FldFullName       string    `gorm:"column:FldFullName"`
+	FldUserName       string    `gorm:"column:FldUserName"`
+	FldPassword       string    `gorm:"column:FldPassword" json:"-"`
+	FldUserType       int       `gorm:"column:FldUserType"`
+	FldImage          byte      `gorm:"column:FldImage"`
+	FldDisabled       bool      `gorm:"column:FldDisabled"`
+	FldStateNo        int       `gorm:"column:FldStateNo"`
+	FldLocaliyNo      int       `gorm:"column:FldLocaliyNo"`
+	FldCityNo         int       `gorm:"column:FldCityNo"`
+	FldNeighborhoodNo int       `gorm:"column:FldNeighborhoodNo"`
+	FldSecurityLevel  int       `gorm:"column:FldSecurityLevel"`
+	FldUpdateDate     time.Time `gorm:"column:FldUpdateDate"`
 }
 
+func (u User) marshal() []byte {
+	data, _ := json.Marshal(&u)
+	return data
+}
 func checkPassword(password string, u User) bool {
 	return password == u.FldPassword
 }

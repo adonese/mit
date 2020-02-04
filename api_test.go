@@ -7,7 +7,9 @@ import (
 	"log"
 	"net/http"
 	"net/http/httptest"
+	"reflect"
 	"testing"
+	"time"
 )
 
 func Test_login(t *testing.T) {
@@ -42,6 +44,162 @@ func Test_login(t *testing.T) {
 
 			if res.StatusCode != tt.want {
 				t.Errorf("getUser() got = %v, want %v", res.StatusCode, tt.want)
+			}
+		})
+	}
+}
+
+func Test_login_contentType(t *testing.T) {
+	// r := login()
+
+	ts := httptest.NewServer(http.HandlerFunc(login))
+	defer ts.Close()
+
+	time1, _ := time.Parse(time.RFC3339, "2019-09-17T18:53:02Z")
+
+	user1 := User{
+		FldUserNo:         10,
+		FldFullName:       "user doesn't exist",
+		FldUserType:       0,
+		FldDisabled:       false,
+		FldStateNo:        0,
+		FldLocaliyNo:      0,
+		FldCityNo:         0,
+		FldNeighborhoodNo: 0,
+		FldSecurityLevel:  0,
+		FldUpdateDate:     time1,
+	}
+	user2 := User{
+		/*1,1,Ahmed Mustafa,admin,admin,2
+		0x89504E470D0A1A0A0000000D494844520000008C0000008C0806000000AEC0413E000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000966A49444154785EA5FD659C5DD7B1F50BF7FBDEE79C24265992C5CCCCCCCCCCCC520BBA052DA9A5965A0x6E85CA3968FA94A862BD4A280CD77D5C52CF92553DB46E21211C5C12093C18A6D913051C309D0B16B5B9EDDADABE49135DC71CD7859C36AC74710FA703BB70E27105C7A78C7237B47FC2103B3A758C5D9A33CDAE2F9C633772E74A8FCCB3AB4B,0,NULL,NULL,NULL,NULL,NULL,2019-09-17 18:53:02.000
+
+		*/
+		FldUserNo:         1,
+		FldFullName:       "Ahmed Mustafa",
+		FldUserType:       0,
+		FldDisabled:       false,
+		FldStateNo:        0,
+		FldLocaliyNo:      0,
+		FldCityNo:         0,
+		FldNeighborhoodNo: 0,
+		FldSecurityLevel:  0,
+		FldUpdateDate:     time1,
+		FldUserName:       "admin",
+	}
+
+	d1 := user1.marshal()
+	d2 := user2.marshal()
+
+	wrongData := Login{Username: "mohamed", Password: "my wrong password"}
+	correctData := Login{Username: "admin", Password: "admin"}
+	tests := []struct {
+		name  string
+		req   Login
+		want  int
+		want2 []byte
+	}{
+		{"400 request", Login{}, 400, d1}, {"200 request", correctData, 200, d2}, {"400 request wrong payload", wrongData, 400, d1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			d := marshal(tt.req)
+			dd := bytes.NewBuffer(d)
+			res, err := http.Post(ts.URL, "application/json", dd)
+			if err != nil {
+				log.Fatal(err)
+			}
+			got1, err := ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("login handler() got = %v, want %v", res.StatusCode, tt.want)
+			} else if res.Header.Get("content-type") != "application/json" {
+				t.Errorf("login handler() got = %v, want %v", res.Header.Get("content-type"), "application/json")
+			} else if !reflect.DeepEqual(got1, tt.want2) {
+				t.Errorf("login handler: got = %v, want = %v", got1, tt.want2)
+			}
+		})
+	}
+}
+
+func Test_login1(t *testing.T) {
+	// r := login()
+
+	ts := httptest.NewServer(http.HandlerFunc(login))
+	defer ts.Close()
+
+	user1 := User{
+		FldUserNo:         10,
+		FldFullName:       "user doesn't exist",
+		FldUserType:       0,
+		FldImage:          0,
+		FldDisabled:       false,
+		FldStateNo:        0,
+		FldLocaliyNo:      0,
+		FldCityNo:         0,
+		FldNeighborhoodNo: 0,
+		FldSecurityLevel:  0,
+		FldUpdateDate:     time.Now(),
+	}
+
+	time1, _ := time.Parse(time.RFC3339, "2019-09-17T18:53:02Z")
+
+	user2 := User{
+		/*1,1,Ahmed Mustafa,admin,admin,2
+		0x89504E470D0A1A0A0000000D494844520000008C0000008C0806000000AEC0413E000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000966A49444154785EA5FD659C5DD7B1F50BF7FBDEE79C24265992C5CCCCCCCCCCCC520BBA052DA9A5965A0x6E85CA3968FA94A862BD4A280CD77D5C52CF92553DB46E21211C5C12093C18A6D913051C309D0B16B5B9EDDADABE49135DC71CD7859C36AC74710FA703BB70E27105C7A78C7237B47FC2103B3A758C5D9A33CDAE2F9C633772E74A8FCCB3AB4B,0,NULL,NULL,NULL,NULL,NULL,2019-09-17 18:53:02.000
+
+		*/
+		FldUserNo:   1,
+		FldFullName: "Ahmed Mustafa",
+		FldUserType: 0,
+		// FldImage:          "0x89504E470D0A1A0A0000000D494844520000008C0000008C0806000000AEC0413E000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000966A49444154785EA5FD659C5DD7B1F50BF7FBDEE79C24265992C5CCCCCCCCCCCC520BBA052DA9A5965A0x6E85CA3968FA94A862BD4A280CD77D5C52CF92553DB46E21211C5C12093C18A6D913051C309D0B16B5B9EDDADABE49135DC71CD7859C36AC74710FA703BB70E27105C7A78C7237B47FC2103B3A758C5D9A33CDAE2F9C633772E74A8FCCB3AB4B",
+		FldDisabled:       false,
+		FldStateNo:        0,
+		FldLocaliyNo:      0,
+		FldCityNo:         0,
+		FldNeighborhoodNo: 0,
+		FldSecurityLevel:  0,
+		FldUpdateDate:     time1,
+		FldUserName:       "admin",
+	}
+
+	wrongData := Login{Username: "mohamed", Password: "my wrong password"}
+	correctData := Login{Username: "admin", Password: "admin"}
+	tests := []struct {
+		name  string
+		req   Login
+		want  int
+		want2 User
+	}{
+		{"400 request", Login{}, 400, user1}, {"200 request", correctData, 200, user2}, {"400 request wrong payload", wrongData, 400, user1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			d := marshal(tt.req)
+			dd := bytes.NewBuffer(d)
+			res, err := http.Post(ts.URL, "application/json", dd)
+			if err != nil {
+				log.Fatal(err)
+			}
+			got1, err := ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+			var u User
+			json.Unmarshal(got1, &u)
+
+			if res.StatusCode != tt.want {
+				t.Errorf("login handler() got = %v, want %v", res.StatusCode, tt.want)
+			} else if res.Header.Get("content-type") != "application/json" {
+				t.Errorf("login handler() got = %v, want %v", res.Header.Get("content-type"), "application/json")
+			} else if !reflect.DeepEqual(u, tt.want2) {
+				t.Errorf("login handler: got = %#v, want = %#v", u, tt.want2)
 			}
 		})
 	}
