@@ -7,6 +7,6 @@ type Login struct {
 }
 
 type validationError struct {
-	Message string
-	Code    string
+	Message string `json:"message"`
+	Code    string `json:"code"`
 }
