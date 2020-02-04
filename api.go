@@ -14,5 +14,6 @@ func login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
-	json.Unmarshal(b, login)
+	json.Unmarshal(b, login) // check errors here
+
 }

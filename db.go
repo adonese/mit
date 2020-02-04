@@ -1,5 +1,7 @@
 package main
 
+import "github.com/jinzhu/gorm"
+
 // MIT users table
 /*
 FldUserNo	FldFullName	FldUserName	FldPassword	FldUserType	FLdImage
@@ -28,6 +30,10 @@ func (u User) checkPassword(password string) bool {
 		return true
 	}
 	return false
+}
+
+func getUser(db *gorm.DB, username string) (bool, error) {
+	db.Table("tblusers").Find(&user, "where ...interface{}")
 }
 
 //Bakery model
