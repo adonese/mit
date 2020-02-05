@@ -7,7 +7,30 @@ import (
 	"strconv"
 )
 
-func submitFlour(w http.ResponseWriter, r *http.Request) {}
+func submitFlourHandler(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+
+	req, _ := ioutil.ReadAll(r.Body)
+	defer r.Body.Close()
+
+	var f FlourAgentReceive
+	json.Unmarshal(req, &f)
+
+	if ok := f.validateReceive(); !ok {
+		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
+		w.WriteHeader(http.StatusBadRequest)
+		w.Write(ve.marshal())
+	}
+	f.submit(db)
+	w.WriteHeader(http.StatusOK)
+	s := success{Result: "ok"}
+	w.Write(s.marshal())
+}
+
+func getSubmittedFlourHandler(w http.ResponseWriter, r *http.Request) {
+	// todo
+}
 
 func login(w http.ResponseWriter, r *http.Request) {
 	var login Login

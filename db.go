@@ -113,6 +113,20 @@ type FlourAgentReceive struct {
 	FldUpdateDate             *time.Time `gorm:"column:FldUpdateDate"`
 }
 
+func (f FlourAgentReceive) validateReceive() bool {
+	if f.FldFlourAgentNo != 0 || f.FldFlourAgentReceiveNo != 0 || f.FldGrinderNo != 0 {
+		return true
+	}
+	return false
+}
+
+func (f FlourAgentReceive) submit(db *gorm.DB) error {
+	if err := db.Table("tblflouragentreceive").Create(&f).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
 //TableName sets FlourAgentReceive table name to its equivalent sql server name
 func (FlourAgentReceive) TableName() string {
 	return "tblflouragentreceive"

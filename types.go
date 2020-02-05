@@ -17,3 +17,12 @@ func (v validationError) marshal() []byte {
 	d, _ := json.Marshal(&v)
 	return d
 }
+
+type success struct {
+	Result string `json:"result"`
+}
+
+func (s success) marshal() []byte {
+	d, _ := json.Marshal(&s)
+	return d
+}
