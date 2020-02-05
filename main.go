@@ -16,5 +16,7 @@ func main() {
 	// log.Printf("the users table are: %v", users)
 
 	http.HandleFunc("/login", login)
+	http.HandleFunc("/get_grinders", getGrinderHandler) // to be compatible with #ISSUE 1
+	http.HandleFunc("/get_grinder", getGrinderHandler)
 	http.ListenAndServe(":8091", nil)
 }

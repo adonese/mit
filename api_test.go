@@ -223,16 +223,30 @@ func Test_getGrinderHandler(t *testing.T) {
 
 	defer ts.Close()
 
-	q2 := "agent=1"
-	q3 := "agent=2"
+	q1 := "agent=1"
+	q2 := "agent=2"
 
+	g1 := Grinder{
+		FldGrinderNo:   3,
+		FldGrinderName: "مطاحن سين",
+		FldIsActive:    true,
+		FldStateNo:     0,
+		FldContactName: "N/A",
+		FldPhone:       "N/A",
+		FldEmail:       "N/A",
+		FldAddress:     "N/A",
+		FldVolume:      50000,
+		FldUserNo:      1,
+		FldLogNo:       44,
+		FldUpdateDate:  &time.Time{},
+	}
 	tests := []struct {
 		name  string
 		req   string
 		want  int
 		want2 Grinder
 	}{
-		{"Grinder with agent id 2", q2, 400, Grinder{}}, {"grinder with agent id 3", q3, 200, Grinder{}},
+		{"Grinder with agent id 1", q1, 400, Grinder{}}, {"grinder with agent id 3", q2, 200, g1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
