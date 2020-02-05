@@ -2,6 +2,7 @@ package main
 
 import (
 	"encoding/json"
+	"errors"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -127,6 +128,15 @@ func (f FlourAgentReceive) submit(db *gorm.DB) error {
 	return nil
 }
 
+//getAll gets all data from tblflouragentreceive
+func (FlourAgentReceive) getAll(db *gorm.DB) ([]FlourAgentReceive, error) {
+	var f []FlourAgentReceive
+	if err := db.Table("tblflouragentreceive").Find(&f).Error; err != nil {
+		return f, nil
+	}
+	return f, errors.New("data not available")
+}
+
 //TableName sets FlourAgentReceive table name to its equivalent sql server name
 func (FlourAgentReceive) TableName() string {
 	return "tblflouragentreceive"
@@ -199,5 +209,10 @@ func (g Grinder) marshal() []byte {
 
 func marshalGrinders(g []Grinder) []byte {
 	d, _ := json.Marshal(&g)
+	return d
+}
+
+func marshalFloursRecv(f []FlourAgentReceive) []byte {
+	d, _ := json.Marshal(&f)
 	return d
 }
