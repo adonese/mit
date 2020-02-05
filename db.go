@@ -182,3 +182,8 @@ func (g Grinder) marshal() []byte {
 	d, _ := json.Marshal(&g)
 	return d
 }
+
+func marshalGrinders(g []Grinder) []byte {
+	d, _ := json.Marshal(&g)
+	return d
+}

@@ -7,6 +7,8 @@ import (
 	"strconv"
 )
 
+func submitFlour(w http.ResponseWriter, r *http.Request) {}
+
 func login(w http.ResponseWriter, r *http.Request) {
 	var login Login
 	w.Header().Add("content-type", "application/json")
@@ -65,5 +67,5 @@ func getGrinderHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 	w.WriteHeader(http.StatusOK)
-	w.Write(g.marshal())
+	w.Write(marshalGrinders(g))
 }

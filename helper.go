@@ -21,17 +21,20 @@ func getEngine() *gorm.DB {
 	return db
 }
 
-func getGrinderFromAgent(db *gorm.DB, agentID int) (bool, Grinder) {
-	var grinder Grinder
+func getGrinderFromAgent(db *gorm.DB, agentID int) (bool, []Grinder) {
+	var grinder []Grinder
 	var s FlourAgentShare
 	err := db.Table("tblflouragentshare").Find(&s, "fldflouragentno = ?", agentID).Error
 	if err != nil {
-		return false, Grinder{}
+		return false, []Grinder{}
 	}
+
 	log.Printf("grinder no is: %v", s.FldGrinderNo)
-	err = db.Table("tblgrinder").Find(&grinder, "fldgrinderno = ?", s.FldGrinderNo).Error
+	err = db.Table("tblgrinder").Where("fldgrinderno = ?", s.FldGrinderNo).Find(&grinder).Error
+
+	log.Printf("grinder list is: %v", grinder)
 	if err != nil {
-		return false, Grinder{}
+		return false, []Grinder{}
 	}
 	return true, grinder
 }

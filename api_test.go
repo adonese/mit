@@ -226,8 +226,7 @@ func Test_getGrinderHandler(t *testing.T) {
 	q1 := "agent=1"
 	q2 := "agent=2"
 
-	g1 := Grinder{
-		FldGrinderNo:   3,
+	g1 := []Grinder{{FldGrinderNo: 3,
 		FldGrinderName: "مطاحن سين",
 		FldIsActive:    true,
 		FldStateNo:     0,
@@ -239,14 +238,15 @@ func Test_getGrinderHandler(t *testing.T) {
 		FldUserNo:      1,
 		FldLogNo:       44,
 		FldUpdateDate:  &time.Time{},
+	},
 	}
 	tests := []struct {
 		name  string
 		req   string
 		want  int
-		want2 Grinder
+		want2 []Grinder
 	}{
-		{"Grinder with agent id 1", q1, 400, Grinder{}}, {"grinder with agent id 3", q2, 200, g1},
+		{"Grinder with agent id 1", q1, 400, []Grinder{}}, {"grinder with agent id 3", q2, 200, g1},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -276,8 +276,8 @@ func Test_getGrinderHandler(t *testing.T) {
 	}
 }
 
-func marshalGrinder(d []byte) Grinder {
-	var g Grinder
+func marshalGrinder(d []byte) []Grinder {
+	var g []Grinder
 	json.Unmarshal(d, &g)
 	return g
 }
