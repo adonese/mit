@@ -223,8 +223,8 @@ func Test_getGrinderHandler(t *testing.T) {
 
 	defer ts.Close()
 
-	q1 := "agent=1"
-	q2 := "agent=2"
+	q1 := "agent=2"
+	q2 := "agent=3"
 
 	g1 := []Grinder{{FldGrinderNo: 3,
 		FldGrinderName: "مطاحن سين",

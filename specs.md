@@ -11,6 +11,7 @@
   - logout
   - refresh token
 - Agent services
+  - get grinders
 - distributor services
 - bakery services
 - auditor services

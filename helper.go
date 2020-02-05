@@ -21,6 +21,9 @@ func getEngine() *gorm.DB {
 	return db
 }
 
+//getGrinderFromAgent it receives a agentID and then fetches it to get
+// *its associated flouragent. It uses the flour agent to load its profile
+//HELPNEEDED: is these assumptions are correct?
 func getGrinderFromAgent(db *gorm.DB, agentID int) (bool, []Grinder) {
 	var grinder []Grinder
 	var s FlourAgentShare
