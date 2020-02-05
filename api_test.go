@@ -136,7 +136,7 @@ func Test_login1(t *testing.T) {
 		FldUserNo:         10,
 		FldFullName:       "user doesn't exist",
 		FldUserType:       0,
-		FldImage:          0,
+		FldImage:          nil,
 		FldDisabled:       false,
 		FldStateNo:        0,
 		FldLocaliyNo:      0,
@@ -153,10 +153,10 @@ func Test_login1(t *testing.T) {
 		0x89504E470D0A1A0A0000000D494844520000008C0000008C0806000000AEC0413E000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000966A49444154785EA5FD659C5DD7B1F50BF7FBDEE79C24265992C5CCCCCCCCCCCC520BBA052DA9A5965A0x6E85CA3968FA94A862BD4A280CD77D5C52CF92553DB46E21211C5C12093C18A6D913051C309D0B16B5B9EDDADABE49135DC71CD7859C36AC74710FA703BB70E27105C7A78C7237B47FC2103B3A758C5D9A33CDAE2F9C633772E74A8FCCB3AB4B,0,NULL,NULL,NULL,NULL,NULL,2019-09-17 18:53:02.000
 
 		*/
-		FldUserNo:   1,
-		FldFullName: "Ahmed Mustafa",
-		FldUserType: 0,
-		// FldImage:          "0x89504E470D0A1A0A0000000D494844520000008C0000008C0806000000AEC0413E000000017352474200AECE1CE90000000467414D410000B18F0BFC6105000000097048597300000EC300000EC301C76FA8640000966A49444154785EA5FD659C5DD7B1F50BF7FBDEE79C24265992C5CCCCCCCCCCCC520BBA052DA9A5965A0x6E85CA3968FA94A862BD4A280CD77D5C52CF92553DB46E21211C5C12093C18A6D913051C309D0B16B5B9EDDADABE49135DC71CD7859C36AC74710FA703BB70E27105C7A78C7237B47FC2103B3A758C5D9A33CDAE2F9C633772E74A8FCCB3AB4B",
+		FldUserNo:         1,
+		FldFullName:       "Ahmed Mustafa",
+		FldUserType:       0,
+		FldImage:          nil,
 		FldDisabled:       false,
 		FldStateNo:        0,
 		FldLocaliyNo:      0,
@@ -199,7 +199,7 @@ func Test_login1(t *testing.T) {
 			} else if res.Header.Get("content-type") != "application/json" {
 				t.Errorf("login handler() got = %v, want %v", res.Header.Get("content-type"), "application/json")
 			} else if !reflect.DeepEqual(u, tt.want2) {
-				t.Errorf("login handler: got = %#v, want = %#v", u, tt.want2)
+				t.Errorf("login handler: got = %#v, \n\nwant = %#v", u, tt.want2)
 			}
 		})
 	}
@@ -215,4 +215,55 @@ func performRequest(r http.Handler, method, path string) *httptest.ResponseRecor
 func marshal(l Login) []byte {
 	data, _ := json.Marshal(&l)
 	return data
+}
+
+func Test_getGrinderHandler(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(getGrinderHandler))
+
+	defer ts.Close()
+
+	q2 := "agent=1"
+	q3 := "agent=2"
+
+	tests := []struct {
+		name  string
+		req   string
+		want  int
+		want2 Grinder
+	}{
+		{"Grinder with agent id 2", q2, 400, Grinder{}}, {"grinder with agent id 3", q3, 200, Grinder{}},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + "?" + tt.req)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("getGrinderFromAgent() got = %v, want %v", res.StatusCode, tt.want)
+			}
+			ww := marshalGrinder(w)
+			if !reflect.DeepEqual(w, tt.want2) {
+				t.Errorf("getGrinderFromAgent() got = %v, want %v", ww, tt.want2)
+
+			}
+		})
+	}
+}
+
+func marshalGrinder(d []byte) Grinder {
+	var g Grinder
+	json.Unmarshal(d, &g)
+	return g
 }
