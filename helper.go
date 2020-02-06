@@ -63,3 +63,16 @@ func getSharedBakery(db *gorm.DB, agentID int) []Bakery {
 
 	return baker
 }
+
+func getAgentFromBakery(db *gorm.DB, bakeryID int) int {
+	/*
+		get bakeryshare from tblbakeryshare
+		submit to tableflourbakeryreceive
+	*/
+	var bs BakeryShare
+
+	db.Table("tblbakeryshare").Find(&bs, "FldBakeryNo = ?", bakeryID)
+	// db.Table("tblbaker").Find(&agent, "fldflouragentno = ?", bs.FldFlourAgentNo)
+
+	return bs.FldFlourAgentNo
+}

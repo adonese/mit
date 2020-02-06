@@ -28,6 +28,11 @@ This describe the general workflow for flour submission, and the api used for so
 
 (i have made another api to get all submitted `Agent Flour Receive` requests for management)
 
+## Bakery services
+
+- Record Received Flour from Flour Agent `TblFlourBakeryReceive` [use tblbakeyshare as lookup]
+- Record Baked Flour `TblFlourBaking` [set flddate,fldbakeryno, fldqunatity, fldnote]
+
 ### Endpoints (will be updated)
 
     /login

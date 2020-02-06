@@ -23,5 +23,11 @@ func main() {
 	http.HandleFunc("/get_bakery", getBakeries)
 	http.HandleFunc("/submit_bakery", setDistributedFlours)
 
+	// names are really getting too bad now
+
+	// bakery endpoints
+	http.HandleFunc("/bakery_submit", bakerySubmitFlourHandler)
+	http.Handle("/record_baked", recordBakedHandler)
+
 	http.ListenAndServe(":8091", nil)
 }

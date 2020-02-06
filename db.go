@@ -89,8 +89,25 @@ type Bakery struct {
 
 FldFlourAgentNo	FldFlourAgentName	FldIsActive	FldStateNo	FldContactName	FldPhone	FldEmail
 FldAddress	FldVolume	FldLong	FldLat	FldUserNo	FldLogNo	FldUpdateDate
+
+
 */
-type FlourAgent struct{}
+type FlourAgent struct {
+	FldFlourAgentNo   int     `gorm:"column:FldFlourAgentNo"`
+	FldFlourAgentName string  `gorm:"column:FldFlourAgentName"`
+	FldIsActive       bool    `gorm:"column:FldIsActive"`
+	FldStateNo        int     `gorm:"column:FldStateNo"`
+	FldContactName    string  `gorm:"column:FldContactName"`
+	FldPhone          string  `gorm:"column:FldPhone"`
+	FldEmail          string  `gorm:"column:FldEmail"`
+	FldAddress        string  `gorm:"column:FldAddress"`
+	FldVolume         float32 `gorm:"column:FldVolume"`
+	FldLong           float32 `gorm:"column:FldLong"`
+	FldLat            float32 `gorm:"column:FldLat"`
+	FldUserNo         int     `gorm:"column:FldUserNo"`
+	FldLogNo          int     `gorm:"column:FldLogNo"`
+	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`
+}
 
 //FlourAgentReceive
 
@@ -255,4 +272,129 @@ func marshalFloursRecv(f []FlourAgentReceive) []byte {
 func marshalBakeries(b []Bakery) []byte {
 	d, _ := json.Marshal(&b)
 	return d
+}
+
+// Bakery Tables
+/*
+FldFlourBakeryReceiveNo	FldDate	FldBakeryNo	FldFlourAgentNo	FldQuantity	FldUnitPrice
+FldTotalAmount	FldRefNo	FldDriverName	FldCarPlateNo	FldFlourAgentDistributeNo
+FldNFCFlourBakeryReceiveNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
+*/
+type BakeryFlourReceive struct {
+	FldFlourBakeryReceiveNo      int     `gorm:"column:FldFlourBakeryReceiveNo"`
+	FldFlourAgentDistributeNo    int     `gorm:"column:FldFlourAgentDistributeNo"`
+	FldDate                      string  `gorm:"column:FldDate"`
+	FldFlourAgentNo              int     `gorm:"column:FldFlourAgentNo"`
+	FldBakeryNo                  int     `gorm:"column:FldBakeryNo"`
+	FldQuantity                  float32 `gorm:"column:FldQuantity"`
+	FldUnitPrice                 float32 `gorm:"column:FldUnitPrice"`
+	FldTotalAmount               float32 `gorm:"column:FldTotalAmount"`
+	FldRefNo                     int     `gorm:"column:FldRefNo"`
+	FldNFCFlourBakeryReceiveNo   int     `gorm:"column:FldNFCFlourBakeryReceiveNo"`
+	FldNFCFlourAgentDistributeNo int     `gorm:"column:FldNFCFlourAgentDistributeNo"`
+	FldNFCStatusNo               int     `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote                   string  `gorm:"column:FldNFCNote"`
+	FldUserNo                    int     `gorm:"column:FldUserNo"`
+
+	// bakery specific fields
+	FldDriverName string `gorm:"column:FldDriverName"`
+	FldCarPlateNo int    `gorm:"column:FldCarPlateNo"`
+	FldUpdateDate string `gorm:"column:FldUpdateDate"`
+}
+
+//TableName sets FlourAgentDistribute struct to its equivalent name in the sql server
+func (BakeryFlourReceive) TableName() string {
+	return "tblflourbakeryreceive"
+}
+
+//FIXME what are the fields to validate?
+func (f BakeryFlourReceive) validate() bool {
+	if f.FldFlourAgentNo != 0 || f.FldFlourAgentDistributeNo != 0 || f.FldBakeryNo != 0 || f.FldQuantity != 0 || f.FldTotalAmount != 0 {
+		return true
+	}
+	return false
+}
+
+func (f BakeryFlourReceive) submit(db *gorm.DB) error {
+	// Record Received Flour from Flour Agent [TblFlourBakeryReceive] [Use TblBakeyShare as lookup]
+	/*
+		get bakeryshare from tblbakeryshare
+		submit to tableflourbakeryreceive
+	*/
+	//FIXME it only get's the table now, it doesn't really commit anything yet
+	if err := db.Table("tblbaker").Create(&f).Error; err != nil {
+		return err
+	}
+
+	return nil
+}
+
+func (f BakeryFlourReceive) populate(db *gorm.DB, agentID int) BakeryFlourReceive {
+	// Record Received Flour from Flour Agent [TblFlourBakeryReceive] [Use TblBakeryShare as lookup]
+	/*
+		get bakeryshare from tblbakeryshare
+		submit to tableflourbakeryreceive
+	*/
+	var b Bakery
+	var bs BakeryShare
+	// get backery agent from backery share
+	db.Table("tblbakeryshare").Find(&bs, "fldbakeryno = ?", agentID) // fixme check errors
+	// fixme what are the fields we want to get?
+	f.FldFlourAgentDistributeNo = bs.FldFlourAgentNo
+	f.FldFlourAgentNo = bs.FldFlourAgentNo
+
+	return f
+}
+
+type FlourBaking struct {
+	//FldFlourBakingNo	FldDate	FldBakeryNo	FldWorkingStatusNo	FldQuantity	FldNote	FldLocalityCheck
+	// FldLocalityUserNo	FldLocalityNote	FldSecurityCheck	FldSecurityUserNo	FldSecurityNote
+	// FldGovernmentalCheck	FldGovermentalUserNo	FldGovernmentalNote	FldCommunityCheck
+	// FldComuunityUserNo	FldCommunityNote	FldNFCFlourBakingNo	FldNFCStatusNo	FldNFCNote
+	// FldUserNo	FldUpdateDate
+
+	FldFlourBakingNo     int     `gorm:"column:"FldFlourBakingNo"`
+	FldDate              string  `gorm:"column:FldDate"`
+	FldBakeryNo          int     `gorm:"column:FldBakeryNo"`
+	FldWorkingStatusNo   int     `gorm:"column:FldWorkingStatusNo"`
+	FldQuantity          float32 `gorm:"column:FldQuantity"`
+	FldNote              string  `gorm:"column:FldNote"`
+	FldLocalityCheck     float32 `gorm:"column:FldLocalityCheck"`
+	FldLocalityUserNo    int     `gorm:"column:FldLocalityUserNo"`
+	FldLocalityNote      string  `gorm:"column:FldLocalityNote"`
+	FldSecurityCheck     float32 `gorm:"column:FldSecurityCheck"`
+	FldSecurityUserNo    int     `gorm:"column:FldSecurityUserNo"`
+	FldSecurityNote      string  `gorm:"column:FldSecurityNote"`
+	FldGovernmentalCheck float32 `gorm:"column:FldGovernmentalCheck"`
+	FldGovermentalUserNo int     `gorm:"column:FldGovermentalUserNo"`
+	FldGovernmentalNote  int     `gorm:"column:FldGovernmentalNote"`
+	FldCommunityCheck    float32 `gorm:"column:FldCommunityCheck"`
+	FldComuunityUserNo   int     `gorm:"column:FldComuunityUserNo"`
+	FldCommunityNote     int     `gorm:"column:FldCommunityNote"`
+	FldNFCFlourBakingNo  int     `gorm:"column:FldNFCFlourBakingNo"`
+	FldNFCStatusNo       int     `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote           string  `gorm:"column:FldNFCNote"`
+	FldUserNo            int     `gorm:"column:FldUserNo"`
+	FldUpdateDate        string  `gorm:"column:FldUpdateDate"`
+}
+
+func (f FlourBaking) validate() bool {
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+	if f.FldDate == "" || f.FldBakeryNo == 0 || f.FldQuantity == 0 || f.FldNote == "" {
+		return false
+	}
+	return true
+}
+
+func (f FlourBaking) populate(agentID int) FlourBaking {
+	f.FldBakeryNo = agentID
+	return f
+}
+
+func (f FlourBaking) submit(db *gorm.DB) error {
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+	if err := db.Table("tblflourbaking").Create(&f).Error; err != nil {
+		return err
+	}
+	return nil
 }
