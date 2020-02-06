@@ -33,12 +33,19 @@ func submitFlourHandler(w http.ResponseWriter, r *http.Request) {
 	}
 
 	if ok := f.validateReceive(); !ok {
+		w.WriteHeader(http.StatusBadRequest)
+
 		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
 		w.Write(ve.marshal())
-		w.WriteHeader(http.StatusBadRequest)
 		return
 	}
-	f.submit(db)
+	if err := f.submit(db); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		ve := validationError{Message: err.Error(), Code: "server_error"}
+		w.Write(ve.marshal())
+		return
+	}
+
 	s := success{Result: "ok"}
 
 	w.Write(s.marshal())

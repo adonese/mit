@@ -237,7 +237,7 @@ func Test_getGrinderHandler(t *testing.T) {
 		FldVolume:      50000,
 		FldUserNo:      1,
 		FldLogNo:       44,
-		FldUpdateDate:  &time.Time{},
+		FldUpdateDate:  time.Time{},
 	},
 	}
 	tests := []struct {
@@ -296,7 +296,7 @@ func Test_getSubmittedFlourHandler(t *testing.T) {
 		FldVolume:      50000,
 		FldUserNo:      1,
 		FldLogNo:       44,
-		FldUpdateDate:  &time.Time{},
+		FldUpdateDate:  time.Time{},
 	},
 	}
 	tests := []struct {
@@ -340,24 +340,43 @@ func Test_submitFlourHandler(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(submitFlourHandler))
 
+	now := time.Now().UTC()
+	d := now.Format("2006-01-02")
+	// d := time.Now()
 	defer ts.Close()
+	qFull := FlourAgentReceive{
+		FldFlourAgentReceiveNo:    1,
+		FldDate:                   d,
+		FldFlourAgentNo:           3,
+		FldGrinderNo:              3,
+		FldQuantity:               20,
+		FldUnitPrice:              3.5,
+		FldTotalAmount:            70,
+		FldRefNo:                  0,
+		FldNFCFlourAgentReceiveNo: 0,
+		FldNFCStatusNo:            0,
+		FldNFCNote:                "",
+		FldUserNo:                 0,
+	}
+	qMiss := FlourAgentReceive{}
 
 	tests := []struct {
 		name string
+		args FlourAgentReceive
 		want int
 	}{
-		{"case empty request body", 400},
+		{"case empty request body", qMiss, 400}, {"case request with all fields", qFull, 200},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			res, err := http.Post(ts.URL, "application/json", nil)
+			res, err := http.Post(ts.URL, "application/json", bytes.NewBuffer(_marshalFlourSubmit(tt.args)))
 
 			if err != nil {
 				log.Fatal(err)
 			}
 
-			_, err = ioutil.ReadAll(res.Body)
+			w, err := ioutil.ReadAll(res.Body)
 
 			defer res.Body.Close()
 			if err != nil {
@@ -365,13 +384,19 @@ func Test_submitFlourHandler(t *testing.T) {
 			}
 
 			if res.StatusCode != tt.want {
-				t.Errorf("submitFloorHandler() got = %v, want %v", res.StatusCode, tt.want)
+				t.Errorf("submitFloorHandler() got = %v, want %v\n\nRes body is: %v", res.StatusCode, tt.want, string(w))
 			}
 		})
 	}
 }
+
 func marshalGrinder(d []byte) []Grinder {
 	var g []Grinder
 	json.Unmarshal(d, &g)
 	return g
+}
+
+func _marshalFlourSubmit(f FlourAgentReceive) []byte {
+	d, _ := json.Marshal(&f)
+	return d
 }

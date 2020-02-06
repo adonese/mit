@@ -3,6 +3,7 @@ package main
 import (
 	"encoding/json"
 	"errors"
+	"log"
 	"time"
 
 	"github.com/jinzhu/gorm"
@@ -99,19 +100,19 @@ FldFlourAgentReceiveNo	FldDate	FldFlourAgentNo	FldGrinderNo	FldQuantity	FldUnitP
 FldRefNo	FldNFCFlourAgentReceiveNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type FlourAgentReceive struct {
-	FldFlourAgentReceiveNo    int        `gorm:"column:FldFlourAgentReceiveNo"`
-	FldDate                   *time.Time `gorm:"column:FldDate"`
-	FldFlourAgentNo           int        `gorm:"column:FldFlourAgentNo"`
-	FldGrinderNo              int        `gorm:"column:FldGrinderNo"`
-	FldQuantity               float32    `gorm:"column:FldQuantity"`
-	FldUnitPrice              float32    `gorm:"column:FldUnitPrice"`
-	FldTotalAmount            float32    `gorm:"column:FldTotalAmount"`
-	FldRefNo                  int        `gorm:"column:FldRefNo"`
-	FldNFCFlourAgentReceiveNo int        `gorm:"column:FldNFCFlourAgentReceiveNo"`
-	FldNFCStatusNo            int        `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                string     `gorm:"column:FldNFCNote"`
-	FldUserNo                 int        `gorm:"column:FldUserNo"`
-	FldUpdateDate             *time.Time `gorm:"column:FldUpdateDate"`
+	FldFlourAgentReceiveNo    int     `gorm:"column:FldFlourAgentReceiveNo"`
+	FldDate                   string  `gorm:"column:FldDate"` //FIXME mssql werid smalldatetime bug
+	FldFlourAgentNo           int     `gorm:"column:FldFlourAgentNo"`
+	FldGrinderNo              int     `gorm:"column:FldGrinderNo"`
+	FldQuantity               float32 `gorm:"column:FldQuantity"`
+	FldUnitPrice              float32 `gorm:"column:FldUnitPrice"`
+	FldTotalAmount            float32 `gorm:"column:FldTotalAmount"`
+	FldRefNo                  int     `gorm:"column:FldRefNo"`
+	FldNFCFlourAgentReceiveNo int     `gorm:"column:FldNFCFlourAgentReceiveNo"`
+	FldNFCStatusNo            int     `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote                string  `gorm:"column:FldNFCNote"`
+	FldUserNo                 int     `gorm:"column:FldUserNo"`
+	FldUpdateDate             string  `gorm:"column:FldUpdateDate"`
 }
 
 func (f FlourAgentReceive) validateReceive() bool {
@@ -122,6 +123,10 @@ func (f FlourAgentReceive) validateReceive() bool {
 }
 
 func (f FlourAgentReceive) submit(db *gorm.DB) error {
+	// template 1900-01-01T00:00:00
+	log.Printf("the datetime in flouragent is: %v", f.FldDate)
+	// db.Exec("UPDATE orders SET shipped_at=? WHERE id IN (?)", time.Now(), []int64{11,22,33})
+	// db.Exec("insert into tblflouragentreceive (fldflouragentno, fldflouragentreceiveno, fldgrinderno, flddate) values (?, ?, ?, ?)", f.FldFlourAgentNo, f.FldFlourAgentReceiveNo, f.FldGrinderNo, f.FldDate)
 	if err := db.Table("tblflouragentreceive").Create(&f).Error; err != nil {
 		return err
 	}
@@ -163,19 +168,19 @@ func (FlourAgentShare) TableName() string {
 FldRefNo	FldNFCFlourBakeryReceiveNo	FldNFCFlourAgentDistributeNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type FlourAgentDistribute struct {
-	FldFlourAgentDistributeNo    int        `gorm:"column:FldFlourAgentDistributeNo"`
-	FldDate                      *time.Time `gorm:"column:FldDate"`
-	FldFlourAgentNo              int        `gorm:"column:FldFlourAgentNo"`
-	FldBakeryNo                  int        `gorm:"column:FldBakeryNo"`
-	FldQuantity                  float32    `gorm:"column:FldQuantity"`
-	FldUnitPrice                 float32    `gorm:"column:FldUnitPrice"`
-	FldTotalAmount               float32    `gorm:"column:FldTotalAmount"`
-	FldRefNo                     int        `gorm:"column:FldRefNo"`
-	FldNFCFlourBakeryReceiveNo   int        `gorm:"column:FldNFCFlourBakeryReceiveNo"`
-	FldNFCFlourAgentDistributeNo int        `gorm:"column:FldNFCFlourAgentDistributeNo"`
-	FldNFCStatusNo               int        `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                   string     `gorm:"column:FldNFCNote"`
-	FldUserNo                    int        `gorm:"column:FldUserNo"`
+	FldFlourAgentDistributeNo    int       `gorm:"column:FldFlourAgentDistributeNo"`
+	FldDate                      time.Time `gorm:"column:FldDate"`
+	FldFlourAgentNo              int       `gorm:"column:FldFlourAgentNo"`
+	FldBakeryNo                  int       `gorm:"column:FldBakeryNo"`
+	FldQuantity                  float32   `gorm:"column:FldQuantity"`
+	FldUnitPrice                 float32   `gorm:"column:FldUnitPrice"`
+	FldTotalAmount               float32   `gorm:"column:FldTotalAmount"`
+	FldRefNo                     int       `gorm:"column:FldRefNo"`
+	FldNFCFlourBakeryReceiveNo   int       `gorm:"column:FldNFCFlourBakeryReceiveNo"`
+	FldNFCFlourAgentDistributeNo int       `gorm:"column:FldNFCFlourAgentDistributeNo"`
+	FldNFCStatusNo               int       `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote                   string    `gorm:"column:FldNFCNote"`
+	FldUserNo                    int       `gorm:"column:FldUserNo"`
 }
 
 //TableName sets FlourAgentDistribute struct to its equivalent name in the sql server
@@ -188,18 +193,18 @@ func (FlourAgentDistribute) TableName() string {
 FldAddress	FldVolume	FldUserNo	FldLogNo	FldUpdateDate
 */
 type Grinder struct {
-	FldGrinderNo   int        `gorm:"column:FldGrinderNo"`
-	FldGrinderName string     `gorm:"column:FldGrinderName"`
-	FldIsActive    bool       `gorm:"column:FldIsActive"`
-	FldStateNo     int        `gomr:"column:FldStateNo"`
-	FldContactName string     `gorm:"column:FldContactName"`
-	FldPhone       string     `gorm:"column:FldPhone"`
-	FldEmail       string     `gorm:"column:FldEmail"`
-	FldAddress     string     `gorm:"column:FldAddress"`
-	FldVolume      float32    `gorm:"column:FldVolume"`
-	FldUserNo      int        `gorm:"column:FldUserNo"`
-	FldLogNo       int        `gorm:"column:FldLogNo"` // what is this? HELPNEEDED
-	FldUpdateDate  *time.Time `gorm:"column:FldUpdateDate"`
+	FldGrinderNo   int       `gorm:"column:FldGrinderNo"`
+	FldGrinderName string    `gorm:"column:FldGrinderName"`
+	FldIsActive    bool      `gorm:"column:FldIsActive"`
+	FldStateNo     int       `gomr:"column:FldStateNo"`
+	FldContactName string    `gorm:"column:FldContactName"`
+	FldPhone       string    `gorm:"column:FldPhone"`
+	FldEmail       string    `gorm:"column:FldEmail"`
+	FldAddress     string    `gorm:"column:FldAddress"`
+	FldVolume      float32   `gorm:"column:FldVolume"`
+	FldUserNo      int       `gorm:"column:FldUserNo"`
+	FldLogNo       int       `gorm:"column:FldLogNo"` // what is this? HELPNEEDED
+	FldUpdateDate  time.Time `gorm:"column:FldUpdateDate"`
 }
 
 func (g Grinder) marshal() []byte {
