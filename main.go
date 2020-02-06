@@ -21,6 +21,7 @@ func main() {
 	http.HandleFunc("/submit_flour", submitFlourHandler)
 	http.HandleFunc("/_get_flour", getSubmittedFlourHandler)
 	http.HandleFunc("/get_bakery", getBakeries)
+	http.HandleFunc("/submit_bakery", setDistributedFlours)
 
 	http.ListenAndServe(":8091", nil)
 }

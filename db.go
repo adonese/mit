@@ -168,19 +168,19 @@ func (FlourAgentShare) TableName() string {
 FldRefNo	FldNFCFlourBakeryReceiveNo	FldNFCFlourAgentDistributeNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type FlourAgentDistribute struct {
-	FldFlourAgentDistributeNo    int       `gorm:"column:FldFlourAgentDistributeNo"`
-	FldDate                      time.Time `gorm:"column:FldDate"`
-	FldFlourAgentNo              int       `gorm:"column:FldFlourAgentNo"`
-	FldBakeryNo                  int       `gorm:"column:FldBakeryNo"`
-	FldQuantity                  float32   `gorm:"column:FldQuantity"`
-	FldUnitPrice                 float32   `gorm:"column:FldUnitPrice"`
-	FldTotalAmount               float32   `gorm:"column:FldTotalAmount"`
-	FldRefNo                     int       `gorm:"column:FldRefNo"`
-	FldNFCFlourBakeryReceiveNo   int       `gorm:"column:FldNFCFlourBakeryReceiveNo"`
-	FldNFCFlourAgentDistributeNo int       `gorm:"column:FldNFCFlourAgentDistributeNo"`
-	FldNFCStatusNo               int       `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                   string    `gorm:"column:FldNFCNote"`
-	FldUserNo                    int       `gorm:"column:FldUserNo"`
+	FldFlourAgentDistributeNo    int     `gorm:"column:FldFlourAgentDistributeNo"`
+	FldDate                      string  `gorm:"column:FldDate"`
+	FldFlourAgentNo              int     `gorm:"column:FldFlourAgentNo"`
+	FldBakeryNo                  int     `gorm:"column:FldBakeryNo"`
+	FldQuantity                  float32 `gorm:"column:FldQuantity"`
+	FldUnitPrice                 float32 `gorm:"column:FldUnitPrice"`
+	FldTotalAmount               float32 `gorm:"column:FldTotalAmount"`
+	FldRefNo                     int     `gorm:"column:FldRefNo"`
+	FldNFCFlourBakeryReceiveNo   int     `gorm:"column:FldNFCFlourBakeryReceiveNo"`
+	FldNFCFlourAgentDistributeNo int     `gorm:"column:FldNFCFlourAgentDistributeNo"`
+	FldNFCStatusNo               int     `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote                   string  `gorm:"column:FldNFCNote"`
+	FldUserNo                    int     `gorm:"column:FldUserNo"`
 }
 
 //TableName sets FlourAgentDistribute struct to its equivalent name in the sql server
