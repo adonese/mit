@@ -2,7 +2,6 @@ package main
 
 import (
 	"encoding/json"
-	"errors"
 	"log"
 	"time"
 
@@ -137,9 +136,10 @@ func (f FlourAgentReceive) submit(db *gorm.DB) error {
 func (FlourAgentReceive) getAll(db *gorm.DB) ([]FlourAgentReceive, error) {
 	var f []FlourAgentReceive
 	if err := db.Table("tblflouragentreceive").Find(&f).Error; err != nil {
+		log.Printf("error in flouragentreceive getAll is: %v", err)
 		return f, nil
 	}
-	return f, errors.New("data not available")
+	return f, nil
 }
 
 //TableName sets FlourAgentReceive table name to its equivalent sql server name
