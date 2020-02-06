@@ -27,3 +27,11 @@ This describe the general workflow for flour submission, and the api used for so
 - After that, you can submit a `Agent Flour Receive` request, which will add this record to `TblFlourAgentReceive`
 
 (i have made another api to get all submitted `Agent Flour Receive` requests for management)
+
+### Endpoints (will be updated)
+
+    /login
+    /get_grinders
+    /get_grinder
+    /submit_flour
+    /_get_flour

@@ -3,29 +3,48 @@ package main
 import (
 	"encoding/json"
 	"io/ioutil"
+	"log"
 	"net/http"
 	"strconv"
 )
 
 func submitFlourHandler(w http.ResponseWriter, r *http.Request) {
+
 	w.Header().Add("content-type", "application/json")
 	db := getEngine()
 
-	req, _ := ioutil.ReadAll(r.Body)
+	req, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		w.Write(ve.marshal())
+		return
+	}
 	defer r.Body.Close()
 
 	var f FlourAgentReceive
-	json.Unmarshal(req, &f)
+	if err = json.Unmarshal(req, &f); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		log.Printf("the error is: %v", err)
+		w.Write(ve.marshal())
+		return
+	}
 
 	if ok := f.validateReceive(); !ok {
 		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
-		w.WriteHeader(http.StatusBadRequest)
 		w.Write(ve.marshal())
+		w.WriteHeader(http.StatusBadRequest)
+		return
 	}
 	f.submit(db)
-	w.WriteHeader(http.StatusOK)
 	s := success{Result: "ok"}
+
 	w.Write(s.marshal())
+	w.WriteHeader(http.StatusOK)
+
+	return
 }
 
 //getSubmittedFlourHandler

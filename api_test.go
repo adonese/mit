@@ -276,6 +276,100 @@ func Test_getGrinderHandler(t *testing.T) {
 	}
 }
 
+func Test_getSubmittedFlourHandler(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(getGrinderHandler))
+
+	defer ts.Close()
+
+	q1 := "agent=2"
+	q2 := "agent=3"
+
+	g1 := []Grinder{{FldGrinderNo: 3,
+		FldGrinderName: "مطاحن سين",
+		FldIsActive:    true,
+		FldStateNo:     0,
+		FldContactName: "N/A",
+		FldPhone:       "N/A",
+		FldEmail:       "N/A",
+		FldAddress:     "N/A",
+		FldVolume:      50000,
+		FldUserNo:      1,
+		FldLogNo:       44,
+		FldUpdateDate:  &time.Time{},
+	},
+	}
+	tests := []struct {
+		name  string
+		req   string
+		want  int
+		want2 []Grinder
+	}{
+		{"Grinder with agent id 1", q1, 400, []Grinder{}}, {"grinder with agent id 3", q2, 200, g1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + "?" + tt.req)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("getGrinderFromAgent() got = %v, want %v", res.StatusCode, tt.want)
+			}
+			ww := marshalGrinder(w)
+			if !reflect.DeepEqual(w, tt.want2) {
+				t.Errorf("getGrinderFromAgent() got = %v, want %v", ww, tt.want2)
+
+			}
+		})
+	}
+}
+
+// submitFlourHandler
+func Test_submitFlourHandler(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(submitFlourHandler))
+
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		want int
+	}{
+		{"case empty request body", 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Post(ts.URL, "application/json", nil)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			_, err = ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("submitFloorHandler() got = %v, want %v", res.StatusCode, tt.want)
+			}
+		})
+	}
+}
 func marshalGrinder(d []byte) []Grinder {
 	var g []Grinder
 	json.Unmarshal(d, &g)
