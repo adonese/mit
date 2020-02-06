@@ -335,7 +335,8 @@ func (f BakeryFlourReceive) populate(db *gorm.DB, agentID int) BakeryFlourReceiv
 		get bakeryshare from tblbakeryshare
 		submit to tableflourbakeryreceive
 	*/
-	var b Bakery
+	// var b Bakery
+	// fixme this function is very ugly
 	var bs BakeryShare
 	// get backery agent from backery share
 	db.Table("tblbakeryshare").Find(&bs, "fldbakeryno = ?", agentID) // fixme check errors

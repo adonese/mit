@@ -27,7 +27,7 @@ func main() {
 
 	// bakery endpoints
 	http.HandleFunc("/bakery_submit", bakerySubmitFlourHandler)
-	http.Handle("/record_baked", recordBakedHandler)
+	http.HandleFunc("/record_baked", recordBakedHandler)
 
 	http.ListenAndServe(":8091", nil)
 }
