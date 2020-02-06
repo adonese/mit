@@ -188,6 +188,36 @@ func (FlourAgentDistribute) TableName() string {
 	return "tblflouragentdistribute"
 }
 
+func (f FlourAgentDistribute) validate() bool {
+	if f.FldFlourAgentNo != 0 || f.FldFlourAgentDistributeNo != 0 || f.FldBakeryNo != 0 || f.FldQuantity != 0 {
+		return true
+	}
+	return false
+}
+
+func (f FlourAgentDistribute) submit(db *gorm.DB) error {
+	// template 1900-01-01T00:00:00
+	log.Printf("the datetime in flouragent is: %v", f.FldDate)
+	// db.Exec("UPDATE orders SET shipped_at=? WHERE id IN (?)", time.Now(), []int64{11,22,33})
+	// db.Exec("insert into tblflouragentreceive (fldflouragentno, fldflouragentreceiveno, fldgrinderno, flddate) values (?, ?, ?, ?)", f.FldFlourAgentNo, f.FldFlourAgentReceiveNo, f.FldGrinderNo, f.FldDate)
+	if err := db.Table("tblflouragentdistribute").Create(&f).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+//BakeryShare
+/*
+FldBakeryNo FldFlourAgentNo FldShareAmount FldFrequency FldIsSelected
+*/
+type BakeryShare struct {
+	FldBakeryNo     int     `gorm:"column:FldBakeryNo"`
+	FldFlourAgentNo int     `gorm:"column:FldFlourAgentNo"`
+	FldShareAmount  float32 `gorm:"column:FldShareAmount"`
+	FldFrequency    string  `gorm:"column:FldFrequency"` //FIXME check the field type
+	FldIsSelected   bool    `gorm:"column:FldIsSelected"`
+}
+
 //Grinder
 /*FldGrinderNo	FldGrinderName	FldIsActive	FldStateNo	FldContactName	FldPhone	FldEmail
 FldAddress	FldVolume	FldUserNo	FldLogNo	FldUpdateDate
@@ -219,5 +249,10 @@ func marshalGrinders(g []Grinder) []byte {
 
 func marshalFloursRecv(f []FlourAgentReceive) []byte {
 	d, _ := json.Marshal(&f)
+	return d
+}
+
+func marshalBakeries(b []Bakery) []byte {
+	d, _ := json.Marshal(&b)
 	return d
 }

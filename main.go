@@ -20,6 +20,7 @@ func main() {
 	http.HandleFunc("/get_grinder", getGrinderHandler)
 	http.HandleFunc("/submit_flour", submitFlourHandler)
 	http.HandleFunc("/_get_flour", getSubmittedFlourHandler)
+	http.HandleFunc("/get_bakery", getBakeries)
 
 	http.ListenAndServe(":8091", nil)
 }

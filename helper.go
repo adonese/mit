@@ -49,3 +49,17 @@ func getBakeryFromAgent(db *gorm.DB, agentID int) Grinder {
 	db.Table("tblgrinder").Find(&grinder, "fldgrinderno = ?", s.FldGrinderNo)
 	return grinder
 }
+
+func getSharedBakery(db *gorm.DB, agentID int) []Bakery {
+	/*
+		get bakeryshare from tblbakeryshare
+		query bakeries table where fldflouragentno = ?
+	*/
+	var bs BakeryShare
+	var baker []Bakery
+
+	db.Table("tblbakeryshare").Find(&bs, "fldflouragentno = ?", agentID)
+	db.Table("tblbaker").Find(&baker, "fldflouragentno = ?", bs.FldFlourAgentNo)
+
+	return baker
+}
