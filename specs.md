@@ -59,9 +59,9 @@ Agent Distribute API
 
 #### /get_grinders [GET]
 
-Send agent ID in url query, e.g. `GET https://mit.soluspay.net/get_grinders?agent=3
+Send agent ID in url query, e.g. `GET https://mit.soluspay.net/get_grinders?agent=2
 
-NOTE: AGENT with ID 3 has associated grinder
+NOTE: AGENT with ID `2` has associated grinder
 
 RESPONSE
 
