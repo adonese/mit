@@ -243,7 +243,7 @@ type Grinder struct {
 	FldGrinderNo   int       `gorm:"column:FldGrinderNo"`
 	FldGrinderName string    `gorm:"column:FldGrinderName"`
 	FldIsActive    bool      `gorm:"column:FldIsActive"`
-	FldStateNo     int       `gomr:"column:FldStateNo"`
+	FldStateNo     int       `gorm:"column:FldStateNo"`
 	FldContactName string    `gorm:"column:FldContactName"`
 	FldPhone       string    `gorm:"column:FldPhone"`
 	FldEmail       string    `gorm:"column:FldEmail"`
@@ -251,7 +251,7 @@ type Grinder struct {
 	FldVolume      float32   `gorm:"column:FldVolume"`
 	FldUserNo      int       `gorm:"column:FldUserNo"`
 	FldLogNo       int       `gorm:"column:FldLogNo"` // what is this? HELPNEEDED
-	FldUpdateDate  time.Time `gorm:"column:FldUpdateDate"`
+	FldUpdateDate  string `gorm:"column:FldUpdateDate"`
 }
 
 func (g Grinder) marshal() []byte {

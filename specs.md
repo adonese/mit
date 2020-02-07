@@ -40,3 +40,44 @@ This describe the general workflow for flour submission, and the api used for so
     /get_grinder
     /submit_flour
     /_get_flour
+
+### Agent endpoints
+
+    /login", login)
+
+Agent Receive APIs
+
+    /get_grinders
+    /get_grinder
+    /submit_flour
+    /_get_flour // admin api to get all submitted data, maybe will be useful for dashboard
+
+Agent Distribute API
+
+    /get_bakery
+    /submit_bakery
+
+#### /get_grinders [GET]
+
+Send agent ID in url query, e.g. `GET https://mit.soluspay.net/get_grinders?agent=3
+
+NOTE: AGENT with ID 3 has associated grinder
+
+RESPONSE
+
+`[]Grinder` pbject. Grinder is:
+
+| field name     | type    |
+| -------------- | ------- |
+| FldGrinderNo   | int     |
+| FldGrinderName | string  |
+| FldIsActive    | bool    |
+| FldStateNo     | int     |
+| FldContactName | string  |
+| FldPhone       | string  |
+| FldEmail       | string  |
+| FldAddress     | string  |
+| FldVolume      | float32 |
+| FldUserNo      | int     |
+| FldLogNo       | int     |
+| FldUpdateDate  | string  |
