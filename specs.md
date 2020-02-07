@@ -127,16 +127,50 @@ Get associated Bakeries to agent.
 
 ##### Request
 
+TODO ADD UNIT TESTING
+
 URL query: agentID
-example: /get_bakery?agent=12
+example: /get_bakery?agent=2
 
 FIXME: queries are not yet supported. However, you can use the apis, and add queries as you want, while I will later implement them.
 
+##### Example
+
+GET /get_bakery?agent=2
+
+```json
+[
+  {
+    "FldBakeryNo": 2,
+    "FldBakeryName": "مخبز الاول",
+    "FldIsActive": true,
+    "FldStateNo": 1,
+    "FldLocalityNo": 1,
+    "FldCityNo": 2,
+    "FldNeighborhoodNo": 1,
+    "FldContactName": "N/A",
+    "FldPhone": "N/A",
+    "FldEmail": "N/A",
+    "FldAddress": "N/A",
+    "FldVolume": 1550,
+    "FldLong": " ",
+    "FldLat": " ",
+    "FldUserNo": 1,
+    "FldLogNo": 10065,
+    "FldUpdateDate": "2020-01-30T15:39:00Z",
+    "FldImage": "",
+    "FldNFCBakeryNo": 0
+  }
+]
+```
+
 #### /submit_bakery [POST]
+
+TODO ADD UNIT TESTING
 
 ##### Request
 
-You should send me a `FlourAgentDistribute` Object
+You should send a `FlourAgentDistribute` Object
 
 | field name                   | type    |
 | ---------------------------- | ------- |

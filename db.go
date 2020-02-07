@@ -72,8 +72,8 @@ type Bakery struct {
 	FldEmail          string  `gorm:"column:FldEmail"`
 	FldAddress        string  `gorm:"column:FldAddress"`
 	FldVolume         int     `gorm:"column:FldVolume"` // FIXME type
-	FldLong           float64 `gorm:"column:FldLong"`
-	FldLat            float64 `gorm:"column:FldLat"`
+	FldLong           string `gorm:"column:FldLong"`
+	FldLat            string `gorm:"column:FldLat"`
 	FldUserNo         int     `gorm:"column:FldUserNo"` // is this a foreignkey?
 	FldLogNo          int     `gorm:"column:FldLogNo"`
 	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`
@@ -102,8 +102,8 @@ type FlourAgent struct {
 	FldEmail          string  `gorm:"column:FldEmail"`
 	FldAddress        string  `gorm:"column:FldAddress"`
 	FldVolume         float32 `gorm:"column:FldVolume"`
-	FldLong           float32 `gorm:"column:FldLong"`
-	FldLat            float32 `gorm:"column:FldLat"`
+	FldLong           string `gorm:"column:FldLong"`
+	FldLat            string `gorm:"column:FldLat"`
 	FldUserNo         int     `gorm:"column:FldUserNo"`
 	FldLogNo          int     `gorm:"column:FldLogNo"`
 	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`

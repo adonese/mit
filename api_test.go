@@ -237,7 +237,7 @@ func Test_getGrinderHandler(t *testing.T) {
 		FldVolume:      50000,
 		FldUserNo:      1,
 		FldLogNo:       44,
-		FldUpdateDate:  time.Time{},
+		FldUpdateDate:  "",
 	},
 	}
 	tests := []struct {
@@ -317,6 +317,101 @@ func Test_getSubmittedFlourHandler(t *testing.T) {
 
 // submitFlourHandler
 func Test_submitFlourHandler(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(submitFlourHandler))
+
+	now := time.Now().UTC()
+	d := now.Format("2006-01-02")
+	// d := time.Now()
+	defer ts.Close()
+	qFull := FlourAgentReceive{
+		FldFlourAgentReceiveNo:    1,
+		FldDate:                   d,
+		FldFlourAgentNo:           3,
+		FldGrinderNo:              3,
+		FldQuantity:               20,
+		FldUnitPrice:              3.5,
+		FldTotalAmount:            70,
+		FldRefNo:                  0,
+		FldNFCFlourAgentReceiveNo: 0,
+		FldNFCStatusNo:            0,
+		FldNFCNote:                "",
+		FldUserNo:                 0,
+	}
+	qMiss := FlourAgentReceive{}
+
+	tests := []struct {
+		name string
+		args FlourAgentReceive
+		want int
+	}{
+		{"case empty request body", qMiss, 400}, {"case request with all fields", qFull, 200},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Post(ts.URL, "application/json", bytes.NewBuffer(_marshalFlourSubmit(tt.args)))
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("submitFloorHandler() got = %v, want %v\n\nRes body is: %v", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
+
+
+// test getBakery
+func Test_getBakeries(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(getBakeries))
+
+
+	// d := time.Now()
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		args string
+		want int
+	}{
+		{"case empty request body", "", 200},{"case empty request body", "", 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + "?agent=2")
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("getBakeries() got = %v, want %v\n\nRes body is: %v", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
+
+// test submitBakery
+func Test_setDistributedFlours(t *testing.T) {
 
 	ts := httptest.NewServer(http.HandlerFunc(submitFlourHandler))
 
