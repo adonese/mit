@@ -43,7 +43,8 @@ This describe the general workflow for flour submission, and the api used for so
 
 ### Agent endpoints
 
-    /login", login)
+- You need to login first, to get agentID no
+  /login
 
 Agent Receive APIs
 
@@ -57,15 +58,17 @@ Agent Distribute API
     /get_bakery
     /submit_bakery
 
+### Agent Receive APIs
+
 #### /get_grinders [GET]
 
 Send agent ID in url query, e.g. `GET https://mit.soluspay.net/get_grinders?agent=2
 
 NOTE: AGENT with ID `2` has associated grinder
 
-RESPONSE
+##### RESPONSE
 
-`[]Grinder` pbject. Grinder is:
+`[]Grinder` object. Grinder is:
 
 | field name     | type    |
 | -------------- | ------- |
@@ -81,3 +84,82 @@ RESPONSE
 | FldUserNo      | int     |
 | FldLogNo       | int     |
 | FldUpdateDate  | string  |
+
+#### /submit_flour [POST]
+
+An agent submits the flour the received from the grinder
+
+#### Request
+
+| field name                | type    |
+| ------------------------- | ------- |
+| FldFlourAgentReceiveNo    | int     |
+| FldDate                   | string  |
+| FldFlourAgentNo           | int     |
+| FldGrinderNo              | int     |
+| FldQuantity               | float32 |
+| FldUnitPrice              | float32 |
+| FldTotalAmount            | float32 |
+| FldRefNo                  | int     |
+| FldNFCFlourAgentReceiveNo | int     |
+| FldNFCStatusNo            | int     |
+| FldNFCNote                | string  |
+| FldUserNo                 | int     |
+| FldUpdateDate             | string  |
+
+#### Response
+
+2xx (successful response)
+
+`{"result": "ok"}`
+
+400 (Bad request)
+
+{"message": "A user friendly message you can show", "code": "error_message"}
+
+NOTE: we can use `code` to localize errors messages, they can be used as a hashmap keys and they point to arabic and english messages
+
+### Agent Distribute API
+
+#### /get_bakery [GET]
+
+Get associated Bakeries to agent.
+
+##### Request
+
+URL query: agentID
+example: /get_bakery?agent=12
+
+FIXME: queries are not yet supported. However, you can use the apis, and add queries as you want, while I will later implement them.
+
+#### /submit_bakery [POST]
+
+##### Request
+
+You should send me a `FlourAgentDistribute` Object
+
+| field name                   | type    |
+| ---------------------------- | ------- |
+| FldFlourAgentDistributeNo    | int     |
+| FldDate                      | string  |
+| FldFlourAgentNo              | int     |
+| FldBakeryNo                  | int     |
+| FldQuantity                  | float32 |
+| FldUnitPrice                 | float32 |
+| FldTotalAmount               | float32 |
+| FldRefNo                     | int     |
+| FldNFCFlourBakeryReceiveNo   | int     |
+| FldNFCFlourAgentDistributeNo | int     |
+| FldNFCStatusNo               | int     |
+| FldNFCNote                   | string  |
+| FldUserNo                    | int     |
+
+##### Response
+
+2xx (successful response)
+
+`{"result": "ok"}`
+
+400 (Bad request)
+
+{"message": "A user friendly message you can show", "code": "error_message"}
