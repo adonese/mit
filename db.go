@@ -60,25 +60,25 @@ FldBakeryNo	FldBakeryName	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
 		FldImage	FldNFCBakeryNo
 */
 type Bakery struct {
-	FldBakeryNo       int     `gorm:"column:FldBakeryNo"`
-	FldBakeryName     string  `gorm:"column:FldBakeryName"`
-	FldIsActive       bool    `gorm:"column:FldIsActive"`
-	FldStateNo        int     `gorm:"column:FldStateNo"`
-	FldLocalityNo     int     `gorm:"column:FldLocalityNo"`
-	FldCityNo         int     `gorm:"column:FldCityNo"`
-	FldNeighborhoodNo int     `gorm:"column:FldNeighborhoodNo"`
-	FldContactName    string  `gorm:"column:FldContactName"`
-	FldPhone          string  `gorm:"column:FldPhone"`
-	FldEmail          string  `gorm:"column:FldEmail"`
-	FldAddress        string  `gorm:"column:FldAddress"`
-	FldVolume         int     `gorm:"column:FldVolume"` // FIXME type
+	FldBakeryNo       int    `gorm:"column:FldBakeryNo"`
+	FldBakeryName     string `gorm:"column:FldBakeryName"`
+	FldIsActive       bool   `gorm:"column:FldIsActive"`
+	FldStateNo        int    `gorm:"column:FldStateNo"`
+	FldLocalityNo     int    `gorm:"column:FldLocalityNo"`
+	FldCityNo         int    `gorm:"column:FldCityNo"`
+	FldNeighborhoodNo int    `gorm:"column:FldNeighborhoodNo"`
+	FldContactName    string `gorm:"column:FldContactName"`
+	FldPhone          string `gorm:"column:FldPhone"`
+	FldEmail          string `gorm:"column:FldEmail"`
+	FldAddress        string `gorm:"column:FldAddress"`
+	FldVolume         int    `gorm:"column:FldVolume"` // FIXME type
 	FldLong           string `gorm:"column:FldLong"`
 	FldLat            string `gorm:"column:FldLat"`
-	FldUserNo         int     `gorm:"column:FldUserNo"` // is this a foreignkey?
-	FldLogNo          int     `gorm:"column:FldLogNo"`
-	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`
-	FldImage          string  `gorm:"column:FldImage"` // is this bytes, blob, etc?
-	FldNFCBakeryNo    int     `gorm:"column:FldNFCBakeryNo"`
+	FldUserNo         int    `gorm:"column:FldUserNo"` // is this a foreignkey?
+	FldLogNo          int    `gorm:"column:FldLogNo"`
+	FldUpdateDate     string `gorm:"column:FldUpdateDate"`
+	FldImage          string `gorm:"column:FldImage"` // is this bytes, blob, etc?
+	FldNFCBakeryNo    int    `gorm:"column:FldNFCBakeryNo"`
 }
 
 //FlourAgent
@@ -102,8 +102,8 @@ type FlourAgent struct {
 	FldEmail          string  `gorm:"column:FldEmail"`
 	FldAddress        string  `gorm:"column:FldAddress"`
 	FldVolume         float32 `gorm:"column:FldVolume"`
-	FldLong           string `gorm:"column:FldLong"`
-	FldLat            string `gorm:"column:FldLat"`
+	FldLong           string  `gorm:"column:FldLong"`
+	FldLat            string  `gorm:"column:FldLat"`
 	FldUserNo         int     `gorm:"column:FldUserNo"`
 	FldLogNo          int     `gorm:"column:FldLogNo"`
 	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`
@@ -240,18 +240,18 @@ type BakeryShare struct {
 FldAddress	FldVolume	FldUserNo	FldLogNo	FldUpdateDate
 */
 type Grinder struct {
-	FldGrinderNo   int       `gorm:"column:FldGrinderNo"`
-	FldGrinderName string    `gorm:"column:FldGrinderName"`
-	FldIsActive    bool      `gorm:"column:FldIsActive"`
-	FldStateNo     int       `gorm:"column:FldStateNo"`
-	FldContactName string    `gorm:"column:FldContactName"`
-	FldPhone       string    `gorm:"column:FldPhone"`
-	FldEmail       string    `gorm:"column:FldEmail"`
-	FldAddress     string    `gorm:"column:FldAddress"`
-	FldVolume      float32   `gorm:"column:FldVolume"`
-	FldUserNo      int       `gorm:"column:FldUserNo"`
-	FldLogNo       int       `gorm:"column:FldLogNo"` // what is this? HELPNEEDED
-	FldUpdateDate  string `gorm:"column:FldUpdateDate"`
+	FldGrinderNo   int     `gorm:"column:FldGrinderNo"`
+	FldGrinderName string  `gorm:"column:FldGrinderName"`
+	FldIsActive    bool    `gorm:"column:FldIsActive"`
+	FldStateNo     int     `gorm:"column:FldStateNo"`
+	FldContactName string  `gorm:"column:FldContactName"`
+	FldPhone       string  `gorm:"column:FldPhone"`
+	FldEmail       string  `gorm:"column:FldEmail"`
+	FldAddress     string  `gorm:"column:FldAddress"`
+	FldVolume      float32 `gorm:"column:FldVolume"`
+	FldUserNo      int     `gorm:"column:FldUserNo"`
+	FldLogNo       int     `gorm:"column:FldLogNo"` // what is this? HELPNEEDED
+	FldUpdateDate  string  `gorm:"column:FldUpdateDate"`
 }
 
 func (g Grinder) marshal() []byte {
@@ -281,24 +281,23 @@ FldTotalAmount	FldRefNo	FldDriverName	FldCarPlateNo	FldFlourAgentDistributeNo
 FldNFCFlourBakeryReceiveNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type BakeryFlourReceive struct {
-	FldFlourBakeryReceiveNo      int     `gorm:"column:FldFlourBakeryReceiveNo"`
-	FldFlourAgentDistributeNo    int     `gorm:"column:FldFlourAgentDistributeNo"`
-	FldDate                      string  `gorm:"column:FldDate"`
-	FldFlourAgentNo              int     `gorm:"column:FldFlourAgentNo"`
-	FldBakeryNo                  int     `gorm:"column:FldBakeryNo"`
-	FldQuantity                  float32 `gorm:"column:FldQuantity"`
-	FldUnitPrice                 float32 `gorm:"column:FldUnitPrice"`
-	FldTotalAmount               float32 `gorm:"column:FldTotalAmount"`
-	FldRefNo                     int     `gorm:"column:FldRefNo"`
-	FldNFCFlourBakeryReceiveNo   int     `gorm:"column:FldNFCFlourBakeryReceiveNo"`
-	FldNFCFlourAgentDistributeNo int     `gorm:"column:FldNFCFlourAgentDistributeNo"`
-	FldNFCStatusNo               int     `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                   string  `gorm:"column:FldNFCNote"`
-	FldUserNo                    int     `gorm:"column:FldUserNo"`
+	FldFlourBakeryReceiveNo    int     `gorm:"column:FldFlourBakeryReceiveNo"`
+	FldFlourAgentDistributeNo  int     `gorm:"column:FldFlourAgentDistributeNo"`
+	FldDate                    string  `gorm:"column:FldDate"`
+	FldFlourAgentNo            int     `gorm:"column:FldFlourAgentNo"`
+	FldBakeryNo                int     `gorm:"column:FldBakeryNo"`
+	FldQuantity                float32 `gorm:"column:FldQuantity"`
+	FldUnitPrice               float32 `gorm:"column:FldUnitPrice"`
+	FldTotalAmount             float32 `gorm:"column:FldTotalAmount"`
+	FldRefNo                   int     `gorm:"column:FldRefNo"`
+	FldNFCFlourBakeryReceiveNo int     `gorm:"column:FldNFCFlourBakeryReceiveNo"`
+	FldNFCStatusNo             int     `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote                 string  `gorm:"column:FldNFCNote"`
+	FldUserNo                  int     `gorm:"column:FldUserNo"`
 
 	// bakery specific fields
 	FldDriverName string `gorm:"column:FldDriverName"`
-	FldCarPlateNo int    `gorm:"column:FldCarPlateNo"`
+	FldCarPlateNo string `gorm:"column:FldCarPlateNo"`
 	FldUpdateDate string `gorm:"column:FldUpdateDate"`
 }
 
@@ -320,9 +319,11 @@ func (f BakeryFlourReceive) submit(db *gorm.DB) error {
 	/*
 		get bakeryshare from tblbakeryshare
 		submit to tableflourbakeryreceive
+		FldNFCFlourBakeryReceiveNo
+		FldFlourAgentDistributeNo
 	*/
 	//FIXME it only get's the table now, it doesn't really commit anything yet
-	if err := db.Table("tblbaker").Create(&f).Error; err != nil {
+	if err := db.Table("TblFlourBakeryReceive").Create(&f).Error; err != nil {
 		return err
 	}
 
