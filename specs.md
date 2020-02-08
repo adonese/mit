@@ -7,9 +7,11 @@
 ## TODOS
 
 - Auth part
+
   - authorization (jwt)
   - logout
   - refresh token
+
 - Agent services
   - get grinders
 - distributor services
@@ -17,6 +19,17 @@
 - auditor services
 
 - Adding chained query methods. Will greatly clean the api when we are building our search engine
+
+## Auth part
+
+These are important fields and should be encoded in `jwt`
+
+- StateNo
+- LocalityNo
+- CityNo
+- NeighborhoodNo
+- UserNo
+- UserType
 
 ### Flour submission
 
@@ -240,3 +253,10 @@ You should send a `FlourAgentDistribute` Object
   FldCommunityNote
 
   (Should send Flour Quantity)
+
+## Admin Services
+
+These are services for use by mit system adminstrators only.
+
+- create users
+- change / assign roles to users
