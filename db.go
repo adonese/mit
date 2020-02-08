@@ -135,6 +135,7 @@ func (f FlourAgentReceive) validateReceive() bool {
 	if f.FldFlourAgentNo != 0 || f.FldFlourAgentReceiveNo != 0 || f.FldGrinderNo != 0 {
 		return true
 	}
+	// NOT implemented...
 	return false
 }
 

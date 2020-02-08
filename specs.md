@@ -48,6 +48,10 @@ This describe the general workflow for flour submission, and the api used for so
 - You need to login first, to get agentID no
   /login
 
+#### Example
+
+`curl -X POST https://mit.soluspay.net/login -d'{"username": "admin", "password": "admin"}' -v`
+
 Agent Receive APIs
 
     /get_grinders
@@ -64,7 +68,9 @@ Agent Distribute API
 
 #### /get_grinders [GET]
 
-Send agent ID in url query, e.g. `GET https://mit.soluspay.net/get_grinders?agent=2
+Send `agent` ID in url query, e.g. `GET https://mit.soluspay.net/get_grinders?agent=2
+
+NOTE: Agent is to be get from the login response, with name `FldUserNo`.
 
 NOTE: AGENT with ID `2` has associated grinder
 
