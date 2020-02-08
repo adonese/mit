@@ -34,6 +34,7 @@ func main() {
 	http.HandleFunc("/bakery/submit", bakerySubmitFlourHandler)
 	http.HandleFunc("/bakery/received", recordBakedHandler)
 	http.HandleFunc("/bakery/record_received", recordBakedHandler)
+	http.HandleFunc("/bakery/baked", recordBakedHandler)
 
 	// auditor handlers
 	http.HandleFunc("/auditor/check", auditorCheckHandler)

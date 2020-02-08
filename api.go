@@ -257,6 +257,7 @@ func bakerySubmitFlourHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+//recordBakedHandler endpoint for baker to record the amount of baked bread
 func recordBakedHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]

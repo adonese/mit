@@ -211,6 +211,10 @@ You should send a `FlourAgentDistribute` Object
 
 ##### Response
 
+#### /submit_baked [POST]
+
+TODO make this API
+
 2xx (successful response)
 
 `{"result": "ok"}`
