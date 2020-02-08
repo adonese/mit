@@ -15,6 +15,7 @@ func main() {
 	// users := getUsersTable(db, "tblusers")
 	// log.Printf("the users table are: %v", users)
 
+	http.HandleFunc("/listing", listing)
 	http.HandleFunc("/login", login)
 
 	// agent apis

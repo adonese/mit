@@ -432,3 +432,12 @@ func violationHandler(w http.ResponseWriter, r *http.Request) {
 
 	return
 }
+
+func listing(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("content-type", "application/json")
+	var l Listing
+	d := l.GetAll()
+	w.Write(d.marshal())
+	w.WriteHeader(http.StatusOK)
+	return
+}
