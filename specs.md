@@ -16,6 +16,8 @@
 - bakery services
 - auditor services
 
+- Adding chained query methods. Will greatly clean the api when we are building our search engine
+
 ### Flour submission
 
 This describe the general workflow for flour submission, and the api used for so.
@@ -197,3 +199,38 @@ You should send a `FlourAgentDistribute` Object
 400 (Bad request)
 
 {"message": "A user friendly message you can show", "code": "error_message"}
+
+## ِAuditor APIs
+
+- Auditor App
+- Flour Auditing
+  - Update [TblFlourBaking]
+  - Record Baked Flour according to UserType as follows:
+    - If UserType =3 [ Set FldLocalityCheck, FldLoclityUserno, FldLocalitynote]
+    - If UserType=4 [Set FlSecurityCheck, FldSecurityUserNo, FldSecurityNote]
+    - If USerType=5 [Set FldGovernmentalCheck, FldGovernmentalUser, FldGovernmentalNote]
+    - If UserType=6 [ Set FldCommunityCheck, FldCommunityUserNo, FldCommunityNote]
+    - Check = Flour Quanityt
+    - FldxxxxUserNo= Current Logged UserNo
+- Violation and Reporting:
+  - Use TblBakeryAudit
+
+### Auditor specs
+
+- update only TblFlourBaking
+- Get User Type from User Profile
+- Request Params:
+  FldLocalityCheck
+  FldLoclityUserno
+  FldLocalitynote
+  FlSecurityCheck
+  FldSecurityUserNo
+  FldSecurityNote
+  FldGovernmentalCheck
+  FldGovernmentalUser
+  FldGovernmentalNote
+  FldCommunityCheck
+  FldCommunityUserNo
+  FldCommunityNote
+
+  (Should send Flour Quantity)

@@ -355,7 +355,7 @@ type FlourBaking struct {
 	// FldComuunityUserNo	FldCommunityNote	FldNFCFlourBakingNo	FldNFCStatusNo	FldNFCNote
 	// FldUserNo	FldUpdateDate
 
-	FldFlourBakingNo     int     `gorm:"column:"FldFlourBakingNo"`
+	FldFlourBakingNo     int     `gorm:"column:FldFlourBakingNo"`
 	FldDate              string  `gorm:"column:FldDate"`
 	FldBakeryNo          int     `gorm:"column:FldBakeryNo"`
 	FldWorkingStatusNo   int     `gorm:"column:FldWorkingStatusNo"`
@@ -388,6 +388,17 @@ func (f FlourBaking) validate() bool {
 	return true
 }
 
+// validateAuditor validate auditor submissions data
+func (f FlourBaking) validateAuditor() bool {
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+	if !f.validate() {
+		return false
+	}
+
+	// perform extra validation here as needed.
+	return true
+}
+
 func (f FlourBaking) populate(agentID int) FlourBaking {
 	f.FldBakeryNo = agentID
 	return f
@@ -399,4 +410,49 @@ func (f FlourBaking) submit(db *gorm.DB) error {
 		return err
 	}
 	return nil
+}
+
+// TblBakeryAudit
+/*FldBakeryAuditNo	FldDate	FldBakeyNo	FldAuditBy	FldAuditType
+FldAuditStatusNo	FldNote	FldAuditResponseNo	FldNFCBakeryAuditNo
+FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate */
+
+//BakeryAudit for reporting issues on bakeries
+type BakeryAudit struct {
+	FldBakeryAuditNo    int    `gorm:"column:FldBakeryAuditNo"`
+	FldDate             string `gorm:"column:FldDate"`
+	FldBakeyNo          int    `gorm:"column:FldBakeyNo"`
+	FldAuditBy          int    `gorm:"column:FldAuditBy"`
+	FldAuditType        int    `gorm:"column:FldAuditType"`
+	FldAuditStatusNo    int    `gorm:"column:FldAuditStatusNo"`
+	FldNote             string `gorm:"column:FldNote"`
+	FldAuditResponseNo  int    `gorm:"column:FldAuditResponseNo"`
+	FldNFCBakeryAuditNo int    `gorm:"column:FldNFCBakeryAuditNo"`
+	FldNFCStatusNo      int    `gorm:"column:FldNFCStatusNo"`
+	FldNFCNote          string `gorm:"column:FldNFCNote"`
+	FldUserNo           int    `gorm:"column:FldUserNo"`
+	FldUpdateDate       string `gorm:"column:FldUpdateDate"`
+}
+
+//Name sets table name to match what is in the DB
+func (BakeryAudit) Name() string {
+	return "tblbakeryaudit"
+}
+
+func (b BakeryAudit) submit(db *gorm.DB) error {
+	if err := db.Table("tblbakeryaudit").Create(&b).Error; err != nil {
+		return err
+	}
+	return nil
+}
+
+func (b BakeryAudit) validate() bool {
+	// TODO make validations here
+	return true
+}
+
+func (b BakeryAudit) populate(agentID int) BakeryAudit {
+	// TODO make validations here
+	b.FldUserNo = agentID
+	return b
 }

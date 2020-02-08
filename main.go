@@ -16,6 +16,8 @@ func main() {
 	// log.Printf("the users table are: %v", users)
 
 	http.HandleFunc("/login", login)
+
+	// agent apis
 	http.HandleFunc("/get_grinders", getGrinderHandler) // to be compatible with #ISSUE 1
 	http.HandleFunc("/get_grinder", getGrinderHandler)
 	http.HandleFunc("/submit_flour", submitFlourHandler)
@@ -28,6 +30,14 @@ func main() {
 	// bakery endpoints
 	http.HandleFunc("/bakery_submit", bakerySubmitFlourHandler)
 	http.HandleFunc("/record_baked", recordBakedHandler)
+
+	http.HandleFunc("/bakery/submit", bakerySubmitFlourHandler)
+	http.HandleFunc("/bakery/received", recordBakedHandler)
+	http.HandleFunc("/bakery/record_received", recordBakedHandler)
+
+	// auditor handlers
+	http.HandleFunc("/auditor/check", auditorCheckHandler)
+	http.HandleFunc("/auditor/report", violationHandler)
 
 	http.ListenAndServe(":8091", nil)
 }

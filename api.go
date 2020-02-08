@@ -312,3 +312,120 @@ func recordBakedHandler(w http.ResponseWriter, r *http.Request) {
 
 	return
 }
+
+func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
+	// TODO
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+
+	// get bakeryid
+	id := r.URL.Query().Get("agent")
+	bakeryID, _ := strconv.Atoi(id)
+
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+
+	req, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		w.Write(ve.marshal())
+		return
+	}
+	defer r.Body.Close()
+
+	var f FlourBaking
+	if err = json.Unmarshal(req, &f); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		log.Printf("the error is: %v", err)
+		w.Write(ve.marshal())
+		return
+	}
+
+	if ok := f.validateAuditor(); !ok {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
+		w.Write(ve.marshal())
+		return
+	}
+
+	// populate bakery data
+
+	// FIXME this part is extremely ugly
+
+	modBakery := f.populate(bakeryID)
+	if err := modBakery.submit(db); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		ve := validationError{Message: err.Error(), Code: "server_error"}
+		w.Write(ve.marshal())
+		return
+	}
+
+	s := success{Result: "ok"}
+
+	w.Write(s.marshal())
+	w.WriteHeader(http.StatusOK)
+
+	return
+}
+
+//TblBakeryAudit
+func violationHandler(w http.ResponseWriter, r *http.Request) {
+	// TODO
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+
+	// get bakeryid
+	id := r.URL.Query().Get("agent")
+	bakeryID, _ := strconv.Atoi(id)
+
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+
+	req, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		w.Write(ve.marshal())
+		return
+	}
+	defer r.Body.Close()
+
+	var f BakeryAudit
+	if err = json.Unmarshal(req, &f); err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		log.Printf("the error is: %v", err)
+		w.Write(ve.marshal())
+		return
+	}
+
+	if ok := f.validate(); !ok {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
+		w.Write(ve.marshal())
+		return
+	}
+
+	// populate bakery data
+
+	// FIXME this part is extremely ugly
+
+	modBakery := f.populate(bakeryID)
+	if err := modBakery.submit(db); err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+		ve := validationError{Message: err.Error(), Code: "server_error"}
+		w.Write(ve.marshal())
+		return
+	}
+
+	s := success{Result: "ok"}
+
+	w.Write(s.marshal())
+	w.WriteHeader(http.StatusOK)
+
+	return
+}
