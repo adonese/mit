@@ -85,8 +85,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 		w.WriteHeader(http.StatusInternalServerError)
 		return
 	}
+
 	json.Unmarshal(b, &login) // check errors here
 
+	log.Printf("the login from Zooba is: %v", b)
 	db := getEngine()
 	ok, u := getUser(db, login.Username)
 	if !ok {
