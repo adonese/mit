@@ -211,6 +211,56 @@ You should send a `FlourAgentDistribute` Object
 
 ##### Response
 
+#### /bakery/get_agents [GET]
+
+Get asscoiated agents to _this_ bakery, using bakery ID
+
+##### Request
+
+URL query `agent`
+
+##### Response
+
+Use this example
+/bakery/get_agents?agent=2
+
+```json
+[
+  {
+    "FldFlourAgentNo": 1,
+    "FldFlourAgentName": "ابراهيم محمد علي",
+    "FldIsActive": true,
+    "FldStateNo": 2,
+    "FldContactName": "N/A",
+    "FldPhone": "N/A",
+    "FldEmail": "N/A",
+    "FldAddress": "N/A",
+    "FldVolume": 3125,
+    "FldLong": " ",
+    "FldLat": " ",
+    "FldUserNo": 1,
+    "FldLogNo": 10048,
+    "FldUpdateDate": "2020-01-30T14:26:00Z"
+  },
+  {
+    "FldFlourAgentNo": 2,
+    "FldFlourAgentName": "توكيل عمر ابراهيم",
+    "FldIsActive": true,
+    "FldStateNo": 1,
+    "FldContactName": "N/A",
+    "FldPhone": "N/A",
+    "FldEmail": "N/A",
+    "FldAddress": "N/A",
+    "FldVolume": 1797,
+    "FldLong": " ",
+    "FldLat": " ",
+    "FldUserNo": 1,
+    "FldLogNo": 10054,
+    "FldUpdateDate": "2020-01-30T15:06:00Z"
+  }
+]
+```
+
 #### /submit_baked [POST]
 
 TODO make this API
