@@ -185,31 +185,46 @@ GET /get_bakery?agent=2
 ]
 ```
 
-#### /submit_bakery [POST]
+#### /bakery/submit [POST]
 
 TODO ADD UNIT TESTING
 
 ##### Request
 
-You should send a `FlourAgentDistribute` Object
+You should send a [`FlourAgentReceive`](https://github.com/adonese/mit/blob/master/db.go#L319-L339) Object
 
-| field name                   | type    |
-| ---------------------------- | ------- |
-| FldFlourAgentDistributeNo    | int     |
-| FldDate                      | string  |
-| FldFlourAgentNo              | int     |
-| FldBakeryNo                  | int     |
-| FldQuantity                  | float32 |
-| FldUnitPrice                 | float32 |
-| FldTotalAmount               | float32 |
-| FldRefNo                     | int     |
-| FldNFCFlourBakeryReceiveNo   | int     |
-| FldNFCFlourAgentDistributeNo | int     |
-| FldNFCStatusNo               | int     |
-| FldNFCNote                   | string  |
-| FldUserNo                    | int     |
+| field name                 | type    |
+| -------------------------- | ------- |
+| FldFlourBakeryReceiveNo    | int     |
+| FldFlourAgentDistributeNo  | int     |
+| FldDate                    | string  |
+| FldFlourAgentNo            | int     |
+| FldBakeryNo                | int     |
+| FldQuantity                | float32 |
+| FldUnitPrice               | float32 |
+| FldTotalAmount             | float32 |
+| FldRefNo                   | int     |
+| FldNFCFlourBakeryReceiveNo | int     |
+| FldNFCStatusNo             | int     |
+| FldNFCNote                 | string  |
+| FldUserNo                  | int     |
+| FldDriverName              | string  |
+| FldCarPlateNo              | string  |
+| FldUpdateDate              | string  |
 
 ##### Response
+
+2xx (successful response)
+
+````json
+{"result": "ok"}
+```
+
+400 (Bad request)
+
+```json
+{"message": "A user friendly message you can show", "code": "error_message"}
+```
 
 #### /bakery/get_agents [GET]
 
@@ -259,9 +274,9 @@ Use this example
     "FldUpdateDate": "2020-01-30T15:06:00Z"
   }
 ]
-```
+````
 
-#### /submit_baked [POST]
+#### /bakery/baked [POST]
 
 TODO make this API
 
