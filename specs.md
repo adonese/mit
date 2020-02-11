@@ -278,7 +278,37 @@ Use this example
 
 #### /bakery/baked [POST]
 
-TODO make this API
+This api is used by baker to submit their baked bread.
+
+##### Request
+
+The request object is of type [FlourBaking](https://github.com/adonese/blob/master/db.go/L387:L417)
+
+| field name           | type    |
+| -------------------- | ------- |
+| FldFlourBakingNo     | int     |
+| FldDate              | string  |
+| FldBakeryNo          | int     |
+| FldWorkingStatusNo   | int     |
+| FldQuantity          | float32 |
+| FldNote              | string  |
+| FldLocalityCheck     | float32 |
+| FldLocalityUserNo    | int     |
+| FldLocalityNote      | string  |
+| FldSecurityCheck     | float32 |
+| FldSecurityUserNo    | int     |
+| FldSecurityNote      | string  |
+| FldGovernmentalCheck | float32 |
+| FldGovermentalUserNo | int     |
+| FldGovernmentalNote  | int     |
+| FldCommunityCheck    | float32 |
+| FldComuunityUserNo   | int     |
+| FldCommunityNote     | int     |
+| FldNFCFlourBakingNo  | int     |
+| FldNFCStatusNo       | int     |
+| FldNFCNote           | string  |
+| FldUserNo            | int     |
+| FldUpdateDate        | string  |
 
 2xx (successful response)
 
