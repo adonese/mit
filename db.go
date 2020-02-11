@@ -109,8 +109,43 @@ type FlourAgent struct {
 	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`
 }
 
-//FlourAgentReceive
+func (a FlourAgent) getAgents(bakeryID int, db *gorm.DB) ([]FlourAgent, error) {
+	// BakeryShare
+	// FldBakeryNo FldFlourAgentNo FldShareAmount FldFrequency FldIsSelected
+	// agent no = 2 for testing
 
+	var f []FlourAgent
+	var ids []int
+	var s []BakeryShare
+
+	if err := db.Table("tblbakeryshare").Find(&s, "fldbakeryno = ?", bakeryID).Error; err != nil {
+		return []FlourAgent{}, err
+	}
+
+	log.Printf("the data is: %v", s)
+	ids = getInts(s)
+	if err := db.Table("tblflouragent").Find(&f, "fldflouragentno in (?)", ids).Error; err != nil {
+		return []FlourAgent{}, err
+	}
+	return f, nil
+}
+
+func getInts(b []BakeryShare) []int {
+	var a []int
+	for _, v := range b {
+		a = append(a, v.FldFlourAgentNo)
+
+	}
+	return a
+
+}
+
+func (a FlourAgent) marshal() []byte {
+	d, _ := json.Marshal(&a)
+	return d
+}
+
+//FlourAgentReceive
 /*
 FldFlourAgentReceiveNo	FldDate	FldFlourAgentNo	FldGrinderNo	FldQuantity	FldUnitPrice	FldTotalAmount
 FldRefNo	FldNFCFlourAgentReceiveNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate

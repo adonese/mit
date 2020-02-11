@@ -1,6 +1,7 @@
 package main
 
 import (
+	"encoding/json"
 	"log"
 
 	"github.com/jinzhu/gorm"
@@ -65,6 +66,7 @@ func getSharedBakery(db *gorm.DB, agentID int) []Bakery {
 	return baker
 }
 
+//FIXME
 func getAgentFromBakery(db *gorm.DB, bakeryID int) int {
 	/*
 		get bakeryshare from tblbakeryshare
@@ -76,4 +78,9 @@ func getAgentFromBakery(db *gorm.DB, bakeryID int) int {
 	// db.Table("tblbaker").Find(&agent, "fldflouragentno = ?", bs.FldFlourAgentNo)
 
 	return bs.FldFlourAgentNo
+}
+
+func marshalFlourAgents(a []FlourAgent) []byte {
+	d, _ := json.Marshal(&a)
+	return d
 }

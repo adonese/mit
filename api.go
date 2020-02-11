@@ -257,6 +257,44 @@ func bakerySubmitFlourHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func bakeryAgentsHandler(w http.ResponseWriter, r *http.Request) {
+	// TODO
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+
+	// get bakeryid
+	id := r.URL.Query().Get("agent")
+	bakeryID, _ := strconv.Atoi(id)
+
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+	defer db.Close()
+
+	_, err := ioutil.ReadAll(r.Body)
+	if err != nil {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		w.Write(ve.marshal())
+		return
+	}
+	defer r.Body.Close()
+
+	var ag FlourAgent
+	a, err := ag.getAgents(bakeryID, db)
+	if err != nil {
+		w.WriteHeader(http.StatusInternalServerError)
+
+		ve := validationError{Message: err.Error(), Code: "agents_flour_retrieval_err"}
+		w.Write(ve.marshal())
+		return
+	}
+
+	w.WriteHeader(http.StatusOK)
+	w.Write(marshalFlourAgents(a))
+
+	return
+}
+
 //recordBakedHandler endpoint for baker to record the amount of baked bread
 func recordBakedHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO

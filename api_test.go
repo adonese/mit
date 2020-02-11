@@ -520,6 +520,41 @@ func Test_bakerySubmitFlourHandler(t *testing.T) {
 	}
 }
 
+func Test_bakeryAgentsHandler(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(bakeryAgentsHandler))
+
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		want int
+	}{
+		{"case empty request body", 200}, {"case request with all fields", 500},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + "?agent=2")
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("bakerySubmitFlourHandler() got = %v, want %v\n\nRes body is: %v", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
+
 // recordBakedHandler
 func Test_recordBakedHandler(t *testing.T) {
 
