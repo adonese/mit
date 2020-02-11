@@ -43,6 +43,32 @@ func getGrinderFromAgent(db *gorm.DB, agentID int) (bool, []Grinder) {
 	return true, grinder
 }
 
+func getGrinderFromAgent1(db *gorm.DB, agentID int) (bool, []Grinder) {
+	var grinder []Grinder
+	var s []FlourAgentShare
+	err := db.Table("tblflouragentshare").Find(&s, "fldflouragentno = ?", agentID).Error
+	if err != nil {
+		return false, []Grinder{}
+	}
+	a := func(a []FlourAgentShare) []int {
+		var r []int
+		for _, v := range a {
+			r = append(r, v.FldGrinderNo)
+		}
+
+		return r
+	}(s)
+
+	// log.Printf("grinder no is: %v", s.FldGrinderNo)
+	err = db.Table("tblgrinder").Where("fldgrinderno in (?)", a).Find(&grinder).Error
+
+	log.Printf("grinder list is: %v", grinder)
+	if err != nil {
+		return false, []Grinder{}
+	}
+	return true, grinder
+}
+
 func getBakeryFromAgent(db *gorm.DB, agentID int) Grinder {
 	var grinder Grinder
 	var s FlourAgentShare

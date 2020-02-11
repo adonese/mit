@@ -247,7 +247,7 @@ func Test_getGrinderHandler(t *testing.T) {
 		want  int
 		want2 []Grinder
 	}{
-		{"Grinder with agent id 1", q1, 400, []Grinder{}}, {"grinder with agent id 3", q2, 200, g1},
+		{"Grinder with agent id agent=2", q1, 400, []Grinder{}}, {"grinder with agent id 3", q2, 200, g1},
 		{"grinder with agent id 3", q3, 200, g1},
 	}
 	for _, tt := range tests {

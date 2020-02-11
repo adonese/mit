@@ -121,6 +121,7 @@ func logout(w http.ResponseWriter, r *http.Request) {
 
 func refreshToken(w http.ResponseWriter, r *http.Request) {}
 
+//getGrinderHandler gets associated grinders to specific agent, using agent ID (provided in url query params)
 func getGrinderHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	db := getEngine()
@@ -132,7 +133,7 @@ func getGrinderHandler(w http.ResponseWriter, r *http.Request) {
 		w.Write(ve.marshal())
 		return
 	}
-	ok, g := getGrinderFromAgent(db, agentID)
+	ok, g := getGrinderFromAgent1(db, agentID)
 	if !ok {
 		w.WriteHeader(http.StatusBadRequest)
 		ve := validationError{Message: "Grinder is not available", Code: "missing_grinder"}
