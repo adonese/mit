@@ -3,7 +3,6 @@ package main
 import (
 	"encoding/json"
 	"log"
-	"time"
 
 	"github.com/jinzhu/gorm"
 )
@@ -32,7 +31,15 @@ type User struct {
 	FldCityNo         int         `gorm:"column:FldCityNo"`
 	FldNeighborhoodNo int         `gorm:"column:FldNeighborhoodNo"`
 	FldSecurityLevel  int         `gorm:"column:FldSecurityLevel"`
-	FldUpdateDate     time.Time   `gorm:"column:FldUpdateDate"`
+	FldUpdateDate     string      `gorm:"column:FldUpdateDate"`
+	// fldsystemno is actually the user's no
+	FldSystemNo int `gorm:"column:FldSystemNo"`
+}
+
+//getID is supposed to returns user id which will be used throughout the system
+// it should map to agentid, bakeryid, grinderid, etc
+func (u User) getID() int {
+	return u.FldSystemNo
 }
 
 func (u User) marshal() []byte {
@@ -491,4 +498,10 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 	// TODO make validations here
 	b.FldUserNo = agentID
 	return b
+}
+
+//AuditStatus table for inquiring complains
+type AuditStatus struct {
+	FldAuditStatusNo   int    `gorm:"column:FldAuditStatusNo"`
+	FldAuditStatusName string `gorm:"column:FldAuditStatusName"`
 }

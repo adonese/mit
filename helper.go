@@ -81,6 +81,7 @@ func getSharedBakery(db *gorm.DB, agentID int) []Bakery {
 	/*
 		get bakeryshare from tblbakeryshare
 		query bakeries table where fldflouragentno = ?
+		// CHECK if this association is correct.
 	*/
 	var bs BakeryShare
 	var baker []Bakery

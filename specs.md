@@ -216,14 +216,14 @@ You should send a [`FlourAgentReceive`](https://github.com/adonese/mit/blob/mast
 
 2xx (successful response)
 
-````json
-{"result": "ok"}
+```json
+{ "result": "ok" }
 ```
 
 400 (Bad request)
 
 ```json
-{"message": "A user friendly message you can show", "code": "error_message"}
+{ "message": "A user friendly message you can show", "code": "error_message" }
 ```
 
 #### /bakery/get_agents [GET]
@@ -237,7 +237,7 @@ URL query `agent`
 ##### Response
 
 Use this example
-/bakery/get_agents?agent=2
+/bakery/get_agents?agent=2&state=2
 
 ```json
 [
@@ -274,7 +274,7 @@ Use this example
     "FldUpdateDate": "2020-01-30T15:06:00Z"
   }
 ]
-````
+```
 
 #### /bakery/baked [POST]
 
