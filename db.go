@@ -502,7 +502,7 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 
 //AuditStatus table for inquiring complains
 type AuditStatus struct {
-	FldAuditStatusNo   int    `gorm:"column:FldAuditStatusNo"`
+	FldAuditStatusNo   int    `gorm:"column:FldAuditStatusNo,primary_key"`
 	FldAuditStatusName string `gorm:"column:FldAuditStatusName"`
 }
 
