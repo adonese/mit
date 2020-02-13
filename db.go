@@ -519,3 +519,11 @@ func (a AuditStatus) marshal() []byte {
 	d, _ := json.Marshal(&a)
 	return d
 }
+
+func (a AuditStatus) getMarshalled(db *gorm.DB) ([]byte, error) {
+	if err := db.Table("tblauditstatus").Find(&a).Error; err != nil {
+		return nil, err
+	}
+	d, _ := json.Marshal(&a)
+	return d, nil
+}
