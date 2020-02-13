@@ -479,12 +479,11 @@ func getComplains(w http.ResponseWriter, r *http.Request) {
 	var a AuditStatus
 
 	a.migrate(db)
-	complains := a.getAll(db)
+	complains := getAllComplains(db)
 	res := marshalAuditStatus(complains)
 
 	w.Write(res)
 	w.WriteHeader(http.StatusOK)
-
 }
 
 func listing(w http.ResponseWriter, r *http.Request) {
@@ -494,4 +493,15 @@ func listing(w http.ResponseWriter, r *http.Request) {
 	w.Write(d.marshal())
 	w.WriteHeader(http.StatusOK)
 	return
+}
+
+//generateComplains: FOR TESTING purposes only. Not exposed via any api
+func generateComplains(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+	var a AuditStatus
+
+	a.migrate(db)
+	a.generate(db)
+	w.WriteHeader(http.StatusOK)
 }

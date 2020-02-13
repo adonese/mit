@@ -338,20 +338,21 @@ The request object is of type [FlourBaking](https://github.com/adonese/blob/mast
 - update only TblFlourBaking
 - Get User Type from User Profile
 - Request Params:
-  FldLocalityCheck
-  FldLoclityUserno
-  FldLocalitynote
-  FlSecurityCheck
-  FldSecurityUserNo
-  FldSecurityNote
-  FldGovernmentalCheck
-  FldGovernmentalUser
-  FldGovernmentalNote
-  FldCommunityCheck
-  FldCommunityUserNo
-  FldCommunityNote
 
-  (Should send Flour Quantity)
+      FldLocalityCheck
+      FldLoclityUserno
+      FldLocalitynote
+      FlSecurityCheck
+      FldSecurityUserNo
+      FldSecurityNote
+      FldGovernmentalCheck
+      FldGovernmentalUser
+      FldGovernmentalNote
+      FldCommunityCheck
+      FldCommunityUserNo
+      FldCommunityNote
+
+      (Should send Flour Quantity)
 
 #### /auditor/report [POST]
 

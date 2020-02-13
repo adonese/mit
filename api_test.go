@@ -67,7 +67,7 @@ func Test_login_contentType(t *testing.T) {
 		FldCityNo:         0,
 		FldNeighborhoodNo: 0,
 		FldSecurityLevel:  0,
-		FldUpdateDate:     time1,
+		FldUpdateDate:     time1.String(),
 	}
 	user2 := User{
 		/*1,1,Ahmed Mustafa,admin,admin,2
@@ -83,7 +83,7 @@ func Test_login_contentType(t *testing.T) {
 		FldCityNo:         0,
 		FldNeighborhoodNo: 0,
 		FldSecurityLevel:  0,
-		FldUpdateDate:     time1,
+		FldUpdateDate:     time1.String(),
 		FldUserName:       "admin",
 	}
 
@@ -143,7 +143,7 @@ func Test_login1(t *testing.T) {
 		FldCityNo:         0,
 		FldNeighborhoodNo: 0,
 		FldSecurityLevel:  0,
-		FldUpdateDate:     time.Now(),
+		FldUpdateDate:     time.Now().String(),
 	}
 
 	time1, _ := time.Parse(time.RFC3339, "2019-09-17T18:53:02Z")
@@ -163,7 +163,7 @@ func Test_login1(t *testing.T) {
 		FldCityNo:         0,
 		FldNeighborhoodNo: 0,
 		FldSecurityLevel:  0,
-		FldUpdateDate:     time1,
+		FldUpdateDate:     time1.String(),
 		FldUserName:       "admin",
 	}
 
@@ -666,7 +666,7 @@ func Test_listing(t *testing.T) {
 
 func Test_getComplains(t *testing.T) {
 
-	ts := httptest.NewServer(http.HandlerFunc(getComplains(w http.ResponseWriter, r *http.Request)))
+	ts := httptest.NewServer(http.HandlerFunc(getComplains))
 
 	now := time.Now().UTC()
 	d := now.Format("2006-01-02")
@@ -694,6 +694,41 @@ func Test_getComplains(t *testing.T) {
 		want int
 	}{
 		{"case empty request body", qMiss, 400}, {"case request with all fields", qFull, 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("listing() got = %v, want %v\n\nRes body is: %v", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
+
+func Test_generateComplains(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(generateComplains))
+
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		want int
+	}{
+		{"case empty request body", 400}, {"case request with all fields", 400},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {

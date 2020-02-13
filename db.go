@@ -20,6 +20,7 @@ A user can be of different types, Agent, distributor or Grinder
 */
 type User struct {
 	FldUserNo         int         `gorm:"column:FldUserNo"`
+	FldFullName       string      `gorm:"column:FldFullName"`
 	FldFullTable      string      `gorm:"column:FldFullTable"`
 	FldUserTable      string      `gorm:"column:FldUserTable"`
 	FldPassword       string      `gorm:"column:FldPassword" json:"-"`
@@ -32,8 +33,8 @@ type User struct {
 	FldNeighborhoodNo int         `gorm:"column:FldNeighborhoodNo"`
 	FldSecurityLevel  int         `gorm:"column:FldSecurityLevel"`
 	FldUpdateDate     string      `gorm:"column:FldUpdateDate"`
-	// fldsystemno is actually the user's no
-	FldSystemNo int `gorm:"column:FldSystemNo"`
+	FldSystemNo       int         `gorm:"column:FldSystemNo"`
+	FldUserName       string      `gorm:"column:FldUserName"`
 }
 
 //getID is supposed to returns user id which will be used throughout the system
@@ -502,7 +503,7 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 
 //AuditStatus table for inquiring complains
 type AuditStatus struct {
-	FldAuditStatusNo   int    `gorm:"column:FldAuditStatusNo,primary_key"`
+	FldAuditStatusNo   int    `gorm:"primary_key;column:FldAuditStatusNo;"`
 	FldAuditStatusName string `gorm:"column:FldAuditStatusName"`
 }
 
@@ -528,8 +529,19 @@ func (a AuditStatus) getMarshalled(db *gorm.DB) ([]byte, error) {
 	return d, nil
 }
 
-func (a AuditStatus) getAll(db *gorm.DB) []AuditStatus {
+func getAllComplains(db *gorm.DB) []AuditStatus {
 	var r []AuditStatus
 	db.Table("tblauditstatus").Find(&r)
 	return r
+}
+
+func (a AuditStatus) generate(db *gorm.DB) {
+	db.AutoMigrate(&a)
+	db.DropTable(&a)
+	db.CreateTable(&a)
+	data := []string{"not_available", "empty_bakery", "missing_ele"}
+	for _, v := range data {
+		a.FldAuditStatusName = v
+		db.Create(&a)
+	}
 }
