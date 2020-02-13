@@ -9,7 +9,7 @@ import (
 
 //User users table
 /*
-FldUserNo	FldFullName	FldUserName	FldPassword	FldUserType	FLdImage
+FldUserNo	FldFullTable	FldUserTable	FldPassword	FldUserType	FLdImage
 FldDisabled	FldStateNo	FldLocaliyNo	FldCityNo	FldNeighborhoodNo
 FldSecurityLevel	FldUpdateDate
 
@@ -20,8 +20,8 @@ A user can be of different types, Agent, distributor or Grinder
 */
 type User struct {
 	FldUserNo         int         `gorm:"column:FldUserNo"`
-	FldFullName       string      `gorm:"column:FldFullName"`
-	FldUserName       string      `gorm:"column:FldUserName"`
+	FldFullTable      string      `gorm:"column:FldFullTable"`
+	FldUserTable      string      `gorm:"column:FldUserTable"`
 	FldPassword       string      `gorm:"column:FldPassword" json:"-"`
 	FldUserType       int         `gorm:"column:FldUserType"`
 	FldImage          interface{} `gorm:"column:FldImage"`
@@ -50,9 +50,9 @@ func checkPassword(password string, u User) bool {
 	return password == u.FldPassword
 }
 
-func getUser(db *gorm.DB, username string) (bool, User) {
+func getUser(db *gorm.DB, userTable string) (bool, User) {
 	var user User
-	if err := db.Table("tblusers").Find(&user, "fldusername = ?", username).Error; err != nil {
+	if err := db.Table("tblusers").Find(&user, "flduserTable = ?", userTable).Error; err != nil {
 		return false, user
 	} else {
 		return true, user
@@ -61,14 +61,14 @@ func getUser(db *gorm.DB, username string) (bool, User) {
 
 //Bakery model
 /*
-FldBakeryNo	FldBakeryName	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
-	FldNeighborhoodNo	FldContactName	FldPhone	FldEmail	FldAddress
+FldBakeryNo	FldBakeryTable	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
+	FldNeighborhoodNo	FldContactTable	FldPhone	FldEmail	FldAddress
 		FldVolume	FldLong	FldLat	FldUserNo	FldLogNo	FldUpdateDate
 		FldImage	FldNFCBakeryNo
 */
 type Bakery struct {
 	FldBakeryNo       int    `gorm:"column:FldBakeryNo"`
-	FldBakeryName     string `gorm:"column:FldBakeryName"`
+	FldBakeryTable    string `gorm:"column:FldBakeryName"`
 	FldIsActive       bool   `gorm:"column:FldIsActive"`
 	FldStateNo        int    `gorm:"column:FldStateNo"`
 	FldLocalityNo     int    `gorm:"column:FldLocalityNo"`
@@ -504,4 +504,18 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 type AuditStatus struct {
 	FldAuditStatusNo   int    `gorm:"column:FldAuditStatusNo"`
 	FldAuditStatusName string `gorm:"column:FldAuditStatusName"`
+}
+
+func (a AuditStatus) migrate(db *gorm.DB) {
+	db.AutoMigrate(&a)
+}
+
+//TableName overrides default gorm naming
+func (a AuditStatus) TableName() string {
+	return "tblauditstatus"
+}
+
+func (a AuditStatus) marshal() []byte {
+	d, _ := json.Marshal(&a)
+	return d
 }

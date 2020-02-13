@@ -41,6 +41,8 @@ func main() {
 	// auditor handlers
 	http.HandleFunc("/auditor/check", auditorCheckHandler)
 	http.HandleFunc("/auditor/report", violationHandler)
+	http.HandleFunc("/auditor/complains", getComplains)
+	http.HandleFunc("/auditor/get_complains", getComplains)
 
 	http.ListenAndServe(":8091", nil)
 }

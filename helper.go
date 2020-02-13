@@ -111,3 +111,8 @@ func marshalFlourAgents(a []FlourAgent) []byte {
 	d, _ := json.Marshal(&a)
 	return d
 }
+
+func marshalAuditStatus(a []AuditStatus) []byte {
+	d, _ := json.Marshal(&a)
+	return d
+}

@@ -472,6 +472,15 @@ func violationHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+func getComplains(w http.ResponseWriter, r *http.Request) {
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+	var a AuditStatus
+	a.migrate(db)
+	w.Write(a.marshal())
+	w.WriteHeader(http.StatusOK)
+}
+
 func listing(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	var l Listing
