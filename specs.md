@@ -353,6 +353,86 @@ The request object is of type [FlourBaking](https://github.com/adonese/blob/mast
 
   (Should send Flour Quantity)
 
+#### /auditor/report [POST]
+
+##### Request
+
+| field name          | type   |
+| ------------------- | ------ |
+| FldBakeryAuditNo    | int    |
+| FldDate             | string |
+| FldBakeyNo          | int    |
+| FldAuditBy          | int    |
+| FldAuditType        | int    |
+| FldAuditStatusNo    | int    |
+| FldNote             | string |
+| FldAuditResponseNo  | int    |
+| FldNFCBakeryAuditNo | int    |
+| FldNFCStatusNo      | int    |
+| FldNFCNote          | string |
+| FldUserNo           | int    |
+| FldUpdateDate       | string |
+
+##### Response
+
+2xx (successful response)
+
+```json
+{ "result": "ok" }
+```
+
+400 (Bad request)
+
+```json
+{ "message": "A user friendly message you can show", "code": "error_message" }
+```
+
+#### /auditor/check
+
+This api _should_ send the baked amount of bread in bakeries, by perspective auditors.
+
+##### Request
+
+| field name           | type    |
+| -------------------- | ------- |
+| FldFlourBakingNo     | int     |
+| FldDate              | string  |
+| FldBakeryNo          | int     |
+| FldWorkingStatusNo   | int     |
+| FldQuantity          | float32 |
+| FldNote              | string  |
+| FldLocalityCheck     | float32 |
+| FldLocalityUserNo    | int     |
+| FldLocalityNote      | string  |
+| FldSecurityCheck     | float32 |
+| FldSecurityUserNo    | int     |
+| FldSecurityNote      | string  |
+| FldGovernmentalCheck | float32 |
+| FldGovermentalUserNo | int     |
+| FldGovernmentalNote  | int     |
+| FldCommunityCheck    | float32 |
+| FldComuunityUserNo   | int     |
+| FldCommunityNote     | int     |
+| FldNFCFlourBakingNo  | int     |
+| FldNFCStatusNo       | int     |
+| FldNFCNote           | string  |
+| FldUserNo            | int     |
+| FldUpdateDate        | string  |
+
+##### Response
+
+2xx (successful response)
+
+```json
+{ "result": "ok" }
+```
+
+400 (Bad request)
+
+```json
+{ "message": "A user friendly message you can show", "code": "error_message" }
+```
+
 ## Admin Services
 
 These are services for use by mit system adminstrators only.
