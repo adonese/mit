@@ -387,7 +387,7 @@ The request object is of type [FlourBaking](https://github.com/adonese/blob/mast
 { "message": "A user friendly message you can show", "code": "error_message" }
 ```
 
-#### /auditor/check
+#### /auditor/check [POST]
 
 This api _should_ send the baked amount of bread in bakeries, by perspective auditors.
 
@@ -431,6 +431,18 @@ This api _should_ send the baked amount of bread in bakeries, by perspective aud
 
 ```json
 { "message": "A user friendly message you can show", "code": "error_message" }
+```
+
+#### /auditor/complains [GET]
+
+#### Request
+
+Empty body
+
+#### Response
+
+```json
+{ "FldAuditStatusNo": 0, "FldAuditStatusName": "No Bakery" }
 ```
 
 ## Admin Services

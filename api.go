@@ -472,20 +472,18 @@ func violationHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+//getComplains a drop down list to get complains from
 func getComplains(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	db := getEngine()
 	var a AuditStatus
+
 	a.migrate(db)
-	if d, err := a.getMarshalled(db); err != nil {
-		w.WriteHeader(http.StatusInternalServerError)
-		ve := validationError{Message: err.Error(), Code: "error_in_complains"}
-		w.Write(ve.marshal())
-		return
-	} else {
-		w.Write(d)
-		w.WriteHeader(http.StatusOK)
-	}
+	complains := a.getAll(db)
+	res := marshalAuditStatus(complains)
+
+	w.Write(res)
+	w.WriteHeader(http.StatusOK)
 
 }
 

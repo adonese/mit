@@ -527,3 +527,9 @@ func (a AuditStatus) getMarshalled(db *gorm.DB) ([]byte, error) {
 	d, _ := json.Marshal(&a)
 	return d, nil
 }
+
+func (a AuditStatus) getAll(db *gorm.DB) []AuditStatus {
+	var r []AuditStatus
+	db.Table("tblauditstatus").Find(&r)
+	return r
+}
