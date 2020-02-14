@@ -555,8 +555,11 @@ func (a AuditStatus) generate(db *gorm.DB) {
 // Table Locality
 
 type Locality struct {
-	FldLocalityNo   int    `gorm:"primary_key;column:FldLocalityNo"`
-	FldLocalityName string `gorm:"column:FldLocalityName"`
+	FldLocalityNo       int    `gorm:"primary_key;column:FldLocalityNo"`
+	FldLocalityName     string `gorm:"column:FldLocalityName"`
+	FldCityName         string `gorm:"column:FldCityName"`
+	FldStateName        string `gorm:"column:FldStateName"`
+	FldNeighborhoodName string `gorm:"column:FldNeighborhoodName"`
 }
 
 func (l Locality) TableName() string {
