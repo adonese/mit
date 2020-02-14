@@ -10,7 +10,7 @@ import (
 //User users table
 /*
 FldUserNo	FldFullTable	FldUserTable	FldPassword	FldUserType	FLdImage
-FldDisabled	FldStateNo	FldLocaliyNo	FldCityNo	FldNeighborhoodNo
+FldDisabled	FldStateNo	FldLocalityNo	FldCityNo	FldNeighborhoodNo
 FldSecurityLevel	FldUpdateDate
 
 // TODO encrypt the password
@@ -318,6 +318,12 @@ func marshalBakeries(b []Bakery) []byte {
 	return d
 }
 
+//marshallBakeriesWithLocale
+func marshalBakeriesWithLocale(b []BakeryAndLocale) []byte {
+	d, _ := json.Marshal(&b)
+	return d
+}
+
 // Bakery Tables
 /*
 FldFlourBakeryReceiveNo	FldDate	FldBakeryNo	FldFlourAgentNo	FldQuantity	FldUnitPrice
@@ -544,4 +550,15 @@ func (a AuditStatus) generate(db *gorm.DB) {
 		a.FldAuditStatusName = v
 		db.Create(&a)
 	}
+}
+
+// Table Locality
+
+type Locality struct {
+	FldLocalityNo   int    `gorm:"primary_key;column:FldLocalityNo"`
+	FldLocalityName string `gorm:"column:FldLocalityName"`
+}
+
+func (l Locality) TableName() string {
+	return "tbllocality"
 }

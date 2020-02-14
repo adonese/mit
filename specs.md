@@ -185,6 +185,34 @@ GET /get_bakery?agent=2
 ]
 ```
 
+New API
+
+```json
+[
+  {
+    "FldBakeryNo": 2,
+    "FldBakeryTable": "مخبز الاول",
+    "FldIsActive": true,
+    "FldStateNo": 1,
+    "FldCityNo": 2,
+    "FldNeighborhoodNo": 1,
+    "FldContactName": "N/A",
+    "FldPhone": "N/A",
+    "FldEmail": "N/A",
+    "FldAddress": "N/A",
+    "FldVolume": 1550,
+    "FldLong": " ",
+    "FldLat": " ",
+    "FldUserNo": 1,
+    "FldLogNo": 10065,
+    "FldUpdateDate": "2020-01-30T15:39:00Z",
+    "FldImage": "",
+    "FldNFCBakeryNo": 0,
+    "FldLocalityName": "محلية الخرطوم شرق"
+  }
+]
+```
+
 #### /bakery/submit [POST]
 
 TODO ADD UNIT TESTING

@@ -191,6 +191,7 @@ func setDistributedFlours(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+//getBakeries get associated bakeries to this agent
 func getBakeries(w http.ResponseWriter, r *http.Request) {
 	db := getEngine()
 	// TODO we need to add more queries over here to geo locate and
@@ -201,7 +202,7 @@ func getBakeries(w http.ResponseWriter, r *http.Request) {
 	id, _ := strconv.Atoi(agentID)
 	b := getSharedBakery(db, id)
 	w.WriteHeader(http.StatusOK)
-	w.Write(marshalBakeries(b))
+	w.Write(marshalBakeriesWithLocale(b))
 }
 
 //TblFlourBakeryReceive

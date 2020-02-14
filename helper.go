@@ -77,20 +77,46 @@ func getBakeryFromAgent(db *gorm.DB, agentID int) Grinder {
 	return grinder
 }
 
-func getSharedBakery(db *gorm.DB, agentID int) []Bakery {
+type BakeryAndLocale struct {
+	Bakery
+	Locality
+}
+
+func newBakeries(b []Bakery, l []Locality) []BakeryAndLocale {
+	var bl []BakeryAndLocale
+	for k := range b {
+		t := BakeryAndLocale{Bakery: b[k], Locality: l[k]}
+		bl = append(bl, t)
+	}
+	return bl
+}
+
+func getSharedBakery(db *gorm.DB, agentID int) []BakeryAndLocale {
 	/*
 		get bakeryshare from tblbakeryshare
 		query bakeries table where fldflouragentno = ?
 		// CHECK if this association is correct.
+		//FIXME make preload instead of this hacky way
 	*/
 	var bs BakeryShare
 	var baker []Bakery
+	var l []Locality
 
 	// FldFlourAgentNo
 	db.Table("tblbakeryshare").Find(&bs, "FldFlourAgentNo = ?", agentID)
-	db.Table("tblbakery").Find(&baker, "fldbakeryno = ?", bs.FldBakeryNo)
 
-	return baker
+	db.Table("tblbakery").Find(&baker, "fldbakeryno = ?", bs.FldBakeryNo)
+	ids := func(r []Bakery) []int {
+		var i []int
+		for _, v := range r {
+			i = append(i, v.FldLocalityNo)
+		}
+		return i
+	}(baker)
+
+	db.Table("tbllocality").Find(&l, "fldlocalityno in (?)", ids)
+	b := newBakeries(baker, l)
+	return b
 }
 
 //FIXME
