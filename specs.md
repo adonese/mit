@@ -462,7 +462,9 @@ This api _should_ send the baked amount of bread in bakeries, by perspective aud
 { "message": "A user friendly message you can show", "code": "error_message" }
 ```
 
-#### /auditor/complains [GET]
+#### /auditor/get_complains [GET]
+
+ALSO /auditor/complains [GET]
 
 #### Request
 
@@ -471,7 +473,10 @@ Empty body
 #### Response
 
 ```json
-{ "FldAuditStatusNo": 0, "FldAuditStatusName": "No Bakery" }
+[
+  { "FldAuditStatusNo": 1, "FldAuditStatusName": "not_available" },
+  { "FldAuditStatusNo": 2, "FldAuditStatusName": "not_valid" }
+]
 ```
 
 ## Admin Services
@@ -498,3 +503,7 @@ These are services for use by mit system adminstrators only.
   Can we use `FldLocalityCode` as being a unique code for each location, and sending useful names instead?
 
 Encoding location data is still not clear since the origin data is not clear either. We need to confirm that `FldLocalityCode` is actually unique and we can use it as a hashmap key to send it for Zeinab.
+
+```
+
+```
