@@ -51,9 +51,9 @@ func checkPassword(password string, u User) bool {
 	return password == u.FldPassword
 }
 
-func getUser(db *gorm.DB, userTable string) (bool, User) {
+func getUser(db *gorm.DB, username string) (bool, User) {
 	var user User
-	if err := db.Table("tblusers").Find(&user, "flduserTable = ?", userTable).Error; err != nil {
+	if err := db.Table("tblusers").Find(&user, "fldusername = ?", username).Error; err != nil {
 		return false, user
 	} else {
 		return true, user
