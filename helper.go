@@ -115,6 +115,15 @@ func getSharedBakery(db *gorm.DB, agentID int) []BakeryAndLocale {
 	}(baker)
 
 	db.Table("tbllocality").Find(&l, "fldlocalityno in (?)", ids)
+
+	db.Exec(`SELECT
+tb.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
+FROM TblBakery tb
+    INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
+    INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
+    INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
+    INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
+`, ids)
 	b := newBakeries(baker, l)
 	return b
 }
