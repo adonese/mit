@@ -459,5 +459,11 @@ These are services for use by mit system adminstrators only.
 - Filtering:
   - filter agents
   - filter bakeries
+- Locality
+  In `tbllocality`, there's already `fldlocalityname`, I can send that if it is exactly fits into what we want.
+
+  GOTCHA, however, i believe that it will have these issue:
+
+  - name duplications: names are not unique to search / inquire for
 
 Encoding location data is still not clear since the origin data is not clear either
