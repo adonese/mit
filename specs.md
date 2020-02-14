@@ -466,4 +466,7 @@ These are services for use by mit system adminstrators only.
 
   - name duplications: names are not unique to search / inquire for
 
+- locality code:
+  Can we use `FldLocalityCode` as being a unique code for each location, and sending useful names instead?
+
 Encoding location data is still not clear since the origin data is not clear either
