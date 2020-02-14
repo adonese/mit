@@ -452,3 +452,12 @@ These are services for use by mit system adminstrators only.
 
 - create users
 - change / assign roles to users
+
+## Known Bugs
+
+- Login logic is not clear [from Mutawkil]
+- Filtering:
+  - filter agents
+  - filter bakeries
+
+Encoding location data is still not clear since the origin data is not clear either
