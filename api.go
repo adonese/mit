@@ -380,7 +380,7 @@ func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 	var f FlourBaking
 	if err = json.Unmarshal(req, &f); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
-		ve := validationError{Message: "Malformed request", Code: "empty_request_body"}
+		ve := validationError{Message: "Malformed request", Code: "marshalling_error"}
 		log.Printf("the error is: %v", err)
 		w.Write(ve.marshal())
 		return

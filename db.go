@@ -422,7 +422,7 @@ type FlourBaking struct {
 	FldGovernmentalNote  int     `gorm:"column:FldGovernmentalNote"`
 	FldCommunityCheck    float32 `gorm:"column:FldCommunityCheck"`
 	FldComuunityUserNo   int     `gorm:"column:FldComuunityUserNo"`
-	FldCommunityNote     int     `gorm:"column:FldCommunityNote"`
+	FldCommunityNote     string  `gorm:"column:FldCommunityNote"`
 	FldNFCFlourBakingNo  int     `gorm:"column:FldNFCFlourBakingNo"`
 	FldNFCStatusNo       int     `gorm:"column:FldNFCStatusNo"`
 	FldNFCNote           string  `gorm:"column:FldNFCNote"`
