@@ -469,4 +469,4 @@ These are services for use by mit system adminstrators only.
 - locality code:
   Can we use `FldLocalityCode` as being a unique code for each location, and sending useful names instead?
 
-Encoding location data is still not clear since the origin data is not clear either
+Encoding location data is still not clear since the origin data is not clear either. We need to confirm that `FldLocalityCode` is actually unique and we can use it as a hashmap key to send it for Zeinab.
