@@ -19,22 +19,22 @@ User
 A user can be of different types, Agent, distributor or Grinder
 */
 type User struct {
-	FldUserNo         int         `gorm:"column:FldUserNo"`
-	FldFullName       string      `gorm:"column:FldFullName"`
-	FldFullTable      string      `gorm:"column:FldFullTable"`
-	FldUserTable      string      `gorm:"column:FldUserTable"`
-	FldPassword       string      `gorm:"column:FldPassword" json:"-"`
-	FldUserType       int         `gorm:"column:FldUserType"`
-	FldImage          interface{} `gorm:"column:FldImage"`
-	FldDisabled       bool        `gorm:"column:FldDisabled"`
-	FldStateNo        int         `gorm:"column:FldStateNo"`
-	FldLocaliyNo      int         `gorm:"column:FldLocaliyNo"`
-	FldCityNo         int         `gorm:"column:FldCityNo"`
-	FldNeighborhoodNo int         `gorm:"column:FldNeighborhoodNo"`
-	FldSecurityLevel  int         `gorm:"column:FldSecurityLevel"`
-	FldUpdateDate     string      `gorm:"column:FldUpdateDate"`
-	FldSystemNo       int         `gorm:"column:FldSystemNo"`
-	FldUserName       string      `gorm:"column:FldUserName"`
+	FldUserNo         int         `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
+	FldFullName       string      `gorm:"column:FldFullName" json:"FldFullName,omitempty"`
+	FldFullTable      string      `gorm:"column:FldFullTable" json:"FldFullTable,omitempty"`
+	FldUserTable      string      `gorm:"column:FldUserTable" json:"FldUserTable,omitempty"`
+	FldPassword       string      `gorm:"column:FldPassword" json:"FldPassword,omitempty"`
+	FldUserType       int         `gorm:"column:FldUserType" json:"FldUserType,omitempty"`
+	FldImage          interface{} `gorm:"column:FldImage" json:"FldImage,omitempty"`
+	FldDisabled       bool        `gorm:"column:FldDisabled" json:"FldDisabled,omitempty"`
+	FldStateNo        int         `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
+	FldLocaliyNo      int         `gorm:"column:FldLocaliyNo" json:"FldLocaliyNo,omitempty"`
+	FldCityNo         int         `gorm:"column:FldCityNo" json:"FldCityNo,omitempty"`
+	FldNeighborhoodNo int         `gorm:"column:FldNeighborhoodNo" json:"FldNeighborhoodNo,omitempty"`
+	FldSecurityLevel  int         `gorm:"column:FldSecurityLevel" json:"FldSecurityLevel,omitempty"`
+	FldUpdateDate     string      `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
+	FldSystemNo       int         `gorm:"column:FldSystemNo" json:"FldSystemNo,omitempty"`
+	FldUserName       string      `gorm:"column:FldUserName" json:"FldUserName,omitempty"`
 }
 
 //getID is supposed to returns user id which will be used throughout the system
@@ -68,25 +68,25 @@ FldBakeryNo	FldBakeryTable	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
 		FldImage	FldNFCBakeryNo
 */
 type Bakery struct {
-	FldBakeryNo       int    `gorm:"column:FldBakeryNo"`
-	FldBakeryTable    string `gorm:"column:FldBakeryName"`
-	FldIsActive       bool   `gorm:"column:FldIsActive"`
-	FldStateNo        int    `gorm:"column:FldStateNo"`
-	FldLocalityNo     int    `gorm:"column:FldLocalityNo"`
-	FldCityNo         int    `gorm:"column:FldCityNo"`
-	FldNeighborhoodNo int    `gorm:"column:FldNeighborhoodNo"`
-	FldContactName    string `gorm:"column:FldContactName"`
-	FldPhone          string `gorm:"column:FldPhone"`
-	FldEmail          string `gorm:"column:FldEmail"`
-	FldAddress        string `gorm:"column:FldAddress"`
-	FldVolume         int    `gorm:"column:FldVolume"` // FIXME type
-	FldLong           string `gorm:"column:FldLong"`
-	FldLat            string `gorm:"column:FldLat"`
-	FldUserNo         int    `gorm:"column:FldUserNo"` // is this a foreignkey?
-	FldLogNo          int    `gorm:"column:FldLogNo"`
-	FldUpdateDate     string `gorm:"column:FldUpdateDate"`
-	FldImage          string `gorm:"column:FldImage"` // is this bytes, blob, etc?
-	FldNFCBakeryNo    int    `gorm:"column:FldNFCBakeryNo"`
+	FldBakeryNo       int    `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldBakeryTable    string `gorm:"column:FldBakeryName" json:"FldBakeryTable,omitempty"`
+	FldIsActive       bool   `gorm:"column:FldIsActive" json:"FldIsActive,omitempty"`
+	FldStateNo        int    `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
+	FldLocalityNo     int    `gorm:"column:FldLocalityNo" json:"FldLocalityNo,omitempty"`
+	FldCityNo         int    `gorm:"column:FldCityNo" json:"FldCityNo,omitempty"`
+	FldNeighborhoodNo int    `gorm:"column:FldNeighborhoodNo" json:"FldNeighborhoodNo,omitempty"`
+	FldContactName    string `gorm:"column:FldContactName" json:"FldContactName,omitempty"`
+	FldPhone          string `gorm:"column:FldPhone" json:"FldPhone,omitempty"`
+	FldEmail          string `gorm:"column:FldEmail" json:"FldEmail,omitempty"`
+	FldAddress        string `gorm:"column:FldAddress" json:"FldAddress,omitempty"`
+	FldVolume         int    `gorm:"column:FldVolume" json:"FldVolume,omitempty"` // FIXME type
+	FldLong           string `gorm:"column:FldLong" json:"FldLong,omitempty"`
+	FldLat            string `gorm:"column:FldLat" json:"FldLat,omitempty"`
+	FldUserNo         int    `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"` // is this a foreignkey?
+	FldLogNo          int    `gorm:"column:FldLogNo" json:"FldLogNo,omitempty"`
+	FldUpdateDate     string `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
+	FldImage          string `gorm:"column:FldImage" json:"FldImage,omitempty"` // is this bytes, blob, etc?
+	FldNFCBakeryNo    int    `gorm:"column:FldNFCBakeryNo" json:"FldNFCBakeryNo,omitempty"`
 }
 
 //FlourAgent
@@ -101,20 +101,20 @@ FldAddress	FldVolume	FldLong	FldLat	FldUserNo	FldLogNo	FldUpdateDate
 
 */
 type FlourAgent struct {
-	FldFlourAgentNo   int     `gorm:"column:FldFlourAgentNo"`
-	FldFlourAgentName string  `gorm:"column:FldFlourAgentName"`
-	FldIsActive       bool    `gorm:"column:FldIsActive"`
-	FldStateNo        int     `gorm:"column:FldStateNo"`
-	FldContactName    string  `gorm:"column:FldContactName"`
-	FldPhone          string  `gorm:"column:FldPhone"`
-	FldEmail          string  `gorm:"column:FldEmail"`
-	FldAddress        string  `gorm:"column:FldAddress"`
-	FldVolume         float32 `gorm:"column:FldVolume"`
-	FldLong           string  `gorm:"column:FldLong"`
-	FldLat            string  `gorm:"column:FldLat"`
-	FldUserNo         int     `gorm:"column:FldUserNo"`
-	FldLogNo          int     `gorm:"column:FldLogNo"`
-	FldUpdateDate     string  `gorm:"column:FldUpdateDate"`
+	FldFlourAgentNo   int     `gorm:"column:FldFlourAgentNo" json:"FldFlourAgentNo,omitempty"`
+	FldFlourAgentName string  `gorm:"column:FldFlourAgentName" json:"FldFlourAgentName,omitempty"`
+	FldIsActive       bool    `gorm:"column:FldIsActive" json:"FldIsActive,omitempty"`
+	FldStateNo        int     `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
+	FldContactName    string  `gorm:"column:FldContactName" json:"FldContactName,omitempty"`
+	FldPhone          string  `gorm:"column:FldPhone" json:"FldPhone,omitempty"`
+	FldEmail          string  `gorm:"column:FldEmail" json:"FldEmail,omitempty"`
+	FldAddress        string  `gorm:"column:FldAddress" json:"FldAddress,omitempty"`
+	FldVolume         float32 `gorm:"column:FldVolume" json:"FldVolume,omitempty"`
+	FldLong           string  `gorm:"column:FldLong" json:"FldLong,omitempty"`
+	FldLat            string  `gorm:"column:FldLat" json:"FldLat,omitempty"`
+	FldUserNo         int     `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
+	FldLogNo          int     `gorm:"column:FldLogNo" json:"FldLogNo,omitempty"`
+	FldUpdateDate     string  `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
 }
 
 func (a FlourAgent) getAgents(bakeryID int, db *gorm.DB) ([]FlourAgent, error) {
@@ -159,19 +159,19 @@ FldFlourAgentReceiveNo	FldDate	FldFlourAgentNo	FldGrinderNo	FldQuantity	FldUnitP
 FldRefNo	FldNFCFlourAgentReceiveNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type FlourAgentReceive struct {
-	FldFlourAgentReceiveNo    int     `gorm:"column:FldFlourAgentReceiveNo"`
-	FldDate                   string  `gorm:"column:FldDate"` //FIXME mssql werid smalldatetime bug
-	FldFlourAgentNo           int     `gorm:"column:FldFlourAgentNo"`
-	FldGrinderNo              int     `gorm:"column:FldGrinderNo"`
-	FldQuantity               float32 `gorm:"column:FldQuantity"`
-	FldUnitPrice              float32 `gorm:"column:FldUnitPrice"`
-	FldTotalAmount            float32 `gorm:"column:FldTotalAmount"`
-	FldRefNo                  int     `gorm:"column:FldRefNo"`
-	FldNFCFlourAgentReceiveNo int     `gorm:"column:FldNFCFlourAgentReceiveNo"`
-	FldNFCStatusNo            int     `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                string  `gorm:"column:FldNFCNote"`
-	FldUserNo                 int     `gorm:"column:FldUserNo"`
-	FldUpdateDate             string  `gorm:"column:FldUpdateDate"`
+	FldFlourAgentReceiveNo    int     `gorm:"column:FldFlourAgentReceiveNo" json:"FldFlourAgentReceiveNo,omitempty"`
+	FldDate                   string  `gorm:"column:FldDate" json:"FldDate,omitempty"` //FIXME mssql werid smalldatetime bug
+	FldFlourAgentNo           int     `gorm:"column:FldFlourAgentNo" json:"FldFlourAgentNo,omitempty"`
+	FldGrinderNo              int     `gorm:"column:FldGrinderNo" json:"FldGrinderNo,omitempty"`
+	FldQuantity               float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+	FldUnitPrice              float32 `gorm:"column:FldUnitPrice" json:"FldUnitPrice,omitempty"`
+	FldTotalAmount            float32 `gorm:"column:FldTotalAmount" json:"FldTotalAmount,omitempty"`
+	FldRefNo                  int     `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
+	FldNFCFlourAgentReceiveNo int     `gorm:"column:FldNFCFlourAgentReceiveNo" json:"FldNFCFlourAgentReceiveNo,omitempty"`
+	FldNFCStatusNo            int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
+	FldNFCNote                string  `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
+	FldUserNo                 int     `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
+	FldUpdateDate             string  `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
 }
 
 func (f FlourAgentReceive) validateReceive() bool {
@@ -212,11 +212,11 @@ func (FlourAgentReceive) TableName() string {
 /*FldFlourAgentNo	FldGrinderNo	FldShareAmount	FldFrequency	FldIsSelected
  */
 type FlourAgentShare struct {
-	FldFlourAgentNo int     `gorm:"column:FldFlourAgentNo"`
-	FldGrinderNo    int     `gorm:"column:FldGrinderNo"`
-	FldShareAmount  float32 `gorm:"column:FldShareAmount"`
-	FldFrequency    string  `gorm:"column:FldFrequency"` //FIXME check the field type
-	FldIsSelected   bool    `gorm:"column:FldIsSelected"`
+	FldFlourAgentNo int     `gorm:"column:FldFlourAgentNo" json:"FldFlourAgentNo,omitempty"`
+	FldGrinderNo    int     `gorm:"column:FldGrinderNo" json:"FldGrinderNo,omitempty"`
+	FldShareAmount  float32 `gorm:"column:FldShareAmount" json:"FldShareAmount,omitempty"`
+	FldFrequency    string  `gorm:"column:FldFrequency" json:"FldFrequency,omitempty"` //FIXME check the field type
+	FldIsSelected   bool    `gorm:"column:FldIsSelected" json:"FldIsSelected,omitempty"`
 }
 
 //TableName sets FlourAgentShare struct to its equivalent name in the sql server
@@ -229,19 +229,19 @@ func (FlourAgentShare) TableName() string {
 FldRefNo	FldNFCFlourBakeryReceiveNo	FldNFCFlourAgentDistributeNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type FlourAgentDistribute struct {
-	FldFlourAgentDistributeNo    int     `gorm:"column:FldFlourAgentDistributeNo"`
-	FldDate                      string  `gorm:"column:FldDate"`
-	FldFlourAgentNo              int     `gorm:"column:FldFlourAgentNo"`
-	FldBakeryNo                  int     `gorm:"column:FldBakeryNo"`
-	FldQuantity                  float32 `gorm:"column:FldQuantity"`
-	FldUnitPrice                 float32 `gorm:"column:FldUnitPrice"`
-	FldTotalAmount               float32 `gorm:"column:FldTotalAmount"`
-	FldRefNo                     int     `gorm:"column:FldRefNo"`
-	FldNFCFlourBakeryReceiveNo   int     `gorm:"column:FldNFCFlourBakeryReceiveNo"`
-	FldNFCFlourAgentDistributeNo int     `gorm:"column:FldNFCFlourAgentDistributeNo"`
-	FldNFCStatusNo               int     `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                   string  `gorm:"column:FldNFCNote"`
-	FldUserNo                    int     `gorm:"column:FldUserNo"`
+	FldFlourAgentDistributeNo    int     `gorm:"column:FldFlourAgentDistributeNo" json:"FldFlourAgentDistributeNo,omitempty"`
+	FldDate                      string  `gorm:"column:FldDate" json:"FldDate,omitempty"`
+	FldFlourAgentNo              int     `gorm:"column:FldFlourAgentNo" json:"FldFlourAgentNo,omitempty"`
+	FldBakeryNo                  int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldQuantity                  float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+	FldUnitPrice                 float32 `gorm:"column:FldUnitPrice" json:"FldUnitPrice,omitempty"`
+	FldTotalAmount               float32 `gorm:"column:FldTotalAmount" json:"FldTotalAmount,omitempty"`
+	FldRefNo                     int     `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
+	FldNFCFlourBakeryReceiveNo   int     `gorm:"column:FldNFCFlourBakeryReceiveNo" json:"FldNFCFlourBakeryReceiveNo,omitempty"`
+	FldNFCFlourAgentDistributeNo int     `gorm:"column:FldNFCFlourAgentDistributeNo" json:"FldNFCFlourAgentDistributeNo,omitempty"`
+	FldNFCStatusNo               int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
+	FldNFCNote                   string  `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
+	FldUserNo                    int     `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
 }
 
 //TableName sets FlourAgentDistribute struct to its equivalent name in the sql server
@@ -272,11 +272,11 @@ func (f FlourAgentDistribute) submit(db *gorm.DB) error {
 FldBakeryNo FldFlourAgentNo FldShareAmount FldFrequency FldIsSelected
 */
 type BakeryShare struct {
-	FldBakeryNo     int     `gorm:"column:FldBakeryNo"`
-	FldFlourAgentNo int     `gorm:"column:FldFlourAgentNo"`
-	FldShareAmount  float32 `gorm:"column:FldShareAmount"`
-	FldFrequency    string  `gorm:"column:FldFrequency"` //FIXME check the field type
-	FldIsSelected   bool    `gorm:"column:FldIsSelected"`
+	FldBakeryNo     int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldFlourAgentNo int     `gorm:"column:FldFlourAgentNo" json:"FldFlourAgentNo,omitempty"`
+	FldShareAmount  float32 `gorm:"column:FldShareAmount" json:"FldShareAmount,omitempty"`
+	FldFrequency    string  `gorm:"column:FldFrequency" json:"FldFrequency,omitempty"` //FIXME check the field type
+	FldIsSelected   bool    `gorm:"column:FldIsSelected" json:"FldIsSelected,omitempty"`
 }
 
 //Grinder
@@ -284,18 +284,18 @@ type BakeryShare struct {
 FldAddress	FldVolume	FldUserNo	FldLogNo	FldUpdateDate
 */
 type Grinder struct {
-	FldGrinderNo   int     `gorm:"column:FldGrinderNo"`
-	FldGrinderName string  `gorm:"column:FldGrinderName"`
-	FldIsActive    bool    `gorm:"column:FldIsActive"`
-	FldStateNo     int     `gorm:"column:FldStateNo"`
-	FldContactName string  `gorm:"column:FldContactName"`
-	FldPhone       string  `gorm:"column:FldPhone"`
-	FldEmail       string  `gorm:"column:FldEmail"`
-	FldAddress     string  `gorm:"column:FldAddress"`
-	FldVolume      float32 `gorm:"column:FldVolume"`
-	FldUserNo      int     `gorm:"column:FldUserNo"`
-	FldLogNo       int     `gorm:"column:FldLogNo"` // what is this? HELPNEEDED
-	FldUpdateDate  string  `gorm:"column:FldUpdateDate"`
+	FldGrinderNo   int     `gorm:"column:FldGrinderNo" json:"FldGrinderNo,omitempty"`
+	FldGrinderName string  `gorm:"column:FldGrinderName" json:"FldGrinderName,omitempty"`
+	FldIsActive    bool    `gorm:"column:FldIsActive" json:"FldIsActive,omitempty"`
+	FldStateNo     int     `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
+	FldContactName string  `gorm:"column:FldContactName" json:"FldContactName,omitempty"`
+	FldPhone       string  `gorm:"column:FldPhone" json:"FldPhone,omitempty"`
+	FldEmail       string  `gorm:"column:FldEmail" json:"FldEmail,omitempty"`
+	FldAddress     string  `gorm:"column:FldAddress" json:"FldAddress,omitempty"`
+	FldVolume      float32 `gorm:"column:FldVolume" json:"FldVolume,omitempty"`
+	FldUserNo      int     `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
+	FldLogNo       int     `gorm:"column:FldLogNo" json:"FldLogNo,omitempty"` // what is this? HELPNEEDED
+	FldUpdateDate  string  `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
 }
 
 func (g Grinder) marshal() []byte {
@@ -331,24 +331,24 @@ FldTotalAmount	FldRefNo	FldDriverName	FldCarPlateNo	FldFlourAgentDistributeNo
 FldNFCFlourBakeryReceiveNo	FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate
 */
 type BakeryFlourReceive struct {
-	FldFlourBakeryReceiveNo    int     `gorm:"column:FldFlourBakeryReceiveNo"`
-	FldFlourAgentDistributeNo  int     `gorm:"column:FldFlourAgentDistributeNo"`
-	FldDate                    string  `gorm:"column:FldDate"`
-	FldFlourAgentNo            int     `gorm:"column:FldFlourAgentNo"`
-	FldBakeryNo                int     `gorm:"column:FldBakeryNo"`
-	FldQuantity                float32 `gorm:"column:FldQuantity"`
-	FldUnitPrice               float32 `gorm:"column:FldUnitPrice"`
-	FldTotalAmount             float32 `gorm:"column:FldTotalAmount"`
-	FldRefNo                   int     `gorm:"column:FldRefNo"`
-	FldNFCFlourBakeryReceiveNo int     `gorm:"column:FldNFCFlourBakeryReceiveNo"`
-	FldNFCStatusNo             int     `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote                 string  `gorm:"column:FldNFCNote"`
-	FldUserNo                  int     `gorm:"column:FldUserNo"`
+	FldFlourBakeryReceiveNo    int     `gorm:"column:FldFlourBakeryReceiveNo" json:"FldFlourBakeryReceiveNo,omitempty"`
+	FldFlourAgentDistributeNo  int     `gorm:"column:FldFlourAgentDistributeNo" json:"FldFlourAgentDistributeNo,omitempty"`
+	FldDate                    string  `gorm:"column:FldDate" json:"FldDate,omitempty"`
+	FldFlourAgentNo            int     `gorm:"column:FldFlourAgentNo" json:"FldFlourAgentNo,omitempty"`
+	FldBakeryNo                int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldQuantity                float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+	FldUnitPrice               float32 `gorm:"column:FldUnitPrice" json:"FldUnitPrice,omitempty"`
+	FldTotalAmount             float32 `gorm:"column:FldTotalAmount" json:"FldTotalAmount,omitempty"`
+	FldRefNo                   int     `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
+	FldNFCFlourBakeryReceiveNo int     `gorm:"column:FldNFCFlourBakeryReceiveNo" json:"FldNFCFlourBakeryReceiveNo,omitempty"`
+	FldNFCStatusNo             int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
+	FldNFCNote                 string  `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
+	FldUserNo                  int     `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
 
 	// bakery specific fields
-	FldDriverName string `gorm:"column:FldDriverName"`
-	FldCarPlateNo string `gorm:"column:FldCarPlateNo"`
-	FldUpdateDate string `gorm:"column:FldUpdateDate"`
+	FldDriverName string `gorm:"column:FldDriverName" json:"FldDriverName,omitempty"`
+	FldCarPlateNo string `gorm:"column:FldCarPlateNo" json:"FldCarPlateNo,omitempty"`
+	FldUpdateDate string `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
 }
 
 //TableName sets FlourAgentDistribute struct to its equivalent name in the sql server
@@ -405,29 +405,29 @@ type FlourBaking struct {
 	// FldComuunityUserNo	FldCommunityNote	FldNFCFlourBakingNo	FldNFCStatusNo	FldNFCNote
 	// FldUserNo	FldUpdateDate
 
-	FldFlourBakingNo     int     `gorm:"column:FldFlourBakingNo"`
-	FldDate              string  `gorm:"column:FldDate"`
-	FldBakeryNo          int     `gorm:"column:FldBakeryNo"`
-	FldWorkingStatusNo   int     `gorm:"column:FldWorkingStatusNo"`
-	FldQuantity          float32 `gorm:"column:FldQuantity"`
-	FldNote              string  `gorm:"column:FldNote"`
-	FldLocalityCheck     float32 `gorm:"column:FldLocalityCheck"`
-	FldLocalityUserNo    int     `gorm:"column:FldLocalityUserNo"`
-	FldLocalityNote      string  `gorm:"column:FldLocalityNote"`
-	FldSecurityCheck     float32 `gorm:"column:FldSecurityCheck"`
-	FldSecurityUserNo    int     `gorm:"column:FldSecurityUserNo"`
-	FldSecurityNote      string  `gorm:"column:FldSecurityNote"`
-	FldGovernmentalCheck float32 `gorm:"column:FldGovernmentalCheck"`
-	FldGovermentalUserNo int     `gorm:"column:FldGovermentalUserNo"`
-	FldGovernmentalNote  string  `gorm:"column:FldGovernmentalNote"`
-	FldCommunityCheck    float32 `gorm:"column:FldCommunityCheck"`
-	FldComuunityUserNo   int     `gorm:"column:FldComuunityUserNo"`
-	FldCommunityNote     string  `gorm:"column:FldCommunityNote"`
-	FldNFCFlourBakingNo  int     `gorm:"column:FldNFCFlourBakingNo"`
-	FldNFCStatusNo       int     `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote           string  `gorm:"column:FldNFCNote"`
-	FldUserNo            int     `gorm:"column:FldUserNo"`
-	FldUpdateDate        string  `gorm:"column:FldUpdateDate"`
+	FldFlourBakingNo     int     `gorm:"column:FldFlourBakingNo" json:"FldFlourBakingNo,omitempty"`
+	FldDate              string  `gorm:"column:FldDate" json:"FldDate,omitempty"`
+	FldBakeryNo          int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldWorkingStatusNo   int     `gorm:"column:FldWorkingStatusNo" json:"FldWorkingStatusNo,omitempty"`
+	FldQuantity          float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+	FldNote              string  `gorm:"column:FldNote" json:"FldNote,omitempty"`
+	FldLocalityCheck     float32 `gorm:"column:FldLocalityCheck" json:"FldLocalityCheck,omitempty"`
+	FldLocalityUserNo    int     `gorm:"column:FldLocalityUserNo" json:"FldLocalityUserNo,omitempty"`
+	FldLocalityNote      string  `gorm:"column:FldLocalityNote" json:"FldLocalityNote,omitempty"`
+	FldSecurityCheck     float32 `gorm:"column:FldSecurityCheck" json:"FldSecurityCheck,omitempty"`
+	FldSecurityUserNo    int     `gorm:"column:FldSecurityUserNo" json:"FldSecurityUserNo,omitempty"`
+	FldSecurityNote      string  `gorm:"column:FldSecurityNote" json:"FldSecurityNote,omitempty"`
+	FldGovernmentalCheck float32 `gorm:"column:FldGovernmentalCheck" json:"FldGovernmentalCheck,omitempty"`
+	FldGovermentalUserNo int     `gorm:"column:FldGovermentalUserNo" json:"FldGovermentalUserNo,omitempty"`
+	FldGovernmentalNote  string  `gorm:"column:FldGovernmentalNote" json:"FldGovernmentalNote,omitempty"`
+	FldCommunityCheck    float32 `gorm:"column:FldCommunityCheck" json:"FldCommunityCheck,omitempty"`
+	FldComuunityUserNo   int     `gorm:"column:FldComuunityUserNo" json:"FldComuunityUserNo,omitempty"`
+	FldCommunityNote     string  `gorm:"column:FldCommunityNote" json:"FldCommunityNote,omitempty"`
+	FldNFCFlourBakingNo  int     `gorm:"column:FldNFCFlourBakingNo" json:"FldNFCFlourBakingNo,omitempty"`
+	FldNFCStatusNo       int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
+	FldNFCNote           string  `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
+	FldUserNo            int     `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
+	FldUpdateDate        string  `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
 }
 
 func (f FlourBaking) validate() bool {
@@ -469,19 +469,19 @@ FldNFCStatusNo	FldNFCNote	FldUserNo	FldUpdateDate */
 
 //BakeryAudit for reporting issues on bakeries
 type BakeryAudit struct {
-	FldBakeryAuditNo    int    `gorm:"column:FldBakeryAuditNo"`
-	FldDate             string `gorm:"column:FldDate"`
-	FldBakeyNo          int    `gorm:"column:FldBakeyNo"`
-	FldAuditBy          int    `gorm:"column:FldAuditBy"`
-	FldAuditType        int    `gorm:"column:FldAuditType"`
-	FldAuditStatusNo    int    `gorm:"column:FldAuditStatusNo"`
-	FldNote             string `gorm:"column:FldNote"`
-	FldAuditResponseNo  int    `gorm:"column:FldAuditResponseNo"`
-	FldNFCBakeryAuditNo int    `gorm:"column:FldNFCBakeryAuditNo"`
-	FldNFCStatusNo      int    `gorm:"column:FldNFCStatusNo"`
-	FldNFCNote          string `gorm:"column:FldNFCNote"`
-	FldUserNo           int    `gorm:"column:FldUserNo"`
-	FldUpdateDate       string `gorm:"column:FldUpdateDate"`
+	FldBakeryAuditNo    int    `gorm:"column:FldBakeryAuditNo" json:"FldBakeryAuditNo,omitempty"`
+	FldDate             string `gorm:"column:FldDate" json:"FldDate,omitempty"`
+	FldBakeyNo          int    `gorm:"column:FldBakeyNo" json:"FldBakeyNo,omitempty"`
+	FldAuditBy          int    `gorm:"column:FldAuditBy" json:"FldAuditBy,omitempty"`
+	FldAuditType        int    `gorm:"column:FldAuditType" json:"FldAuditType,omitempty"`
+	FldAuditStatusNo    int    `gorm:"column:FldAuditStatusNo" json:"FldAuditStatusNo,omitempty"`
+	FldNote             string `gorm:"column:FldNote" json:"FldNote,omitempty"`
+	FldAuditResponseNo  int    `gorm:"column:FldAuditResponseNo" json:"FldAuditResponseNo,omitempty"`
+	FldNFCBakeryAuditNo int    `gorm:"column:FldNFCBakeryAuditNo" json:"FldNFCBakeryAuditNo,omitempty"`
+	FldNFCStatusNo      int    `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
+	FldNFCNote          string `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
+	FldUserNo           int    `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
+	FldUpdateDate       string `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
 }
 
 //Name sets table name to match what is in the DB
@@ -509,8 +509,8 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 
 //AuditStatus table for inquiring complains
 type AuditStatus struct {
-	FldAuditStatusNo   int    `gorm:"primary_key;column:FldAuditStatusNo;"`
-	FldAuditStatusName string `gorm:"column:FldAuditStatusName"`
+	FldAuditStatusNo   int    `gorm:"primary_key;column:FldAuditStatusNo;" json:"FldAuditStatusNo,omitempty"`
+	FldAuditStatusName string `gorm:"column:FldAuditStatusName" json:"FldAuditStatusName,omitempty"`
 }
 
 func (a AuditStatus) migrate(db *gorm.DB) {
@@ -555,11 +555,11 @@ func (a AuditStatus) generate(db *gorm.DB) {
 // Table Locality
 
 type Locality struct {
-	FldLocalityNo       int    `gorm:"primary_key;column:FldLocalityNo"`
-	FldLocalityName     string `gorm:"column:FldLocalityName"`
-	FldCityName         string `gorm:"column:FldCityName"`
-	FldStateName        string `gorm:"column:FldStateName"`
-	FldNeighborhoodName string `gorm:"column:FldNeighborhoodName"`
+	FldLocalityNo       int    `gorm:"primary_key;column:FldLocalityNo" json:"FldLocalityNo,omitempty"`
+	FldLocalityName     string `gorm:"column:FldLocalityName" json:"FldLocalityName,omitempty"`
+	FldCityName         string `gorm:"column:FldCityName" json:"FldCityName,omitempty"`
+	FldStateName        string `gorm:"column:FldStateName" json:"FldStateName,omitempty"`
+	FldNeighborhoodName string `gorm:"column:FldNeighborhoodName" json:"FldNeighborhoodName,omitempty"`
 }
 
 func (l Locality) TableName() string {
