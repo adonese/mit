@@ -574,10 +574,9 @@ func (a AuditStatus) generate(db *gorm.DB) {
 	}
 }
 
-// Table Locality
-
+//Locality provides locality info
 type Locality struct {
-	FldLocalityNo       int    `gorm:"primary_key;column:FldLocalityNo" json:"FldLocalityNo,omitempty"`
+	FldLocalityNo       int    `gorm:"primary_key;column:FldLocalityNo" json:"-"`
 	FldLocalityName     string `gorm:"column:FldLocalityName" json:"FldLocalityName,omitempty"`
 	FldCityName         string `gorm:"column:FldCityName" json:"FldCityName,omitempty"`
 	FldStateName        string `gorm:"column:FldStateName" json:"FldStateName,omitempty"`
