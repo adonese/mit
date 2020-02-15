@@ -30,6 +30,7 @@ func main() {
 
 	// bakery endpoints
 	//TODO get associated agents to bakery
+	http.HandleFunc("/bakery/all", getAllBakeries)
 	http.HandleFunc("/bakery_submit", bakerySubmitFlourHandler)
 	http.HandleFunc("/record_baked", recordBakedHandler)
 	http.HandleFunc("/bakery/agents", bakeryAgentsHandler)

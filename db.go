@@ -89,6 +89,28 @@ type Bakery struct {
 	FldNFCBakeryNo    int    `gorm:"column:FldNFCBakeryNo" json:"FldNFCBakeryNo,omitempty"`
 }
 
+func (b Bakery) TableName() string {
+	return "tblbakery"
+}
+
+func (b Bakery) getAll(db *gorm.DB) []BakeryAndLocale {
+	var res []BakeryAndLocale
+	db.Raw(`
+		SELECT
+		tb.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
+		FROM TblBakery tb
+			INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
+			INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
+			INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
+			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo`).Scan(&res)
+	return res
+}
+
+func (b Bakery) getMarshaled(db *gorm.DB) []byte {
+	d, _ := json.Marshal(b.getAll(db))
+	return d
+}
+
 //FlourAgent
 /*
 - Flour Agent App

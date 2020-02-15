@@ -506,3 +506,13 @@ func generateComplains(w http.ResponseWriter, r *http.Request) {
 	a.generate(db)
 	w.WriteHeader(http.StatusOK)
 }
+
+//getBakeries get all bakeries
+func getAllBakeries(w http.ResponseWriter, r *http.Request) {
+	// return all bakeries. do the filtering later
+	w.Header().Add("content-type", "application/json")
+
+	db := getEngine()
+	d := Bakery{}.getMarshaled(db)
+	w.Write(d)
+}
