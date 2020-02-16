@@ -62,3 +62,9 @@ Auditor report
 - add user name
 - add mobile number
 - check public variables
+
+fld types:
+bakery: 6
+agent: 7
+grinder: 8
+importer: 9

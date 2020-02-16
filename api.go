@@ -90,6 +90,9 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	log.Printf("the login from Zooba is: %v", b)
 	db := getEngine()
+
+	// log.Printf("the user profile is: %#v", d)
+
 	ok, u := getUser(db, login.Username)
 	if !ok {
 		ve := validationError{Message: "User not found", Code: "user_not_found"}
@@ -107,8 +110,10 @@ func login(w http.ResponseWriter, r *http.Request) {
 		}
 	}
 
+	_, d := getProfile(db, u)
+
 	w.WriteHeader(http.StatusOK)
-	w.Write(u.marshal())
+	w.Write(d.marshal())
 }
 
 func generateToken() {

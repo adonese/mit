@@ -60,6 +60,25 @@ func getUser(db *gorm.DB, username string) (bool, User) {
 	}
 }
 
+func getProfile(db *gorm.DB, user User) (bool, UserProfile) {
+
+	var res UserProfile
+	sys := user.FldSystemNo
+
+	switch user.FldUserType {
+	case 6: // case bakery
+		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN TblBakery tb on tb.FldSystemNo = tblusers.FldSystemNo").Where("tb.fldsystemno = ?", sys).Scan(&res)
+	case 7: // case agent
+		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN tblagent tb on tb.FldSystemNo = tblusers.FldSystemNo")
+	case 8: // case ginder
+		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN tblgrinder tb on tb.FldSystemNo = tblusers.FldSystemNo")
+	case 9: // case importer
+		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN tblimporter tb on tb.FldSystemNo = tblusers.FldSystemNo")
+
+	}
+	return true, res
+}
+
 //Bakery model
 /*
 FldBakeryNo	FldBakeryTable	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
@@ -603,5 +622,15 @@ type Address struct {
 
 func (a Address) marshal() []byte {
 	d, _ := json.Marshal(&a)
+	return d
+}
+
+type UserProfile struct {
+	User
+	FldPhone string `gorm:"column:FldPhone" json:"FldPhone"`
+}
+
+func (u UserProfile) marshal() []byte {
+	d, _ := json.Marshal(&u)
 	return d
 }

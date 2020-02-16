@@ -120,7 +120,7 @@ func Test_login_contentType(t *testing.T) {
 			} else if res.Header.Get("content-type") != "application/json" {
 				t.Errorf("login handler() got = %v, want %v", res.Header.Get("content-type"), "application/json")
 			} else if !reflect.DeepEqual(got1, tt.want2) {
-				t.Errorf("login handler: got = %v, want = %v", got1, tt.want2)
+				t.Errorf("login handler: got = %v, want = %v", string(got1), tt.want2)
 			}
 		})
 	}

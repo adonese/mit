@@ -63,7 +63,31 @@ This describe the general workflow for flour submission, and the api used for so
 
 #### Example
 
-`curl -X POST https://mit.soluspay.net/login -d'{"username": "admin", "password": "admin"}' -v`
+```shell
+curl -X POST https://mit.soluspay.net/login -d'{"username": "admin", "password": "admin"}' -v
+```
+
+Response
+
+```json
+{
+  "FldUserNo": 1,
+  "FldFullName": "Ahmed Mustafa",
+  "FldFullTable": "",
+  "FldUserTable": "",
+  "FldUserType": 6,
+  "FldImage": null,
+  "FldDisabled": false,
+  "FldStateNo": 0,
+  "FldLocaliyNo": 0,
+  "FldCityNo": 0,
+  "FldNeighborhoodNo": 0,
+  "FldSecurityLevel": 0,
+  "FldUpdateDate": "2019-09-17T18:53:02Z",
+  "FldSystemNo": 2,
+  "FldUserName": "admin"
+}
+```
 
 Agent Receive APIs
 
