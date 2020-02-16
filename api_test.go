@@ -790,6 +790,43 @@ func Test_getAllBakeries(t *testing.T) {
 	}
 }
 
+func Test_getLocations(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(getLocations))
+
+	// d := time.Now()
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		args string
+		want int
+	}{
+		{"case empty request body", "", 200}, {"case empty request body", "", 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + "?agent=2&city=2")
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("getLocations() got = %v, want %v\n\nRes body is: %v", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
+
 func marshalGrinder(d []byte) []Grinder {
 	var g []Grinder
 	json.Unmarshal(d, &g)

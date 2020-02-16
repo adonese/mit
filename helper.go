@@ -3,6 +3,8 @@ package main
 import (
 	"encoding/json"
 	"log"
+	"net/http"
+	"strconv"
 
 	"github.com/jinzhu/gorm"
 )
@@ -152,4 +154,46 @@ func marshalFlourAgents(a []FlourAgent) []byte {
 func marshalAuditStatus(a []AuditStatus) []byte {
 	d, _ := json.Marshal(&a)
 	return d
+}
+
+//geo query data according for each Bakery
+/* it should work like this:
+- it should query city / locality / neighborhood / admin
+*/
+func geo(db *gorm.DB, agent int, data Geo) []BakeryAndLocale {
+
+	var res []BakeryAndLocale
+	// db.Raw(`
+	// 	SELECT
+	// 	tb.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
+	// 	FROM TblBakery tb
+	// 		INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
+	// 		INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
+	// 		INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
+	// 		INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
+	// 		where tc.FldCityNo = ? AND tl.FldLocalityNo = ? AND ts.FldStateNo = ? AND tn.FldNeighborhoodNo = ?`,
+	// 		 data.City, data.Locality, data.State, data.Neighborhood).Scan(&res)
+
+	q := db.Table("tblbakery").Select("tblbakery.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName").Joins(`INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo
+	 		INNER JOIN TblLocality tl on tl.FldLocalityNo = tblbakery.FldLocalityNo
+			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
+			 INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo`)
+	q.Where(&Bakery{FldCityNo: data.City, FldStateNo: data.State, FldLocalityNo: data.Locality}).Scan(&res)
+	log.Printf("the data is: %#v", res)
+	return res
+}
+
+//Geo this field
+type Geo struct {
+	City         int
+	Locality     int
+	Neighborhood int
+	Admin        int
+	State        int
+}
+
+func getID(r *http.Request, param string) int {
+	q := r.URL.Query().Get(param)
+	qq, _ := strconv.Atoi(q)
+	return qq
 }

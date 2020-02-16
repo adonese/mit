@@ -19,22 +19,22 @@ User
 A user can be of different types, Agent, distributor or Grinder
 */
 type User struct {
-	FldUserNo         int         `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
-	FldFullName       string      `gorm:"column:FldFullName" json:"FldFullName,omitempty"`
-	FldFullTable      string      `gorm:"column:FldFullTable" json:"FldFullTable,omitempty"`
-	FldUserTable      string      `gorm:"column:FldUserTable" json:"FldUserTable,omitempty"`
-	FldPassword       string      `gorm:"column:FldPassword" json:"FldPassword,omitempty"`
-	FldUserType       int         `gorm:"column:FldUserType" json:"FldUserType,omitempty"`
-	FldImage          interface{} `gorm:"column:FldImage" json:"FldImage,omitempty"`
-	FldDisabled       bool        `gorm:"column:FldDisabled" json:"FldDisabled,omitempty"`
-	FldStateNo        int         `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
-	FldLocaliyNo      int         `gorm:"column:FldLocaliyNo" json:"FldLocaliyNo,omitempty"`
-	FldCityNo         int         `gorm:"column:FldCityNo" json:"FldCityNo,omitempty"`
-	FldNeighborhoodNo int         `gorm:"column:FldNeighborhoodNo" json:"FldNeighborhoodNo,omitempty"`
-	FldSecurityLevel  int         `gorm:"column:FldSecurityLevel" json:"FldSecurityLevel,omitempty"`
-	FldUpdateDate     string      `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
-	FldSystemNo       int         `gorm:"column:FldSystemNo" json:"FldSystemNo,omitempty"`
-	FldUserName       string      `gorm:"column:FldUserName" json:"FldUserName,omitempty"`
+	FldUserNo         int         `gorm:"column:FldUserNo" json:"FldUserNo"`
+	FldFullName       string      `gorm:"column:FldFullName" json:"FldFullName"`
+	FldFullTable      string      `gorm:"column:FldFullTable" json:"FldFullTable"`
+	FldUserTable      string      `gorm:"column:FldUserTable" json:"FldUserTable"`
+	FldPassword       string      `gorm:"column:FldPassword" json:"-"`
+	FldUserType       int         `gorm:"column:FldUserType" json:"FldUserType"`
+	FldImage          interface{} `gorm:"column:FldImage" json:"FldImage"`
+	FldDisabled       bool        `gorm:"column:FldDisabled" json:"FldDisabled"`
+	FldStateNo        int         `gorm:"column:FldStateNo" json:"FldStateNo"`
+	FldLocaliyNo      int         `gorm:"column:FldLocaliyNo" json:"FldLocaliyNo"`
+	FldCityNo         int         `gorm:"column:FldCityNo" json:"FldCityNo"`
+	FldNeighborhoodNo int         `gorm:"column:FldNeighborhoodNo" json:"FldNeighborhoodNo"`
+	FldSecurityLevel  int         `gorm:"column:FldSecurityLevel" json:"FldSecurityLevel"`
+	FldUpdateDate     string      `gorm:"column:FldUpdateDate" json:"FldUpdateDate"`
+	FldSystemNo       int         `gorm:"column:FldSystemNo" json:"FldSystemNo"`
+	FldUserName       string      `gorm:"column:FldUserName" json:"FldUserName"`
 }
 
 //getID is supposed to returns user id which will be used throughout the system
