@@ -586,3 +586,22 @@ type Locality struct {
 func (l Locality) TableName() string {
 	return "tbllocality"
 }
+
+type Address struct {
+	FldLocalityName string `gorm:"column:FldLocalityName" json:"FldLocalityName,omitempty"`
+	FldLocalityNo   int    `gorm:"column:FldLocalityNo" json:"FldLocalityNo,omitempty"`
+
+	FldCityName string `gorm:"column:FldCityName" json:"FldCityName,omitempty"`
+	FldCityNo   int    `gorm:"column:FldCityNo" json:"FldCityNo,omitempty"`
+
+	FldStateName string `gorm:"column:FldStateName" json:"FldStateName,omitempty"`
+	FldStateNo   int    `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
+
+	FldNeighborhoodName string `gorm:"column:FldNeighborhoodName" json:"FldNeighborhoodName,omitempty"`
+	FldNeighborhoodNo   int    `gorm:"column:FldNeighborhoodNo" json:"FldNeighborhoodNo,omitempty"`
+}
+
+func (a Address) marshal() []byte {
+	d, _ := json.Marshal(&a)
+	return d
+}

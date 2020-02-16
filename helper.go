@@ -160,9 +160,9 @@ func marshalAuditStatus(a []AuditStatus) []byte {
 /* it should work like this:
 - it should query city / locality / neighborhood / admin
 */
-func geo(db *gorm.DB, agent int, data Geo) []BakeryAndLocale {
+func geo(db *gorm.DB, agent int, data Geo) []Address {
 
-	var res []BakeryAndLocale
+	var res []Address
 	// db.Raw(`
 	// 	SELECT
 	// 	tb.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
@@ -192,8 +192,26 @@ type Geo struct {
 	State        int
 }
 
+type ListGeo struct {
+	City         []NameID
+	Neighborhood []NameID
+	State        []NameID
+	Locality     []NameID
+	Admin        []NameID
+}
+
+type NameID struct {
+	ID   int
+	Name string
+}
+
 func getID(r *http.Request, param string) int {
 	q := r.URL.Query().Get(param)
 	qq, _ := strconv.Atoi(q)
 	return qq
+}
+
+func marshalAddresses(a []Address) []byte {
+	d, _ := json.Marshal(&a)
+	return d
 }

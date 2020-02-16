@@ -530,6 +530,5 @@ func getLocations(w http.ResponseWriter, r *http.Request) {
 	db := getEngine()
 	data := Geo{Locality: l, City: c, Admin: a, Neighborhood: n}
 	d := geo(db, id, data)
-	dd := marshalBakeriesWithLocale(d)
-	w.Write(dd)
+	w.Write(marshalAddresses(d))
 }
