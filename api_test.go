@@ -334,7 +334,7 @@ func Test_submitFlourHandler(t *testing.T) {
 		FldQuantity:               20,
 		FldUnitPrice:              3.5,
 		FldTotalAmount:            70,
-		FldRefNo:                  0,
+		FldRefNo:                  "",
 		FldNFCFlourAgentReceiveNo: 0,
 		FldNFCStatusNo:            0,
 		FldNFCNote:                "",
@@ -427,7 +427,7 @@ func Test_setDistributedFlours(t *testing.T) {
 		FldQuantity:               20,
 		FldUnitPrice:              3.5,
 		FldTotalAmount:            70,
-		FldRefNo:                  0,
+		FldRefNo:                  "",
 		FldNFCFlourAgentReceiveNo: 0,
 		FldNFCStatusNo:            0,
 		FldNFCNote:                "",
@@ -482,7 +482,7 @@ func Test_bakerySubmitFlourHandler(t *testing.T) {
 		FldQuantity:               20,
 		FldUnitPrice:              3.5,
 		FldTotalAmount:            70,
-		FldRefNo:                  0,
+		FldRefNo:                  "",
 		FldNFCFlourAgentReceiveNo: 0,
 		FldNFCStatusNo:            0,
 		FldNFCNote:                "",
@@ -572,7 +572,7 @@ func Test_recordBakedHandler(t *testing.T) {
 		FldQuantity:               20,
 		FldUnitPrice:              3.5,
 		FldTotalAmount:            70,
-		FldRefNo:                  0,
+		FldRefNo:                  "",
 		FldNFCFlourAgentReceiveNo: 0,
 		FldNFCStatusNo:            0,
 		FldNFCNote:                "",
@@ -626,7 +626,7 @@ func Test_listing(t *testing.T) {
 		FldQuantity:               20,
 		FldUnitPrice:              3.5,
 		FldTotalAmount:            70,
-		FldRefNo:                  0,
+		FldRefNo:                  "",
 		FldNFCFlourAgentReceiveNo: 0,
 		FldNFCStatusNo:            0,
 		FldNFCNote:                "",
@@ -680,7 +680,7 @@ func Test_getComplains(t *testing.T) {
 		FldQuantity:               20,
 		FldUnitPrice:              3.5,
 		FldTotalAmount:            70,
-		FldRefNo:                  0,
+		FldRefNo:                  "",
 		FldNFCFlourAgentReceiveNo: 0,
 		FldNFCStatusNo:            0,
 		FldNFCNote:                "",
@@ -807,7 +807,7 @@ func Test_getLocations(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			res, err := http.Get(ts.URL + "?agent=2&city=2&neighborhood=1")
+			res, err := http.Get(ts.URL + "?agent=2&city=2&neighborhood=10")
 
 			if err != nil {
 				log.Fatal(err)
