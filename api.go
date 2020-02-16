@@ -526,9 +526,10 @@ func getLocations(w http.ResponseWriter, r *http.Request) {
 	l := getID(r, "locality")
 	n := getID(r, "neighborhood")
 	a := getID(r, "admin")
+	s := getID(r, "state")
 
 	db := getEngine()
-	data := Geo{Locality: l, City: c, Admin: a, Neighborhood: n}
+	data := Geo{Locality: l, City: c, Admin: a, Neighborhood: n, State: s}
 	d := geo(db, id, data)
 	w.Write(marshalAddresses(d))
 }

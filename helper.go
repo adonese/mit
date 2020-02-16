@@ -163,22 +163,22 @@ func marshalAuditStatus(a []AuditStatus) []byte {
 func geo(db *gorm.DB, agent int, data Geo) []Address {
 
 	var res []Address
-	// db.Raw(`
-	// 	SELECT
-	// 	tb.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
-	// 	FROM TblBakery tb
-	// 		INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
-	// 		INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
-	// 		INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
-	// 		INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
-	// 		where tc.FldCityNo = ? AND tl.FldLocalityNo = ? AND ts.FldStateNo = ? AND tn.FldNeighborhoodNo = ?`,
-	// 		 data.City, data.Locality, data.State, data.Neighborhood).Scan(&res)
+
+	builder := "tblbakery.fldcityno = ?"
+	if data.State > 0 {
+		builder += " AND tblbakery.fldstateno = ?"
+	}
+	if data.Neighborhood > 0 {
+		builder += "AND tblbakery.FldNeighborhoodNo = ?"
+	}
+	log.Printf("the data is: %#v", data)
 
 	q := db.Table("tblbakery").Select("tblbakery.*, tc.FldCityName, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName").Joins(`INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo
 	 		INNER JOIN TblLocality tl on tl.FldLocalityNo = tblbakery.FldLocalityNo
 			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
-			 INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo`)
-	q.Where(&Bakery{FldCityNo: data.City, FldStateNo: data.State, FldLocalityNo: data.Locality}).Scan(&res)
+			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo`)
+
+	q.Where(builder, data.City, data.State, data.Neighborhood).Scan(&res)
 	log.Printf("the data is: %#v", res)
 	return res
 }

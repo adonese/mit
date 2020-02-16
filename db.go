@@ -188,7 +188,7 @@ type FlourAgentReceive struct {
 	FldQuantity               float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
 	FldUnitPrice              float32 `gorm:"column:FldUnitPrice" json:"FldUnitPrice,omitempty"`
 	FldTotalAmount            float32 `gorm:"column:FldTotalAmount" json:"FldTotalAmount,omitempty"`
-	FldRefNo                  int     `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
+	FldRefNo                  string  `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
 	FldNFCFlourAgentReceiveNo int     `gorm:"column:FldNFCFlourAgentReceiveNo" json:"FldNFCFlourAgentReceiveNo,omitempty"`
 	FldNFCStatusNo            int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
 	FldNFCNote                string  `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
@@ -258,7 +258,7 @@ type FlourAgentDistribute struct {
 	FldQuantity                  float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
 	FldUnitPrice                 float32 `gorm:"column:FldUnitPrice" json:"FldUnitPrice,omitempty"`
 	FldTotalAmount               float32 `gorm:"column:FldTotalAmount" json:"FldTotalAmount,omitempty"`
-	FldRefNo                     int     `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
+	FldRefNo                     string  `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
 	FldNFCFlourBakeryReceiveNo   int     `gorm:"column:FldNFCFlourBakeryReceiveNo" json:"FldNFCFlourBakeryReceiveNo,omitempty"`
 	FldNFCFlourAgentDistributeNo int     `gorm:"column:FldNFCFlourAgentDistributeNo" json:"FldNFCFlourAgentDistributeNo,omitempty"`
 	FldNFCStatusNo               int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
@@ -361,7 +361,7 @@ type BakeryFlourReceive struct {
 	FldQuantity                float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
 	FldUnitPrice               float32 `gorm:"column:FldUnitPrice" json:"FldUnitPrice,omitempty"`
 	FldTotalAmount             float32 `gorm:"column:FldTotalAmount" json:"FldTotalAmount,omitempty"`
-	FldRefNo                   int     `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
+	FldRefNo                   string  `gorm:"column:FldRefNo" json:"FldRefNo,omitempty"`
 	FldNFCFlourBakeryReceiveNo int     `gorm:"column:FldNFCFlourBakeryReceiveNo" json:"FldNFCFlourBakeryReceiveNo,omitempty"`
 	FldNFCStatusNo             int     `gorm:"column:FldNFCStatusNo" json:"FldNFCStatusNo,omitempty"`
 	FldNFCNote                 string  `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
