@@ -473,7 +473,7 @@ type FlourBaking struct {
 
 func (f FlourBaking) validate() bool {
 	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
-	if f.FldDate == "" || f.FldBakeryNo == 0 || f.FldQuantity == 0 || f.FldNote == "" {
+	if f.FldDate == "" || f.FldBakeryNo == 0 || f.FldQuantity == 0 {
 		return false
 	}
 	return true
