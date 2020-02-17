@@ -807,7 +807,7 @@ func Test_getLocations(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			res, err := http.Get(ts.URL + "?agent=2&city=2&neighborhood=10")
+			res, err := http.Get(ts.URL + "?agent=2&state=1")
 
 			if err != nil {
 				log.Fatal(err)

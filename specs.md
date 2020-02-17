@@ -85,7 +85,8 @@ Response
   "FldSecurityLevel": 0,
   "FldUpdateDate": "2019-09-17T18:53:02Z",
   "FldSystemNo": 2,
-  "FldUserName": "admin"
+  "FldUserName": "admin",
+  "FldPhone": "N/A"
 }
 ```
 

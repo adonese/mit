@@ -167,13 +167,12 @@ func geo(db *gorm.DB, agent int, data Geo) []Address {
 	some := []int{}
 	some = append(some, data.City)
 	var builder string
-	if data.City != 0 {
-		builder += "tblbakery.fldcityno = " + strconv.Itoa(data.City)
 
+	if data.State != 0 {
+		builder += "tblbakery.fldstateno = " + strconv.Itoa(data.State)
 	}
-	if data.State > 0 {
-		builder += " AND tblbakery.fldstateno = " + strconv.Itoa(data.State)
-		some = append(some, data.State)
+	if data.City != 0 {
+		builder += " AND tblbakery.fldcityno = " + strconv.Itoa(data.City)
 	}
 	if data.Neighborhood > 0 {
 		builder += " AND tblbakery.FldNeighborhoodNo = " + strconv.Itoa(data.Neighborhood)
