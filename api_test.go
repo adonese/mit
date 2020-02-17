@@ -770,7 +770,7 @@ func Test_getAllBakeries(t *testing.T) {
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			res, err := http.Get(ts.URL + "?agent=2")
+			res, err := http.Get(ts.URL + "?agent=2&state=1&city=2&locality=2")
 
 			if err != nil {
 				log.Fatal(err)

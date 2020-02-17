@@ -517,8 +517,16 @@ func getAllBakeries(w http.ResponseWriter, r *http.Request) {
 	// return all bakeries. do the filtering later
 	w.Header().Add("content-type", "application/json")
 
+	// id := getID(r, "agent")
+	c := getID(r, "city")
+	l := getID(r, "locality")
+	n := getID(r, "neighborhood")
+	a := getID(r, "admin")
+	s := getID(r, "state")
+	data := Geo{Locality: l, City: c, Admin: a, Neighborhood: n, State: s}
+
 	db := getEngine()
-	d := Bakery{}.getMarshaled(db)
+	d := Bakery{}.getMarshaled(db, data)
 	w.Write(d)
 }
 

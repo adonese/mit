@@ -112,7 +112,7 @@ func (b Bakery) TableName() string {
 	return "tblbakery"
 }
 
-func (b Bakery) getAll(db *gorm.DB) []BakeryAndLocale {
+func (b Bakery) getAll(db *gorm.DB, data Geo) []BakeryAndLocale {
 	var res []BakeryAndLocale
 	db.Raw(`
 		SELECT
@@ -121,12 +121,13 @@ func (b Bakery) getAll(db *gorm.DB) []BakeryAndLocale {
 			INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
 			INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
 			INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
-			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo`).Scan(&res)
+			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
+			where tb.FldStateNo = ? AND tb.FldCityNo = ? AND tb.FldLocalityNo = ?`, data.State, data.City, data.Locality).Scan(&res)
 	return res
 }
 
-func (b Bakery) getMarshaled(db *gorm.DB) []byte {
-	d, _ := json.Marshal(b.getAll(db))
+func (b Bakery) getMarshaled(db *gorm.DB, data Geo) []byte {
+	d, _ := json.Marshal(b.getAll(db, data))
 	return d
 }
 
