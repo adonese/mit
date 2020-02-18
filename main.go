@@ -18,6 +18,7 @@ func main() {
 	http.HandleFunc("/listing", listing)
 	http.HandleFunc("/login", login)
 	http.HandleFunc("/locations", getLocations)
+	http.HandleFunc("/geo", getLocalities)
 
 	// agent apis
 	http.HandleFunc("/get_grinders", getGrinderHandler) // to be compatible with #ISSUE 1

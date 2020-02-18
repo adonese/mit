@@ -802,12 +802,13 @@ func Test_getLocations(t *testing.T) {
 		args string
 		want int
 	}{
-		{"case empty request body", "", 200}, {"case empty request body", "", 400},
+		{"case state only", "?agent=2&state=1", 200}, {"case state with city", "?agent=2&state=1&city=2", 400},
+		{"case state with neighborhood", "?agent=2&state=1&city=2&neighborhood=1", 400}, {"case state with neighborhood", "?agent=2&state=1&city=2&neighborhood=1&locality=1", 400},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
 
-			res, err := http.Get(ts.URL + "?agent=2&state=1")
+			res, err := http.Get(ts.URL + tt.args)
 
 			if err != nil {
 				log.Fatal(err)
