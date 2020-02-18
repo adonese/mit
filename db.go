@@ -619,6 +619,9 @@ type Address struct {
 
 	FldNeighborhoodName string `gorm:"column:FldNeighborhoodName" json:"FldNeighborhoodName,omitempty"`
 	FldNeighborhoodNo   int    `gorm:"column:FldNeighborhoodNo" json:"FldNeighborhoodNo,omitempty"`
+
+	FldAdminName string `gorm:"column:FldAdminName" json:"FldAdminName,omitempty"`
+	FldAdminNo   int    `gorm:"column:FldAdminNo" json:"FldAdminNo,omitempty"`
 }
 
 func (a Address) marshal() []byte {

@@ -209,7 +209,7 @@ func getCustomLocations(db *gorm.DB, agent int, data Geo) []Address {
 
 		q.Where("tblbakery.fldstateno = ?", data.State).Scan(&res)
 
-	} else if data.State != 0 && data.City != 0 && data.Locality == 0 {
+	} else if data.State != 0 && data.City != 0 && data.Locality == 0 && data.Neighborhood == 0 && data.Admin == 0 {
 		//TODO make some where
 		q := db.Table("tblbakery").Select("distinct tblbakery.FldLocalityNo, tn.FldLocalityName").Joins(`
 			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
@@ -228,14 +228,15 @@ func getCustomLocations(db *gorm.DB, agent int, data Geo) []Address {
 
 	} else if data.State != 0 && data.City != 0 && data.Neighborhood != 0 && data.Locality != 0 && data.Admin == 0 {
 		// get admin
-		q := db.Table("tblbakery").Select("tblbakery.FldAdminNo, ta.FldAdminName").Joins(`
+		q := db.Table("tblbakery").Select("distinct tblbakery.FldAdminNo, ta.FldAdminName").Joins(`
 			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
 			INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo
-			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo
 			INNER JOIN TblLocality tl on tl.FldLocalityNo = tblbakery.FldLocalityNo
-			INNER JOIN TblAdmin ta on tl.FldAdminNo = tblbakery.FldAdminNo`)
-		q.Where("tblbakery.fldstateno = ? AND tblbakery.fldcityno = ? AND tblbakery.FldNeighborhoodNo = ? AND tblbakery.FldLocality = ?", data.State, data.City, data.Neighborhood, data.Locality).Scan(&res)
+			INNER JOIN TblAdmin ta on ta.FldAdminNo = tblbakery.FldAdminNo`)
 
+		q.Where("tblbakery.fldstateno = ? AND tblbakery.fldcityno = ? AND tblbakery.FldLocalityNo = ?", data.State, data.City, data.Locality).Scan(&res)
+
+		// q.Scan(&res)
 	} else {
 		// fallthrough
 	}
