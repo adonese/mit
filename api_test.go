@@ -843,7 +843,7 @@ func Test_getLocalities(t *testing.T) {
 		//state->city->locality->admin->neighborhood
 		{"get cities from state", "?agent=2&state=1", 400},
 		{"get localities from city", "?agent=2&state=1&city=2", 400},
-		{"get admin from locality", "?agent=2&state=1&city=2&neighborhood=1", 400},
+		{"get admin from locality", "?agent=2&state=1&city=2&locality=1", 400},
 		// {"get neighborhood from admin", "?agent=2&state=1&city=2&neighborhood=1&locality=1", 400},
 	}
 	for _, tt := range tests {
