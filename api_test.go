@@ -828,6 +828,47 @@ func Test_getLocations(t *testing.T) {
 	}
 }
 
+func Test_getLocalities(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(getLocalities))
+
+	// d := time.Now()
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		args string
+		want int
+	}{
+		//state->city->locality->admin->neighborhood
+		{"get cities from state", "?agent=2&state=1", 400},
+		{"get localities from city", "?agent=2&state=1&city=2", 400},
+		{"get admin from locality", "?agent=2&state=1&city=2&neighborhood=1", 400},
+		// {"get neighborhood from admin", "?agent=2&state=1&city=2&neighborhood=1&locality=1", 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + tt.args)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("getLocations() got = %v, want %v\n\nRes body is: %v\n", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
+
 func marshalGrinder(d []byte) []Grinder {
 	var g []Grinder
 	json.Unmarshal(d, &g)

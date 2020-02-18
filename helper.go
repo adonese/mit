@@ -203,37 +203,38 @@ func getCustomLocations(db *gorm.DB, agent int, data Geo) []Address {
 	var builder string
 
 	if data.State != 0 && data.City == 0 && data.Neighborhood == 0 {
-		// query states only
-		builder += "tblbakery.fldstateno = " + strconv.Itoa(data.State)
-		q := db.Table("tblbakery").Select("distinct tblbakery.FldStateNo, ts.FldStateName").Joins(`INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNO`)
-
-		q.Where(builder).Scan(&res)
-
-	} else if data.State != 0 && data.City != 0 && data.Neighborhood == 0 {
-		//TODO make some where
-
-		builder += "tblbakery.fldstateno = ? AND tblbakery.fldcityno = ?" + strconv.Itoa(data.City)
+		// query states only || get me the cities!
 		q := db.Table("tblbakery").Select("distinct tblbakery.FldCityNo, tc.FldCityName").Joins(`INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
 			INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo`)
 
-		q.Where("tblbakery.fldstateno = ? AND tblbakery.fldcityno = ?", data.State, data.City).Scan(&res)
+		q.Where("tblbakery.fldstateno = ?", data.State).Scan(&res)
 
-	} else if data.State != 0 && data.City != 0 && data.Neighborhood != 0 && data.Locality == 0 && data.Admin == 0 {
-		// neighborhood only data
+	} else if data.State != 0 && data.City != 0 && data.Neighborhood == 0 {
+		//TODO make some where
 		q := db.Table("tblbakery").Select("distinct tblbakery.FldNeighborhoodNo, tn.FldNeighborhoodName").Joins(`
 			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
 			INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo
 			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo`)
-		q.Where(builder).Scan(&res)
+		q.Where("tblbakery.fldstateno = ? AND tblbakery.fldcityno = ?", data.State, data.City).Scan(&res)
 
-	} else if data.State != 0 && data.City != 0 && data.Neighborhood != 0 && data.Locality != 0 && data.Admin == 0 {
-		// locality only data
+	} else if data.State != 0 && data.City != 0 && data.Neighborhood != 0 && data.Locality == 0 && data.Admin == 0 {
+		// neighborhood only data
 		q := db.Table("tblbakery").Select("distinct tblbakery.FldLocalityNo, tl.FldLocalityName").Joins(`
 			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
 			INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo
 			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo
 			INNER JOIN TblLocality tl on tl.FldLocalityNo = tblbakery.FldLocalityNo`)
 		q.Where("tblbakery.fldstateno = ? AND tblbakery.fldcityno = ? AND tblbakery.FldNeighborhoodNo = ?", data.State, data.City, data.Neighborhood).Scan(&res)
+
+	} else if data.State != 0 && data.City != 0 && data.Neighborhood != 0 && data.Locality != 0 && data.Admin == 0 {
+		// locality only data
+		q := db.Table("tblbakery").Select("tblbakery.FldAdminNo, ta.FldAdminName").Joins(`
+			INNER JOIN TblState ts on ts.FldStateNo = tblbakery.FldStateNo
+			INNER JOIN TblCity tc on tc.FldCityNo = tblbakery.FldCityNo
+			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tblbakery.FldNeighborhoodNo
+			INNER JOIN TblLocality tl on tl.FldLocalityNo = tblbakery.FldLocalityNo
+			INNER JOIN TblAdmin ta on tl.FldAdminNo = tblbakery.FldAdminNo`)
+		q.Where("tblbakery.fldstateno = ? AND tblbakery.fldcityno = ? AND tblbakery.FldNeighborhoodNo = ? AND tblbakery.FldLocality = ?", data.State, data.City, data.Neighborhood, data.Locality).Scan(&res)
 
 	} else if data.State != 0 && data.City != 0 && data.Neighborhood != 0 && data.Locality != 0 && data.Admin != 0 {
 		// admin only data
