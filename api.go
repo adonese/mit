@@ -225,6 +225,7 @@ func agentBakeries(w http.ResponseWriter, r *http.Request) {
 	db := getEngine()
 	data := Geo{Locality: l, City: c, Admin: a, Neighborhood: n, State: s}
 
+	w.Header().Add("content-type", "application/json")
 	b := getAgentSharedBakeries(db, id, data)
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalBakeriesWithLocale(b))
