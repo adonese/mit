@@ -144,15 +144,15 @@ func getAgentSharedBakeries(db *gorm.DB, agentID int, data Geo) []BakeryAndLocal
 
 	var res []BakeryAndLocale
 	db.Raw(`SELECT
-		tb.*, tc.FldCityName, tsh.FldFlourAgentNo, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
-		FROM TblBakery tb
-		INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
-			INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
-			INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
-			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
-			INNER JOIN TblAdmin ta on ta.FldAdminNo = tb.FldAdminNo
-			inner join tblbakeryshare tsh on tsh.FldBakeryNo = tb.FldBakeryNo
-        where tsh.FldFlourAgentNo = ?`, agentID).Scan(&res)
+    tb.*, tc.FldCityName, tsh.FldFlourAgentNo, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
+FROM TblBakery tb
+    INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
+    INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
+    INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
+    INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
+    INNER JOIN TblAdmin ta on ta.FldAdminNo = tb.FldAdminNo
+    inner join tblbakeryshare tsh on tsh.FldBakeryNo = tb.FldBakeryNo
+where tsh.FldFlourAgentNo = ? AND ts.FldStateNo = ? AND tc.FldCityNo = ? AND ta.FldAdminNo = ? AND tl.FldLocalityNo = ? AND tn.FldNeighborhoodNo = ?`, agentID, data.State, data.City, data.Admin, data.Locality, data.Neighborhood).Scan(&res)
 	// b := newBakeries(baker, l)
 	return res
 }

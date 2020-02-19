@@ -926,9 +926,11 @@ func Test_agentBakeries(t *testing.T) {
 	}{
 		//state->city->locality->admin->neighborhood
 		//state->city->locality->admin->neighborhood
+
 		{"get agent id = 1", "?agent=1", 400},
 		{"get agent id = 2", "?agent=2&state=1", 400},
-		{"get agent id = 200", "?agent=200&state=1", 400},
+		{"get agent id = 200 [NOT FOUND]", "?agent=200&state=1", 400},
+		{"get agent FULL QUERY", "?agent=1&state=1&city=2&admin=1&locality=1&neighborhood=1", 400},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
