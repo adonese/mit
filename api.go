@@ -492,6 +492,18 @@ func getComplains(w http.ResponseWriter, r *http.Request) {
 	w.WriteHeader(http.StatusOK)
 }
 
+func auditorBakeries(w http.ResponseWriter, r *http.Request) {
+	id := r.URL.Query().Get("agent")
+	agent, _ := strconv.Atoi(id)
+
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+
+	b := BakeryAudit{}.getBakeries(db, agent)
+	w.Write(marshalAuditors(b))
+	return
+}
+
 func listing(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 	var l Listing

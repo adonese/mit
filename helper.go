@@ -283,3 +283,8 @@ func marshalAddresses(a []Address) []byte {
 	d, _ := json.Marshal(&a)
 	return d
 }
+
+func marshalAuditors(b []BakeryAudit) []byte {
+	d, _ := json.Marshal(&b)
+	return d
+}

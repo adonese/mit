@@ -549,6 +549,13 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 	return b
 }
 
+func (b BakeryAudit) getBakeries(db *gorm.DB, agent int) []BakeryAudit {
+	var res []BakeryAudit
+
+	db.Table("tblbakeryaudit").Where("fldbakeryauditno = ?", agent).Find(&res)
+	return res
+}
+
 //AuditStatus table for inquiring complains
 type AuditStatus struct {
 	FldAuditStatusNo   int    `gorm:"primary_key;column:FldAuditStatusNo;" json:"FldAuditStatusNo,omitempty"`
