@@ -205,7 +205,24 @@ func getBakeries(w http.ResponseWriter, r *http.Request) {
 	// also check table of locales
 	agentID := r.URL.Query().Get("agent")
 	id, _ := strconv.Atoi(agentID)
+
 	b := getSharedBakery(db, id)
+	w.WriteHeader(http.StatusOK)
+	w.Write(marshalBakeriesWithLocale(b))
+}
+
+//getBakeries get associated bakeries to this agent
+//experiemtnal api to get agent with bakeries
+func agentBakeries(w http.ResponseWriter, r *http.Request) {
+	db := getEngine()
+	// TODO we need to add more queries over here to geo locate and
+	// make the results less
+	// since an agent can have tons of places
+	// also check table of locales
+	agentID := r.URL.Query().Get("agent")
+	id, _ := strconv.Atoi(agentID)
+
+	b := getAgentSharedBakeries(db, id, Geo{})
 	w.WriteHeader(http.StatusOK)
 	w.Write(marshalBakeriesWithLocale(b))
 }

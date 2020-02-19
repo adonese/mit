@@ -21,6 +21,7 @@ func main() {
 	http.HandleFunc("/geo", getLocalities)
 
 	// agent apis
+	http.HandleFunc("/agent/bakeries", agentBakeries)
 	http.HandleFunc("/get_grinders", getGrinderHandler) // to be compatible with #ISSUE 1
 	http.HandleFunc("/get_grinder", getGrinderHandler)
 	http.HandleFunc("/submit_flour", submitFlourHandler)

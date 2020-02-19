@@ -132,6 +132,31 @@ func getSharedBakery(db *gorm.DB, agentID int) []BakeryAndLocale {
 	return res
 }
 
+func getAgentSharedBakeries(db *gorm.DB, agentID int, data Geo) []BakeryAndLocale {
+	/*
+		get bakeryshare from tblbakeryshare
+		query bakeries table where fldflouragentno = ?
+		// CHECK if this association is correct.
+		//FIXME make preload instead of this hacky way
+
+		i have the agent no
+	*/
+
+	var res []BakeryAndLocale
+	db.Raw(`SELECT
+		tb.*, tc.FldCityName, tsh.FldFlourAgentNo, tl.FldLocalityName, ts.FldStateName, tn.FldNeighborhoodName
+		FROM TblBakery tb
+		INNER JOIN TblState ts on ts.FldStateNo = tb.FldStateNo
+			INNER JOIN TblCity tc on tc.FldCityNo = tb.FldCityNo
+			INNER JOIN TblLocality tl on tl.FldLocalityNo = tb.FldLocalityNo
+			INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
+			INNER JOIN TblAdmin ta on ta.FldAdminNo = tb.FldAdminNo
+			inner join tblbakeryshare tsh on tsh.FldBakeryNo = tb.FldBakeryNo
+        where tsh.FldFlourAgentNo = ?`, agentID).Scan(&res)
+	// b := newBakeries(baker, l)
+	return res
+}
+
 //FIXME
 func getAgentFromBakery(db *gorm.DB, bakeryID int) int {
 	/*
