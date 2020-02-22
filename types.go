@@ -77,9 +77,10 @@ type flourData struct {
 }
 
 type bakingAndQuantity struct {
-	FldBakeryNo   int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
-	FldBakeryName string  `gorm:"column:FldBakeryName" json:"FldBakeryName,omitempty"`
-	Quantity      float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+	FldBakeryNo         int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldBakeryName       string  `gorm:"column:FldBakeryName" json:"FldBakeryName,omitempty"`
+	Quantity            float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+	FldReceivedQuantity float32 `gorm:"column:FldReceivedQuantity" json:"FldReceivedQuantity,omitempty"`
 }
 
 func (f flourData) validate() bool {

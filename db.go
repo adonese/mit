@@ -553,13 +553,20 @@ func (f FlourBaking) getBaked(db *gorm.DB, geo Geo, start, end string) []bakingA
 	/*
 		select sum(fb.FldQuantity) as quantity, tb.FldBakeryNo, tb.FldBakeryName
 		group by tb.FldBakeryNo, tb.FldBakeryName
+		select sum(fb.FldQuantity) as quantity, sum(br.FldQuantity) as received_quantity, tb.FldBakeryNo, tb.FldBakeryName
+		from TblFlourBaking fb
+		inner join TblBakery tb on tb.FldBakeryNo = fb.FldBakeryNo
+		inner join TblFlourBakeryReceive br on br.FldBakeryNo = tb.FldBakeryNo
+		where  tb.FldStateNo = 1 AND tb.FldLocalityNo = 1 AND tb.FldAdminNo = 1 AND fb.FldDate BETWEEN '2020-02-10' AND '2020-02-17' AND br.FldDate BETWEEN '2020-02-10' AND '2020-02-17'
+		group by tb.FldBakeryNo, tb.FldBakeryName
 	*/
-	db.Raw(`select sum(fb.FldQuantity) as FldQuantity, tb.FldBakeryNo, tb.FldBakeryName
+	db.Raw(`select sum(fb.FldQuantity) as quantity, sum(br.FldQuantity) as FldReceivedQuantity, tb.FldBakeryNo, tb.FldBakeryName
 			from TblFlourBaking fb
 			inner join TblBakery tb on tb.FldBakeryNo = fb.FldBakeryNo
-			where  tb.FldStateNo = ? AND tb.FldLocalityNo = ? AND tb.FldAdminNo = ? AND FldDate BETWEEN ? AND ?
+			inner join TblFlourBakeryReceive br on br.FldBakeryNo = tb.FldBakeryNo
+			where  tb.FldStateNo = ? AND tb.FldLocalityNo = ? AND tb.FldAdminNo = ? AND fb.FldDate BETWEEN ? AND ? AND br.FldDate BETWEEN ? AND ?
 			group by tb.FldBakeryNo, tb.FldBakeryName
-	`, geo.State, geo.Locality, geo.Admin, start, end).Scan(&res)
+	`, geo.State, geo.Locality, geo.Admin, start, end, start, end).Scan(&res)
 	return res
 }
 
