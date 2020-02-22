@@ -35,7 +35,7 @@ type User struct {
 	FldUpdateDate     string      `gorm:"column:FldUpdateDate" json:"FldUpdateDate"`
 	FldSystemNo       int         `gorm:"column:FldSystemNo" json:"FldSystemNo"`
 	FldUserName       string      `gorm:"column:FldUserName" json:"FldUserName"`
-	FldAdmin          int         `gorm:"column:FldAdmin" json:"FldAdmin"`
+	FldAdminNo        int         `gorm:"column:FldAdminNo" json:"FldAdminNo"`
 }
 
 func (u *User) getAndCheck(db *gorm.DB, l Login) bool {
