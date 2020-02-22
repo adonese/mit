@@ -50,6 +50,7 @@ func main() {
 	http.HandleFunc("/auditor/complains", getComplains)
 	http.HandleFunc("/auditor/get_complains", getComplains)
 	http.HandleFunc("/auditor/get_bakeries", auditorBakeries)
+	http.HandleFunc("/auditor/bakeries", auditorBakeries)
 
 	http.HandleFunc("/auditor/get_baked", auditorGetBaked)
 
