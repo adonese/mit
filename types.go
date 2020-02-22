@@ -58,3 +58,38 @@ func (l Listing) marshal() []byte {
 	b, _ := json.Marshal(&l)
 	return b
 }
+
+type bakeryAndAuditor struct {
+	FldBakeryNo   int    `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldBakeryName string `gorm:"column:FldBakeryName" json:"FldBakeryName,omitempty"`
+}
+
+type flourData struct {
+	// FldLocalityCheck, FldLoclityUserno, FldLocalitynote
+	FldLocalityCheck float32 `json:"FldLocalityCheck,omitempty"`
+	FldLoclityUserno int     `json:"FldLoclityUserno,omitempty"`
+	FldLocalitynote  string  `json:"FldLocalitynote,omitempty"`
+	Start            string  `json:"start,omitempty"`
+	End              string  `json:"end,omitempty"`
+	State            int     `json:"state,omitempty"`
+	Locality         int     `json:"locality,omitempty"`
+	Admin            int     `json:"admin,omitempty"`
+}
+
+type bakingAndQuantity struct {
+	FldBakeryNo   int     `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldBakeryName string  `gorm:"column:FldBakeryName" json:"FldBakeryName,omitempty"`
+	Quantity      float32 `gorm:"column:FldQuantity" json:"FldQuantity,omitempty"`
+}
+
+func (f flourData) validate() bool {
+	if f.Start != "" && f.End != "" && f.State != 0 && f.Locality != 0 && f.Admin != 0 {
+		return true
+	}
+	return false
+}
+
+func (f flourData) marshal() []byte {
+	d, _ := json.Marshal(&f)
+	return d
+}

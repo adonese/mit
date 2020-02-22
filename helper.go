@@ -313,3 +313,8 @@ func marshalAuditors(b []BakeryAudit) []byte {
 	d, _ := json.Marshal(&b)
 	return d
 }
+
+func marshalBakeryAuditors(b []bakeryAndAuditor) []byte {
+	d, _ := json.Marshal(&b)
+	return d
+}

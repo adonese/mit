@@ -51,5 +51,7 @@ func main() {
 	http.HandleFunc("/auditor/get_complains", getComplains)
 	http.HandleFunc("/auditor/get_bakeries", auditorBakeries)
 
+	http.HandleFunc("/auditor/get_baked", auditorGetBaked)
+
 	http.ListenAndServe(":8091", nil)
 }

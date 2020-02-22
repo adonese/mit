@@ -382,6 +382,8 @@ func recordBakedHandler(w http.ResponseWriter, r *http.Request) {
 	return
 }
 
+//auditorCheckHandler reports the flour quantity by an auditor
+// this needs further thinking
 func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
@@ -403,7 +405,7 @@ func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 	}
 	defer r.Body.Close()
 
-	var f FlourBaking
+	var f flourData
 	if err = json.Unmarshal(req, &f); err != nil {
 		w.WriteHeader(http.StatusBadRequest)
 		ve := validationError{Message: err.Error(), Code: "marshalling_error"}
@@ -412,7 +414,7 @@ func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok := f.validateAuditor(); !ok {
+	if ok := f.validate(); !ok {
 		w.WriteHeader(http.StatusBadRequest)
 
 		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
@@ -424,7 +426,8 @@ func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	// FIXME this part is extremely ugly
 
-	modBakery := f.populate(bakeryID)
+	var b FlourBaking
+	modBakery := b.populateAuditors(bakeryID, f)
 	if err := modBakery.submit(db); err != nil {
 		w.WriteHeader(http.StatusInternalServerError)
 		ve := validationError{Message: err.Error(), Code: "server_error"}
@@ -434,13 +437,50 @@ func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 
 	s := success{Result: "ok"}
 
-	w.Write(s.marshal())
 	w.WriteHeader(http.StatusOK)
 
+	w.Write(s.marshal())
 	return
 }
 
-//TblBakeryAudit
+//auditorGetBaked let the auditor get the baked amount from a bakery
+func auditorGetBaked(w http.ResponseWriter, r *http.Request) {
+	// TODO
+	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+
+	w.Header().Add("content-type", "application/json")
+	db := getEngine()
+	state := getID(r, "state")
+	admin := getID(r, "admin")
+	locality := getID(r, "locality")
+
+	start := r.URL.Query().Get("start")
+	end := r.URL.Query().Get("end")
+
+	f := flourData{Start: start, End: end, State: state, Admin: admin, Locality: locality}
+
+	log.Printf("the flour data is: %#v", f)
+	if ok := f.validate(); !ok {
+		w.WriteHeader(http.StatusBadRequest)
+
+		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
+		w.Write(ve.marshal())
+		return
+	}
+
+	// populate bakery data
+
+	// FIXME this part is extremely ugly
+
+	var b FlourBaking
+	geo := Geo{State: f.State, Locality: f.Locality, Admin: f.Admin}
+	d := b.getBakedMarshaled(db, geo, f.Start, f.End)
+	w.Write(d)
+	w.WriteHeader(http.StatusOK)
+	return
+}
+
+//violationHandler reports an incident in a respective bakery
 func violationHandler(w http.ResponseWriter, r *http.Request) {
 	// TODO
 	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
@@ -516,12 +556,18 @@ func getComplains(w http.ResponseWriter, r *http.Request) {
 func auditorBakeries(w http.ResponseWriter, r *http.Request) {
 	id := r.URL.Query().Get("agent")
 	agent, _ := strconv.Atoi(id)
+	state := getID(r, "state")
+	locality := getID(r, "locality")
+	admin := getID(r, "admin")
+
+	geo := Geo{State: state, Locality: locality, Admin: admin}
 
 	w.Header().Add("content-type", "application/json")
 	db := getEngine()
+	defer db.Close()
 
-	b := BakeryAudit{}.getBakeries(db, agent)
-	w.Write(marshalAuditors(b))
+	rr := BakeryAudit{}.filterBakeries(db, agent, geo)
+	w.Write(marshalBakeries(rr))
 	return
 }
 

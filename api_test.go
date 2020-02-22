@@ -886,8 +886,8 @@ func Test_auditorBakeries(t *testing.T) {
 	}{
 		//state->city->locality->admin->neighborhood
 		//state->city->locality->admin->neighborhood
-		{"get all states for agent", "?agent=1", 400},
-		{"get cities from state", "?agent=2&state=1", 400},
+		{"get all states for agent", "?agent=1&state=1&locality=1&admin=1", 400},
+		{"get all states for agent", "?agent=1&state=1&locality=1&admin=2", 400},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
@@ -906,7 +906,7 @@ func Test_auditorBakeries(t *testing.T) {
 			}
 
 			if res.StatusCode != tt.want {
-				t.Errorf("getLocations() got = %v, want %v\n\nRes body is: %v\n", res.StatusCode, tt.want, string(w))
+				t.Errorf("getAuditorBakeries() got = %v, want %v\n\nRes body is: %v\n", res.StatusCode, tt.want, string(w))
 			}
 		})
 	}
@@ -955,6 +955,91 @@ func Test_agentBakeries(t *testing.T) {
 	}
 }
 
+//auditor tests
+
+func Test_auditorCheckHandler(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(auditorCheckHandler))
+
+	// d := time.Now()
+	defer ts.Close()
+	qFull := flourData{
+		FldLocalityCheck: 50,
+		FldLoclityUserno: 1,
+		FldLocalitynote:  "somenote",
+		Start:            "2020-02-10",
+		End:              "2020-02-17",
+		State:            1,
+		Locality:         1,
+		Admin:            1,
+	}
+	tests := []struct {
+		name string
+		args flourData
+		want int
+	}{
+		{"case request with all fields", qFull, 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Post(ts.URL, "application/json", bytes.NewBuffer((tt.args.marshal())))
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("recordBakedHandler() got = %v, want %v\n\nRes body is: %v\nSubmited is: %v", res.StatusCode, tt.want, string(w), string(tt.args.marshal()))
+			}
+		})
+	}
+}
+
+//auditorGetBaked
+func Test_auditorGetBaked(t *testing.T) {
+
+	ts := httptest.NewServer(http.HandlerFunc(auditorGetBaked))
+
+	// d := time.Now()
+	defer ts.Close()
+
+	tests := []struct {
+		name string
+		args string
+		want int
+	}{
+		{"case request with all fields", "?state=1&locality=1&admin=1&start=2020-02-10&end=2020-02-17", 400},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			res, err := http.Get(ts.URL + tt.args)
+
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			w, err := ioutil.ReadAll(res.Body)
+
+			defer res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+
+			if res.StatusCode != tt.want {
+				t.Errorf("auditorGetBaked() got = %v, want %v\n\nRes body is: %v\n", res.StatusCode, tt.want, string(w))
+			}
+		})
+	}
+}
 func marshalGrinder(d []byte) []Grinder {
 	var g []Grinder
 	json.Unmarshal(d, &g)

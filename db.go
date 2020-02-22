@@ -88,7 +88,7 @@ FldBakeryNo	FldBakeryTable	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
 */
 type Bakery struct {
 	FldBakeryNo       int    `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
-	FldBakeryTable    string `gorm:"column:FldBakeryName" json:"FldBakeryTable,omitempty"`
+	FldBakeryName     string `gorm:"column:FldBakeryName" json:"FldBakeryName,omitempty"`
 	FldIsActive       bool   `gorm:"column:FldIsActive" json:"FldIsActive,omitempty"`
 	FldStateNo        int    `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
 	FldLocalityNo     int    `gorm:"column:FldLocalityNo" json:"FldLocalityNo,omitempty"`
@@ -496,12 +496,66 @@ func (f FlourBaking) populate(agentID int) FlourBaking {
 	return f
 }
 
+func (f FlourBaking) populateAuditors(id int, d flourData) FlourBaking {
+	// f.FldBakeryNo = agentID
+	/*
+			o	Record Baked Flour according to UserType as follows:
+			If UserType =3 [ Set FldLocalityCheck, FldLoclityUserno, FldLocalitynote]
+			If UserType=4 [Set FlSecurityCheck, FldSecurityUserNo, FldSecurityNote]
+			If USerType=5 [Set FldGovernmentalCheck, FldGovernmentalUser, FldGovernmentalNote]
+			If UserType=6 [ Set FldCommunityCheck, FldCommunityUserNo, FldCommunityNote]
+			Check = Flour Quanityt
+	*/
+
+	switch id {
+	case 3:
+		f.FldLocalityUserNo = d.FldLoclityUserno
+		f.FldLocalityCheck = d.FldLocalityCheck
+		f.FldLocalityNote = d.FldLocalitynote
+	case 4:
+		f.FldSecurityUserNo = d.FldLoclityUserno
+		f.FldSecurityCheck = d.FldLocalityCheck
+		f.FldSecurityNote = d.FldLocalitynote
+	case 5:
+		f.FldGovernmentalCheck = d.FldLocalityCheck
+		f.FldGovermentalUserNo = d.FldLoclityUserno
+		f.FldGovernmentalNote = d.FldLocalitynote
+	case 6:
+		f.FldCommunityCheck = d.FldLocalityCheck
+		f.FldComuunityUserNo = d.FldLoclityUserno
+		f.FldCommunityNote = d.FldLocalitynote
+	}
+	return f
+}
+
 func (f FlourBaking) submit(db *gorm.DB) error {
 	// Record Baked Flour [TblFlourBaking]  [Set FldDate,FldBakeryNo, FldQunatity, FldNote]
+	// we have to update BUT NOT create
 	if err := db.Table("tblflourbaking").Create(&f).Error; err != nil {
 		return err
 	}
 	return nil
+}
+
+func (f FlourBaking) getBaked(db *gorm.DB, geo Geo, start, end string) []bakingAndQuantity {
+	var res []bakingAndQuantity
+	/*
+		select sum(fb.FldQuantity) as quantity, tb.FldBakeryNo, tb.FldBakeryName
+		group by tb.FldBakeryNo, tb.FldBakeryName
+	*/
+	db.Raw(`select sum(fb.FldQuantity) as FldQuantity, tb.FldBakeryNo, tb.FldBakeryName
+			from TblFlourBaking fb
+			inner join TblBakery tb on tb.FldBakeryNo = fb.FldBakeryNo
+			where  tb.FldStateNo = ? AND tb.FldLocalityNo = ? AND tb.FldAdminNo = ? AND FldDate BETWEEN ? AND ?
+			group by tb.FldBakeryNo, tb.FldBakeryName
+	`, geo.State, geo.Locality, geo.Admin, start, end).Scan(&res)
+	return res
+}
+
+func (f FlourBaking) getBakedMarshaled(db *gorm.DB, geo Geo, start, end string) []byte {
+	b := f.getBaked(db, geo, start, end)
+	d, _ := json.Marshal(&b)
+	return d
 }
 
 // TblBakeryAudit
@@ -552,7 +606,15 @@ func (b BakeryAudit) populate(agentID int) BakeryAudit {
 func (b BakeryAudit) getBakeries(db *gorm.DB, agent int) []BakeryAudit {
 	var res []BakeryAudit
 
-	db.Table("tblbakeryaudit").Where("fldbakeryauditno = ?", agent).Find(&res)
+	db.Table("tblbakeryaudit").Raw(`select tb.fldbakeryno, tb.fldbakeryname from tblbakeryaudit ta
+inner join tblbakery tb on tb.FldBakeryNo = ta.FldBakeyNo`).Find(&res)
+	return res
+}
+
+func (b BakeryAudit) filterBakeries(db *gorm.DB, agent int, geo Geo) []Bakery {
+	var res []Bakery
+	db.Raw(`select tb.FldBakeryName, tb.FldBakeryNo from tblbakeryaudit ta inner join tblbakery tb on tb.FldBakeryNo = ta.FldBakeyNo
+	where tb.FldStateNo = ? AND tb.FldLocalityNo = ? AND tb.FldAdminNo = ?`, geo.State, geo.Locality, geo.Admin).Find(&res)
 	return res
 }
 
