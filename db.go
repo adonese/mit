@@ -74,7 +74,8 @@ func getProfile(db *gorm.DB, user User) (bool, UserProfile) {
 		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN tblgrinder tb on tb.FldSystemNo = tblusers.FldSystemNo")
 	case 9: // case importer
 		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN tblimporter tb on tb.FldSystemNo = tblusers.FldSystemNo")
-
+	default:
+		db.Table("tblusers").Find(&res, "flduserno = ?", sys)
 	}
 	return true, res
 }
