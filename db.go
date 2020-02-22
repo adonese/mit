@@ -37,6 +37,15 @@ type User struct {
 	FldUserName       string      `gorm:"column:FldUserName" json:"FldUserName"`
 }
 
+func (u *User) getAndCheck(db *gorm.DB, l Login) bool {
+	if err := db.Table("tblusers").Find(u).Where("fldusername = ?", l.Username).Error; err != nil {
+		return false
+	} else if u.FldPassword != l.Password {
+		return false
+	}
+	return true
+}
+
 //getID is supposed to returns user id which will be used throughout the system
 // it should map to agentid, bakeryid, grinderid, etc
 func (u User) getID() int {

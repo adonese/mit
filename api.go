@@ -91,29 +91,22 @@ func login(w http.ResponseWriter, r *http.Request) {
 	log.Printf("the login from Zooba is: %v", b)
 	db := getEngine()
 
-	// log.Printf("the user profile is: %#v", d)
+	var u User
 
-	ok, u := getUser(db, login.Username)
-	if !ok {
+	if ok := u.getAndCheck(db, login); !ok {
 		ve := validationError{Message: "User not found", Code: "user_not_found"}
 		data, _ := json.Marshal(&ve)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(data)
 		return
 	} else {
-		if ok := checkPassword(login.Password, u); !ok {
-			ve := validationError{Message: "Wrong password", Code: "wrong_password"}
-			data, _ := json.Marshal(&ve)
-			w.WriteHeader(http.StatusBadRequest)
-			w.Write(data)
-			return
-		}
+		// _, d := getProfile(db, u)
+
+		log.Printf("the data is: %v", u)
+		d, _ := json.Marshal(&u)
+		w.WriteHeader(http.StatusOK)
+		w.Write(d)
 	}
-
-	_, d := getProfile(db, u)
-
-	w.WriteHeader(http.StatusOK)
-	w.Write(d.marshal())
 }
 
 func generateToken() {
