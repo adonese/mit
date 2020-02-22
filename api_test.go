@@ -196,13 +196,12 @@ func Test_login1(t *testing.T) {
 			}
 			var u User
 			json.Unmarshal(got1, &u)
-
-			if res.StatusCode != tt.want {
+			if !reflect.DeepEqual(u, tt.want2) {
+				t.Errorf("login handler: got = %#v, \n\nwant = %#v", string(got1), tt.want2)
+			} else if res.StatusCode != tt.want {
 				t.Errorf("login handler() got = %v, want %v", res.StatusCode, tt.want)
 			} else if res.Header.Get("content-type") != "application/json" {
 				t.Errorf("login handler() got = %v, want %v", res.Header.Get("content-type"), "application/json")
-			} else if !reflect.DeepEqual(u, tt.want2) {
-				t.Errorf("login handler: got = %#v, \n\nwant = %#v", u, tt.want2)
 			}
 		})
 	}
