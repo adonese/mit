@@ -560,7 +560,7 @@ func (f FlourBaking) getBaked(db *gorm.DB, geo Geo, start, end string) []bakingA
 		where  tb.FldStateNo = 1 AND tb.FldLocalityNo = 1 AND tb.FldAdminNo = 1 AND fb.FldDate BETWEEN '2020-02-10' AND '2020-02-17' AND br.FldDate BETWEEN '2020-02-10' AND '2020-02-17'
 		group by tb.FldBakeryNo, tb.FldBakeryName
 	*/
-	db.Raw(`select sum(fb.FldQuantity) as FldQuantity, sum(br.FldQuantity) as FldReceivedQuantity, tb.FldBakeryNo, tb.FldBakeryName
+	db.Raw(`select sum(fb.FldQuantity) as FldBakedQuantity, sum(br.FldQuantity) as FldReceivedQuantity, tb.FldBakeryNo, tb.FldBakeryName
 			from TblFlourBaking fb
 			inner join TblBakery tb on tb.FldBakeryNo = fb.FldBakeryNo
 			inner join TblFlourBakeryReceive br on br.FldBakeryNo = tb.FldBakeryNo
