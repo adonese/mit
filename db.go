@@ -83,8 +83,9 @@ func getProfile(db *gorm.DB, user User) (bool, UserProfile) {
 			INNER JOIN TblAuditor ta on ta.FldUserNo = tu.FldSystemNo
 			where tu.FldsystemNo = 3
 		*/
-		db.Table("tblusers").Select("tblusers.*, ta.FldPhone").Raw(`Select tu.*, ta.FldPhone from tblusers tu
-			INNER JOIN TblAuditor ta on ta.FldUserNo = tu.FldSystemNo`).Where("tu.FldsystemNo = ?", sys).Scan(&res)
+		db.Raw(`Select tu.*, ta.FldPhone from tblusers tu
+			INNER JOIN TblAuditor ta on ta.FldUserNo = tu.FldSystemNo 
+			where tu.FldsystemNo = ?`, sys).Scan(&res)
 
 	case 6: // case bakery
 		db.Table("tblusers").Select("tblusers.*, tb.FldPhone").Joins("INNER JOIN TblBakery tb on tb.FldSystemNo = tblusers.FldSystemNo").Where("tb.fldsystemno = ?", sys).Scan(&res)

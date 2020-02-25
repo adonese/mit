@@ -207,6 +207,46 @@ func Test_login1(t *testing.T) {
 	}
 }
 
+func Test_AuditorLogin(t *testing.T) {
+	// r := login()
+
+	ts := httptest.NewServer(http.HandlerFunc(login))
+	defer ts.Close()
+
+	// wrongData := Login{Username: "mohamed", Password: "my wrong password"}
+	anotherData := Login{Username: "asma", Password: "semsem212"}
+	tests := []struct {
+		name  string
+		req   Login
+		want  int
+		want2 User
+	}{
+		{"400 request", anotherData, 400, User{}},
+		// {"400 request wrong payload", wrongData, 400, user1},
+	}
+	for _, tt := range tests {
+		t.Run(tt.name, func(t *testing.T) {
+
+			d := marshal(tt.req)
+			dd := bytes.NewBuffer(d)
+			res, err := http.Post(ts.URL, "application/json", dd)
+			if err != nil {
+				log.Fatal(err)
+			}
+			got1, err := ioutil.ReadAll(res.Body)
+			res.Body.Close()
+			if err != nil {
+				log.Fatal(err)
+			}
+			var u User
+			json.Unmarshal(got1, &u)
+			if !reflect.DeepEqual(u, tt.want2) {
+				t.Errorf("login handler: got = \n\n%#v", string(got1))
+			}
+		})
+	}
+}
+
 func performRequest(r http.Handler, method, path string) *httptest.ResponseRecorder {
 	req, _ := http.NewRequest(method, path, nil)
 	w := httptest.NewRecorder()
