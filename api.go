@@ -100,12 +100,12 @@ func login(w http.ResponseWriter, r *http.Request) {
 		w.Write(data)
 		return
 	} else {
-		// _, d := getProfile(db, u)
+		_, d := getProfile(db, u)
 
 		// log.Printf("the data is: %v", u)
-		d, _ := json.Marshal(&u)
+		// d, _ := json.Marshal(&u)
 		w.WriteHeader(http.StatusOK)
-		w.Write(d)
+		w.Write(d.marshal())
 	}
 }
 
