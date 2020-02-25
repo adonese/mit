@@ -407,18 +407,6 @@ func auditorCheckHandler(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	if ok := f.validate(); !ok {
-		w.WriteHeader(http.StatusBadRequest)
-
-		ve := validationError{Message: "Some fields are missing", Code: "missing_fields"}
-		w.Write(ve.marshal())
-		return
-	}
-
-	// populate bakery data
-
-	// FIXME this part is extremely ugly
-
 	var b FlourBaking
 	modBakery := b.populateAuditors(bakeryID, f)
 	if err := modBakery.submit(db); err != nil {
