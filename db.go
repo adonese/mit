@@ -607,6 +607,8 @@ type BakeryAudit struct {
 	FldNFCNote          string `gorm:"column:FldNFCNote" json:"FldNFCNote,omitempty"`
 	FldUserNo           int    `gorm:"column:FldUserNo" json:"FldUserNo,omitempty"`
 	FldUpdateDate       string `gorm:"column:FldUpdateDate" json:"FldUpdateDate,omitempty"`
+	FldAlternativeName  string `gorm:"column:FldAlternativeName" json:"FldAlternativeName,omitempty"`
+	FldPhone            string `gorm:"column:FldPhone" json:"FldPhone,omitempty"`
 }
 
 //Name sets table name to match what is in the DB
