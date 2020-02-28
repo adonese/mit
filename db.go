@@ -617,6 +617,7 @@ func (BakeryAudit) Name() string {
 }
 
 func (b BakeryAudit) submit(db *gorm.DB) error {
+	db.Raw("set ansi_warnings off")
 	if err := db.Table("tblbakeryaudit").Create(&b).Error; err != nil {
 		return err
 	}
@@ -647,6 +648,11 @@ func (b BakeryAudit) filterBakeries(db *gorm.DB, agent int, geo Geo) []Bakery {
 	db.Raw(`select tb.FldBakeryName, tb.FldBakeryNo from tblbakeryaudit ta inner join tblbakery tb on tb.FldBakeryNo = ta.FldBakeyNo
 	where tb.FldStateNo = ? AND tb.FldLocalityNo = ? AND tb.FldAdminNo = ?`, geo.State, geo.Locality, geo.Admin).Find(&res)
 	return res
+}
+
+func (b BakeryAudit) marshal() []byte {
+	d, _ := json.Marshal(&b)
+	return d
 }
 
 //AuditStatus table for inquiring complains

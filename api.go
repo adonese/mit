@@ -514,8 +514,8 @@ func violationHandler(w http.ResponseWriter, r *http.Request) {
 
 	s := success{Result: "ok"}
 
-	w.Write(s.marshal())
 	w.WriteHeader(http.StatusOK)
+	w.Write(s.marshal())
 
 	return
 }

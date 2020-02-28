@@ -1052,22 +1052,30 @@ func Test_violationHandler(t *testing.T) {
 
 	// d := time.Now()
 	defer ts.Close()
-	qFull := flourData{
-		FldLocalityCheck: 50,
-		FldLoclityUserno: 1,
-		FldLocalitynote:  "somenote",
-		Start:            "2020-02-10",
-		End:              "2020-02-17",
-		State:            1,
-		Locality:         1,
-		Admin:            1,
+
+	data := BakeryAudit{
+		FldBakeryAuditNo:    0,
+		FldDate:             "2020-02-25",
+		FldBakeyNo:          3,
+		FldAuditBy:          4,
+		FldAuditType:        2,
+		FldAuditStatusNo:    1,
+		FldNote:             "my note",
+		FldAuditResponseNo:  0,
+		FldNFCBakeryAuditNo: 0,
+		FldNFCStatusNo:      0,
+		FldNFCNote:          "",
+		FldUserNo:           3,
+		FldUpdateDate:       "",
+		FldAlternativeName:  "my name",
+		FldPhone:            "0912141679",
 	}
 	tests := []struct {
 		name string
-		args flourData
+		args BakeryAudit
 		want int
 	}{
-		{"case request with all fields", qFull, 400},
+		{"case request with all fields", data, 400},
 	}
 	for _, tt := range tests {
 		t.Run(tt.name, func(t *testing.T) {
