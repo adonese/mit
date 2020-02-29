@@ -88,25 +88,24 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	json.Unmarshal(b, &login) // check errors here
 
-	log.Printf("the login from Zooba is: %v", b)
+	log.Printf("the login from Zooba is: %v", string(b))
 	db := getEngine()
 
-	var u User
-
-	if ok := u.getAndCheck(db, login); !ok {
+	user, ok := getAndCheck(db, login)
+	if !ok {
 		ve := validationError{Message: "User not found", Code: "user_not_found"}
 		data, _ := json.Marshal(&ve)
 		w.WriteHeader(http.StatusBadRequest)
 		w.Write(data)
 		return
-	} else {
-		_, d := getProfile(db, u)
-
-		// log.Printf("the data is: %v", u)
-		// d, _ := json.Marshal(&u)
-		w.WriteHeader(http.StatusOK)
-		w.Write(d.marshal())
 	}
+	_, d := getProfile(db, user)
+
+	// log.Printf("the data is: %v", u)
+	// d, _ := json.Marshal(&u)
+	w.WriteHeader(http.StatusOK)
+	w.Write(d.marshal())
+
 }
 
 func generateToken() {

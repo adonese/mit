@@ -38,13 +38,19 @@ type User struct {
 	FldAdminNo        int         `gorm:"column:FldAdminNo" json:"FldAdminNo"`
 }
 
-func (u *User) getAndCheck(db *gorm.DB, l Login) bool {
-	if err := db.Table("tblusers").Find(u).Where("fldusername = ?", l.Username).Error; err != nil {
-		return false
-	} else if u.FldPassword != l.Password {
-		return false
+func getAndCheck(db *gorm.DB, l Login) (User, bool) {
+	var u User
+	log.Printf("User request fields: %v", l)
+	if err := db.Table("tblusers").Where("FldUserName = ?", l.Username).Find(&u).Error; err != nil {
+		log.Printf("Error in user lookup: %v", err)
+		return u, false
 	}
-	return true
+	log.Printf("the user loaded is: %v", u)
+	if u.FldPassword != l.Password {
+		log.Printf("TblUsers: %v\nPassword is: %v", u, l.Password)
+		return u, false
+	}
+	return u, true
 }
 
 //getID is supposed to returns user id which will be used throughout the system
