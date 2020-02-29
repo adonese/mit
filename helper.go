@@ -152,7 +152,7 @@ FROM TblBakery tb
     INNER JOIN TblNeighborhood tn on tn.FldNeighborhoodNo = tb.FldNeighborhoodNo
     INNER JOIN TblAdmin ta on ta.FldAdminNo = tb.FldAdminNo
     inner join tblbakeryshare tsh on tsh.FldBakeryNo = tb.FldBakeryNo
-where tsh.FldFlourAgentNo = ? AND ts.FldStateNo = ? AND tc.FldCityNo = ? AND ta.FldAdminNo = ? AND tl.FldLocalityNo = ? AND tn.FldNeighborhoodNo = ?`, agentID, data.State, data.City, data.Admin, data.Locality, data.Neighborhood).Scan(&res)
+where ts.FldStateNo = ? AND tc.FldCityNo = ? AND ta.FldAdminNo = ? AND tl.FldLocalityNo = ? AND tn.FldNeighborhoodNo = ?`, data.State, data.City, data.Admin, data.Locality, data.Neighborhood).Scan(&res)
 	// b := newBakeries(baker, l)
 	return res
 }
