@@ -116,6 +116,7 @@ FldBakeryNo	FldBakeryTable	FldIsActive	FldStateNo	FldLocalityNo	FldCityNo
 */
 type Bakery struct {
 	FldBakeryNo       int    `gorm:"column:FldBakeryNo" json:"FldBakeryNo,omitempty"`
+	FldBakeryTable    string `gorm:"column:FldBakeryName" json:"FldBakeryTable,omitempty"`
 	FldBakeryName     string `gorm:"column:FldBakeryName" json:"FldBakeryName,omitempty"`
 	FldIsActive       bool   `gorm:"column:FldIsActive" json:"FldIsActive,omitempty"`
 	FldStateNo        int    `gorm:"column:FldStateNo" json:"FldStateNo,omitempty"`
