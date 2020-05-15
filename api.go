@@ -83,7 +83,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 
 	user1 := UserProfile{
 		User: User{
-			FldUserNo:         10,
+			FldUserNo:         2,
 			FldFullName:       "Zeinab",
 			FldUserType:       0,
 			FldImage:          nil,
@@ -98,7 +98,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		FldPhone: "0925343834",
 	}
 	res, _ := json.Marshal(&user1)
-	w.WriteHeader(0)
+	w.WriteHeader(http.StatusOK)
 	w.Write(res)
 	return
 
