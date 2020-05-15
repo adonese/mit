@@ -145,6 +145,27 @@ func refreshToken(w http.ResponseWriter, r *http.Request) {}
 //getGrinderHandler gets associated grinders to specific agent, using agent ID (provided in url query params)
 func getGrinderHandler(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
+
+	g1 := []Grinder{{FldGrinderNo: 3,
+		FldGrinderName: "مطاحن سين",
+		FldIsActive:    true,
+		FldStateNo:     0,
+		FldContactName: "N/A",
+		FldPhone:       "N/A",
+		FldEmail:       "N/A",
+		FldAddress:     "N/A",
+		FldVolume:      50000,
+		FldUserNo:      1,
+		FldLogNo:       44,
+		FldUpdateDate:  "",
+	},
+	}
+
+	res := marshalGrinders(g1)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+	return
+
 	db := getEngine()
 	id := r.URL.Query().Get("agent")
 	agentID, _ := strconv.Atoi(id)
