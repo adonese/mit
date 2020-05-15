@@ -98,7 +98,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		FldPhone: "0925343834",
 	}
 	res, _ := json.Marshal(&user1)
-	w.WriteHeader(200)
+	w.WriteHeader(0)
 	w.Write(res)
 	return
 
