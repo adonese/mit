@@ -6,6 +6,7 @@ import (
 	"log"
 	"net/http"
 	"strconv"
+	"time"
 )
 
 func submitFlourHandler(w http.ResponseWriter, r *http.Request) {
@@ -79,6 +80,25 @@ func getSubmittedFlourHandler(w http.ResponseWriter, r *http.Request) {
 func login(w http.ResponseWriter, r *http.Request) {
 	var login Login
 	w.Header().Add("content-type", "application/json")
+
+	user1 := User{
+		FldUserNo:         10,
+		FldFullName:       "Zeinab",
+		FldUserType:       0,
+		FldImage:          nil,
+		FldDisabled:       false,
+		FldStateNo:        0,
+		FldLocaliyNo:      0,
+		FldCityNo:         0,
+		FldNeighborhoodNo: 0,
+		FldSecurityLevel:  0,
+		FldUpdateDate:     time.Now().String(),
+	}
+	res, _ := json.Marshal(&user1)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+	return
+
 	defer r.Body.Close()
 	b, err := ioutil.ReadAll(r.Body)
 	if err != nil {
