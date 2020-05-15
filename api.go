@@ -81,18 +81,21 @@ func login(w http.ResponseWriter, r *http.Request) {
 	var login Login
 	w.Header().Add("content-type", "application/json")
 
-	user1 := User{
-		FldUserNo:         10,
-		FldFullName:       "Zeinab",
-		FldUserType:       0,
-		FldImage:          nil,
-		FldDisabled:       false,
-		FldStateNo:        0,
-		FldLocaliyNo:      0,
-		FldCityNo:         0,
-		FldNeighborhoodNo: 0,
-		FldSecurityLevel:  0,
-		FldUpdateDate:     time.Now().String(),
+	user1 := UserProfile{
+		User: User{
+			FldUserNo:         10,
+			FldFullName:       "Zeinab",
+			FldUserType:       0,
+			FldImage:          nil,
+			FldDisabled:       false,
+			FldStateNo:        0,
+			FldLocaliyNo:      0,
+			FldCityNo:         0,
+			FldNeighborhoodNo: 0,
+			FldSecurityLevel:  0,
+			FldUpdateDate:     time.Now().String(),
+		},
+		FldPhone: "0925343834",
 	}
 	res, _ := json.Marshal(&user1)
 	w.WriteHeader(http.StatusOK)
