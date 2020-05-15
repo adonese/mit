@@ -85,7 +85,7 @@ func login(w http.ResponseWriter, r *http.Request) {
 		User: User{
 			FldUserNo:         2,
 			FldFullName:       "Zeinab",
-			FldUserType:       2,
+			FldUserType:       6,
 			FldImage:          nil,
 			FldDisabled:       false,
 			FldStateNo:        1,
