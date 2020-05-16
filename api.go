@@ -639,6 +639,24 @@ func getAllBakeries(w http.ResponseWriter, r *http.Request) {
 func getLocations(w http.ResponseWriter, r *http.Request) {
 	// return all bakeries. do the filtering later
 	w.Header().Add("content-type", "application/json")
+	add := []Address{{
+		FldLocalityName:     "khartoum",
+		FldLocalityNo:       1,
+		FldCityName:         "khartoum",
+		FldCityNo:           2,
+		FldStateName:        "Kusti",
+		FldStateNo:          3,
+		FldNeighborhoodName: "Souq Wahid",
+		FldNeighborhoodNo:   13,
+		FldAdminName:        "Musa Abbas",
+		FldAdminNo:          3,
+	},
+	}
+
+	res := marshalAddresses(add)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+	return
 
 	id := getID(r, "agent")
 	c := getID(r, "city")
@@ -657,6 +675,25 @@ func getLocations(w http.ResponseWriter, r *http.Request) {
 //getLocalities gets
 func getLocalities(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
+
+	add := []Address{{
+		FldLocalityName:     "khartoum",
+		FldLocalityNo:       1,
+		FldCityName:         "khartoum",
+		FldCityNo:           2,
+		FldStateName:        "Kusti",
+		FldStateNo:          3,
+		FldNeighborhoodName: "Souq Wahid",
+		FldNeighborhoodNo:   13,
+		FldAdminName:        "Musa Abbas",
+		FldAdminNo:          3,
+	},
+	}
+
+	res := marshalAddresses(add)
+	w.WriteHeader(http.StatusOK)
+	w.Write(res)
+	return
 
 	id := getID(r, "agent")
 	c := getID(r, "city")
