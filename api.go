@@ -711,15 +711,15 @@ func getLocalities(w http.ResponseWriter, r *http.Request) {
 	w.Header().Add("content-type", "application/json")
 
 	add := []Address{{
-		FldLocalityName:     "khartoum",
+		FldLocalityName:     "الخرطوم",
 		FldLocalityNo:       1,
-		FldCityName:         "khartoum",
+		FldCityName:         "الخرطوم",
 		FldCityNo:           2,
-		FldStateName:        "Kusti",
+		FldStateName:        "الخركوم",
 		FldStateNo:          3,
-		FldNeighborhoodName: "Souq Wahid",
-		FldNeighborhoodNo:   13,
-		FldAdminName:        "Musa Abbas",
+		FldNeighborhoodName: "الطائف",
+		FldNeighborhoodNo:   22,
+		FldAdminName:        "أمجد عابدين",
 		FldAdminNo:          3,
 	},
 	}
