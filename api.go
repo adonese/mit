@@ -622,6 +622,40 @@ func generateComplains(w http.ResponseWriter, r *http.Request) {
 func getAllBakeries(w http.ResponseWriter, r *http.Request) {
 	// return all bakeries. do the filtering later
 	w.Header().Add("content-type", "application/json")
+	b := []BakeryAndLocale{{
+		Bakery: Bakery{
+			FldBakeryNo:       0,
+			FldBakeryTable:    "محمد أحمد",
+			FldIsActive:       false,
+			FldStateNo:        0,
+			FldLocalityNo:     0,
+			FldCityNo:         0,
+			FldNeighborhoodNo: 0,
+			FldContactName:    "",
+			FldPhone:          "0912141564",
+			FldEmail:          "",
+			FldAddress:        "",
+			FldVolume:         0,
+			FldLong:           "",
+			FldLat:            "",
+			FldUserNo:         0,
+			FldLogNo:          0,
+			FldUpdateDate:     "",
+			FldImage:          "",
+			FldNFCBakeryNo:    0,
+		},
+		Locality: Locality{
+			FldLocalityNo:       1,
+			FldLocalityName:     "الخرطوم",
+			FldCityName:         "الخرطوم",
+			FldStateName:        "الخرطوم",
+			FldNeighborhoodName: "الطائف",
+		},
+	},
+	}
+	res, _ := json.Marshal(&b)
+	w.Write(res)
+	return
 
 	// id := getID(r, "agent")
 	c := getID(r, "city")
@@ -640,15 +674,15 @@ func getLocations(w http.ResponseWriter, r *http.Request) {
 	// return all bakeries. do the filtering later
 	w.Header().Add("content-type", "application/json")
 	add := []Address{{
-		FldLocalityName:     "khartoum",
+		FldLocalityName:     "الخرطوم",
 		FldLocalityNo:       1,
-		FldCityName:         "khartoum",
+		FldCityName:         "الخرطوم",
 		FldCityNo:           2,
-		FldStateName:        "Kusti",
+		FldStateName:        "الخركوم",
 		FldStateNo:          3,
-		FldNeighborhoodName: "Souq Wahid",
-		FldNeighborhoodNo:   13,
-		FldAdminName:        "Musa Abbas",
+		FldNeighborhoodName: "الطائف",
+		FldNeighborhoodNo:   22,
+		FldAdminName:        "أمجد عابدين",
 		FldAdminNo:          3,
 	},
 	}
